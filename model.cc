@@ -29,3 +29,7 @@ void Model::addController(std::unique_ptr<Controller> c) {
 CommandType Model::getCommand() {
     return control -> getCommand();
 }
+
+char Model::getChar() {
+    return control->getChar();
+}
