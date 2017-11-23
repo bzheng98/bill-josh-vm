@@ -1,8 +1,14 @@
 #include "model.h"
 
 void Model::updateViews(std::vector<std::string> buf) {
-    for(auto& view : views){
+    for(auto& view : views) {
         view -> update(buf);
+    }
+}
+
+void Model::updateViewCursors(Position p) {
+    for(auto& view : views) {
+        view -> updateCursor(p);
     }
 }
 

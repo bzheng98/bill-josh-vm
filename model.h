@@ -17,6 +17,7 @@ protected:
 public:
     virtual ~Model() = default;
     void updateViews(const std::vector<std::string> buf&);
+    void updateViewCursors(Position p);
     CommandType getCommand();
     void displayViews();
 };
