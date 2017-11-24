@@ -15,9 +15,9 @@ int CurseView::ceilDiv(int a, int b) {
 }
 
 Position CurseView::toScreenPosition(Position p) {
-    int lines, cols, prevLines = 0;
+    size_t lines, cols, prevLines = 0;
     getmaxyx(stdscr, lines, cols);
-    for(int i = topLine; i < p.getLine(); i++) {
+    for(size_t i = topLine; i < p.getLine(); i++) {
         prevLines += ceilDiv(buffer[i].size(), cols);
     }
     prevLines += p.getCol() / cols;
@@ -26,19 +26,19 @@ Position CurseView::toScreenPosition(Position p) {
 
 void CurseView::update(const std::vector<std::string> &buf) {
     //print the buf
-    int prevX, prevY, lines, cols, idx;
+    size_t prevX, prevY, lines, cols, idx;
     bool notEnoughLines = false;
     getmaxyx(stdscr, lines, cols);
     getyx(stdscr, prevY, prevX);
     Position cur = Position(topLine, 0);
-    for(int i = 0; i < lines - 1; i++) {
+    for(size_t i = 0; i < lines - 1; i++) {
         move(i, 0);
         clrtoeol();
     }
     move(prevX, prevY);
     for(idx = topLine; idx < buf.size(); idx++) {
         Position actual = toScreenPosition(cur);
-        int charsLeft = (lines - 1 - actual.getLine()) * cols;
+        size_t charsLeft = (lines - 1 - actual.getLine()) * cols;
         if(buf[idx].size() <= charsLeft) {
             mvaddstr(actual.getLine(), 0, buf[idx].c_str());
             cur.setLine(cur.getLine() + 1);
@@ -51,7 +51,7 @@ void CurseView::update(const std::vector<std::string> &buf) {
     Position actual = toScreenPosition(cur);
     if(actual.getLine() < lines - 1) {
         char pr = notEnoughLines ? '@' : '~';
-        for(int i = actual.getLine(); i < lines - 1; i++) {
+        for(size_t i = actual.getLine(); i < lines - 1; i++) {
             mvaddch(i, 0, pr);
         }
     }
