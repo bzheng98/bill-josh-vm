@@ -40,7 +40,7 @@ void CurseView::update(const std::vector<std::string> &buf) {
         Position actual = toScreenPosition(cur);
         int charsLeft = (lines - 1 - actual.getLine()) * cols;
         if(buf[idx].size() <= charsLeft) {
-            mvaddstr(actual.getLine(), 0, buf[idx]);
+            mvaddstr(actual.getLine(), 0, buf[idx].c_str());
             cur.setLine(cur.getLine() + 1);
         }
         else {
