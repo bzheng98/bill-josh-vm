@@ -5,7 +5,7 @@ OBJECTS = main.o controller.o curseView.o position.o registerManager.o vm.o curs
 DEPENDS = ${OBJECTS:.o=.d}
 
 ${EXEC}: ${OBJECTS}
-	${CXX} ${OBJECTS} -o ${EXEC}
+	${CXX} ${OBJECTS} -lncurses -o ${EXEC}
 
 -include ${DEPENDS}
 
