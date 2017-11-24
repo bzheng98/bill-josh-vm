@@ -5,6 +5,7 @@
 #include <string>
 #include "controller.h"
 #include "view.h"
+#include "commandInfo.h"
 #include <memory>
 
 class Model {
@@ -17,7 +18,8 @@ public:
     virtual ~Model() = default;
     void updateViews(const std::vector<std::string> &buf);
     void updateViewCursors(Position p);
-    CommandType getCommand();
+    CommandInfo getCommand();
+    char getChar();
     void displayViews();
 };
 #endif

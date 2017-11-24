@@ -5,7 +5,7 @@
 class Range {
     Position start, end;
 public:
-    Position getStart() const;
-    Position getEnd() const;
+    const Position &getStart() const;
+    const Position &getEnd() const;
 };
 #endif

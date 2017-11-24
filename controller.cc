@@ -1,6 +1,6 @@
 #include "controller.h"
 
-CommandType Controller::getCommand() {
+CommandInfo Controller::getCommand() {
     return commandType();
 }
 

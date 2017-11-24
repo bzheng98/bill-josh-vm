@@ -1,14 +1,14 @@
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
 
-#include "commandType.h"
+#include "commandInfo.h"
 #include <string>
 
 class Controller {
-    virtual CommandType commandType() = 0;
+    virtual CommandInfo commandType() = 0;
     virtual char readChar() = 0;
   public:
-    CommandType getCommand();
+    CommandInfo getCommand();
     char getChar();
     virtual ~Controller() = default;
 };

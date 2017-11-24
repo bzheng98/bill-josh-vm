@@ -1,9 +1,9 @@
 #include "range.h"
 
-Position Range::getStart() {
+const Position &Range::getStart() const {
     return start;
 }
 
-Position Range::getEnd() {
+const Position &Range::getEnd() const {
     return end;
 }

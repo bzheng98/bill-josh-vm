@@ -26,7 +26,7 @@ void Model::addController(std::unique_ptr<Controller> c) {
     control = std::move(c);
 }
 
-CommandType Model::getCommand() {
+CommandInfo Model::getCommand() {
     return control -> getCommand();
 }
 

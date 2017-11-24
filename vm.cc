@@ -1,9 +1,6 @@
-#include <string>
-#include "footprint.h"
 #include "vm.h"
-#include "command.h"
 
-void Vm::Vm(const std::string &fileName) {
+Vm::Vm(const std::string &fileName) {
 }
 
 void Vm::runVm() {
@@ -21,5 +18,5 @@ void popFootprint() {
 Footprint getLastFootprint() {
 }
 
-Command getPrevCommand() {
+CommandInfo getPrevCommand() {
 }

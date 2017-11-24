@@ -5,7 +5,7 @@ CurseKeyboard::CurseKeyboard() {
     //set up mapping here
 }
 
-CommandType CurseKeyboard::commandType() {
+CommandInfo CurseKeyboard::commandType() {
     //parsing and stuff
 }
 
