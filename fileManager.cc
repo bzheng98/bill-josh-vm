@@ -2,12 +2,13 @@
 #include <fstream>
 #include <iostream>
 
-FileManager::FileManager(const std::string &fileName): lines{}, curLineIter{lines.begin()}, cursorPosition{0,0} {
+FileManager::FileManager(const std::string &fileName): lines{}, curLineIter{}, cursorPosition{0,0} {
     std::ifstream f{fileName};
     std::string s;
     while(getline(f,s)) {
         lines.push_back(s);
     }
+    curLineIter = lines.begin();
     std::cout << "File " << fileName << " opened. " << lines.size() << " lines." << std::endl;
 }
 
@@ -24,7 +25,7 @@ const std::vector<std::string> FileManager::getLines(size_t start, size_t n) {
         ret.push_back(*it);
         ++it;
     }
-    std::cout << "getLines success" << std::endl;
+    std::cout << "updating view with: " << ret.size() << " lines." << std::endl;
     return ret;
 }
 

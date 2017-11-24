@@ -25,6 +25,7 @@ void Vm::runInsertMode() {
         }
         std::cout << "char received: " << c << std::endl;
         fileManager.insertChar(c);
+        std::cout << "char inserted" << std::endl;
         updateViews(fileManager.getLines(offset, numLines));
         displayViews();
     }
