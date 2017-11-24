@@ -7,8 +7,8 @@
 class Controller {
     virtual CommandType commandType() = 0;
     virtual char readChar() = 0;
-public:
-    commandType getCommand();
+  public:
+    CommandType getCommand();
     char getChar();
     virtual ~Controller() = default;
 };

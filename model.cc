@@ -1,6 +1,6 @@
 #include "model.h"
 
-void Model::updateViews(std::vector<std::string> buf) {
+void Model::updateViews(const std::vector<std::string> &buf) {
     for(auto& view : views) {
         view -> update(buf);
     }

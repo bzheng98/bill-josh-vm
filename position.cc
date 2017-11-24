@@ -2,11 +2,11 @@
 
 Position::Position(int line, int col): line{line}, col{col} {}
 
-int Position::getLine() {
+int Position::getLine() const {
     return line;
 }
 
-int Position::getCol() {
+int Position::getCol() const {
     return col;
 }
 

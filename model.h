@@ -5,8 +5,7 @@
 #include <string>
 #include "controller.h"
 #include "view.h"
-
-enum Commandtype;
+#include <memory>
 
 class Model {
     std::vector<std::unique_ptr<View>> views;
@@ -16,7 +15,7 @@ protected:
     void addController(std::unique_ptr<Controller> v);
 public:
     virtual ~Model() = default;
-    void updateViews(const std::vector<std::string> buf&);
+    void updateViews(const std::vector<std::string> &buf);
     void updateViewCursors(Position p);
     CommandType getCommand();
     void displayViews();

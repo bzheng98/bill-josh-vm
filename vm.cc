@@ -3,7 +3,7 @@
 #include "vm.h"
 #include "command.h"
 
-void Vm::Vm(const string &fileName) {
+void Vm::Vm(const std::string &fileName) {
 }
 
 void Vm::runVm() {

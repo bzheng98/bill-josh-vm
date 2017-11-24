@@ -5,9 +5,9 @@ class Position {
     int line, col;
 public:
     Position(int line, int col);
-    int getLine();
-    int getCol();
-    void setLine();
-    void setCol();
+    int getLine() const;
+    int getCol() const;
+    void setLine(int line);
+    void setCol(int col);
 };
 #endif

@@ -17,14 +17,14 @@ int CurseView::ceilDiv(int a, int b) {
 Position CurseView::toScreenPosition(Position p) {
     int lines, cols, prevLines = 0;
     getmaxyx(stdscr, lines, cols);
-    for(int i = topLine; i < p.getLine; i++) {
+    for(int i = topLine; i < p.getLine(); i++) {
         prevLines += ceilDiv(buffer[i].size(), cols);
     }
     prevLines += p.getCol() / cols;
     return Position(prevLines, p.getCol() % cols);
 }
 
-void CurseView::update(const std::vector<std::string> buf&) {
+void CurseView::update(const std::vector<std::string> &buf) {
     //print the buf
     int prevX, prevY, lines, cols, idx;
     bool notEnoughLines = false;

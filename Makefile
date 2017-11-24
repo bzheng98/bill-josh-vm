@@ -1,7 +1,7 @@
 CXX = g++-5
 CXXFLAGS = -std=c++14 -Wall -MMD -g
-EXEC = a3q5
-OBJECTS = a3q5.o re.o regexp.o parser.o disjunction.o concatenation.o star.o word.o dot.o begin.o end.o
+EXEC = myvm
+OBJECTS = main.o controller.o curseView.o position.o registerManager.o vm.o curseControl.o footprint.o model.o range.o subject.o 
 DEPENDS = ${OBJECTS:.o=.d}
 
 ${EXEC}: ${OBJECTS}

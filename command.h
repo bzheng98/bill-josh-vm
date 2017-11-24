@@ -2,7 +2,7 @@
 #define COMMAND_H
 #include "vm.h"
 #include "filemanager.h"
-#include "registermanager.h"
+#include "registerManager.h"
 #include "observer.h"
 
 class Command: public Observer {

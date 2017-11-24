@@ -12,7 +12,7 @@ class CurseView: public View {
     public:
         CurseView();
         ~CurseView() override;
-        void update(const std::vector<std::string> buf&) override;
+        void update(const std::vector<std::string> &buf) override;
         void updateCursor(Position p) override;
         void updateView() override;
 };

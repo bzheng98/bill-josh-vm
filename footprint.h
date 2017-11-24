@@ -8,5 +8,5 @@ class Footprint {
     Footprint(const Range &range): range{std::move(range)} {}
   public:
     const Range &getRange();
-}
+};
 #endif
