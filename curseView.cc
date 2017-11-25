@@ -25,7 +25,8 @@ Position CurseView::toScreenPosition(Position p) {
 }
 
 void CurseView::update(const std::vector<std::string> &buf) {
-    copy(buf.begin(), buf.end(), back_inserter(buffer));
+    buffer.clear();
+    for(auto s : buf)buffer.push_back(s);
     //print the buf
     size_t prevX, prevY, lines, cols, idx;
     bool notEnoughLines = false;

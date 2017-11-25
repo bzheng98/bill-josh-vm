@@ -6,10 +6,10 @@
 #include "observer.h"
 
 class Command: public Observer {
+  protected:
     Vm *vm;
     FileManager *fileManager;
     RegisterManager *registerManager;
-  protected:
     Command(Vm *vm, FileManager *fileManager, RegisterManager *registerManager): vm{vm}, fileManager{fileManager}, registerManager{registerManager} {}
 };
 #endif

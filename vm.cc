@@ -2,30 +2,45 @@
 #include "curseControl.h"
 #include "curseView.h"
 #include <iostream>
-
+#include "right.h"
 Vm::Vm(const std::string &fileName): Model(std::make_unique<CurseKeyboard>(), std::make_unique<CurseView>()), running{true}, insertMode{false}, fileManager{fileName}, offset{0}, numLines{20} {
 }
 
 void Vm::runVm() {
-    std::cout << "running vm..." << std::endl;
+    /*
+   // std::cout << "running vm..." << std::endl;
     updateViews(fileManager.getLines(offset, numLines));
-    std::cout << "displaying views..." << std::endl;
+  //  std::cout << "displaying views..." << std::endl;
     displayViews();
     insertMode = true;
     runInsertMode();
+    */
+    Right r(this, &fileManager, nullptr);
+    while(true) {
+        displayViews();
+        CommandInfo info = getCommand();
+        CommandType type = info.getCommandType();
+        if(type == RIGHT)
+        {
+            //std::cout << "here\n";
+            r.update(info);
+        }
+        updateViewCursors(fileManager.getCursorPosition());
+    }
 }
 
+
 void Vm::runInsertMode() {
-    std::cout << "insert mode" << std::endl;
+   // std::cout << "insert mode" << std::endl;
     while(insertMode) {
         char c = getChar();
         if (c == 27) {//escape char
             insertMode = false;
             return;
         }
-        std::cout << "char received: " << c << std::endl;
+       // std::cout << "char received: " << c << std::endl;
         fileManager.insertChar(c);
-        std::cout << "char inserted" << std::endl;
+       // std::cout << "char inserted" << std::endl;
         updateViews(fileManager.getLines(offset, numLines));
         displayViews();
     }

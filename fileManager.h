@@ -11,6 +11,7 @@ class FileManager {
     Position cursorPosition;
   public:
     FileManager(const std::string &fileName);
+    void setCursorPosition(Position p);
     const Position &getCursorPosition() const;
     const std::vector<std::string> getLines(size_t start, size_t n);
     void insertChar(char c);

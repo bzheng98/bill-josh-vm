@@ -4,6 +4,6 @@ CommandInfo Controller::getCommand() {
     return commandType();
 }
 
-char Controller::getChar() {
+int Controller::getChar() {
     return readChar();
 }

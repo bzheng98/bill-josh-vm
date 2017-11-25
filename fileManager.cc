@@ -9,7 +9,11 @@ FileManager::FileManager(const std::string &fileName): lines{}, curLineIter{}, c
         lines.push_back(s);
     }
     curLineIter = lines.begin();
-    std::cout << "File " << fileName << " opened. " << lines.size() << " lines." << std::endl;
+    //std::cout << "File " << fileName << " opened. " << lines.size() << " lines." << std::endl;
+}
+
+void FileManager::setCursorPosition(Position p) {
+    cursorPosition = p;
 }
 
 const Position &FileManager::getCursorPosition() const {
@@ -25,7 +29,7 @@ const std::vector<std::string> FileManager::getLines(size_t start, size_t n) {
         ret.push_back(*it);
         ++it;
     }
-    std::cout << "updating view with: " << ret.size() << " lines." << std::endl;
+    //std::cout << "updating view with: " << ret.size() << " lines." << std::endl;
     return ret;
 }
 

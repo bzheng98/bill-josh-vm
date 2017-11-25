@@ -1,4 +1,4 @@
 #ifndef COMMANDTYPE_H
 #define COMMANDTYPE_H
-enum CommandType {Insert,Left,Right,Up,Down};
+enum CommandType {INSERT,LEFT,RIGHT,UP,DOWN};
 #endif

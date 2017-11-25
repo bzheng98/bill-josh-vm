@@ -6,10 +6,10 @@
 
 class Controller {
     virtual CommandInfo commandType() = 0;
-    virtual char readChar() = 0;
+    virtual int readChar() = 0;
   public:
     CommandInfo getCommand();
-    char getChar();
+    int getChar();
     virtual ~Controller() = default;
 };
 #endif

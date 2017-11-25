@@ -8,6 +8,8 @@
 #include "commandInfo.h"
 #include <memory>
 
+enum CommandType;
+
 class Model {
     std::vector<std::unique_ptr<View>> views;
     std::unique_ptr<Controller> control;

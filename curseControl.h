@@ -11,7 +11,7 @@
 class CurseKeyboard: public Controller {
     std::map<std::string, CommandType> mapping;
     CommandInfo commandType() override;
-    char readChar() override;
+    int readChar() override;
   public:
     CurseKeyboard();
 };
