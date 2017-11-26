@@ -5,14 +5,15 @@
 #include "commandInfo.h"
 #include "footprint.h"
 #include "fileManager.h"
+#include "registerManager.h"
 #include <string>
 
 class Vm: public Model, public Subject {
     bool running, insertMode;
     FileManager fileManager;
+    RegisterManager registerManager;
     size_t offset;
     size_t numLines;
-    void NotifyObservers();
   public:
     Vm(const std::string &fileName);
     void runVm();

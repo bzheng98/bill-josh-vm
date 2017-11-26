@@ -1,19 +1,19 @@
 #include "position.h"
 
-Position::Position(size_t line, size_t col): line{line}, col{col} {}
+Position::Position(int line, int col): line{line}, col{col} {}
 
-size_t Position::getLine() const {
+int Position::getLine() const {
     return line;
 }
 
-size_t Position::getCol() const {
+int Position::getCol() const {
     return col;
 }
 
-void Position::setLine(size_t line) {
+void Position::setLine(int line) {
     this -> line = line;
 }
 
-void Position::setCol(size_t col) {
+void Position::setCol(int col) {
     this -> col = col;
 }

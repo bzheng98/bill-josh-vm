@@ -6,3 +6,7 @@ void Subject::notifyObservers(const CommandInfo &c) {
         observer->update(c);
     }
 }
+
+void Subject::attach(std::unique_ptr<Observer> obs) {
+    observers.emplace_back(std::move(obs));
+}

@@ -3,12 +3,12 @@
 #include <cstddef>
 
 class Position {
-    size_t line, col;
+    int line, col;
 public:
-    Position(size_t line, size_t col);
-    size_t getLine() const;
-    size_t getCol() const;
-    void setLine(size_t line);
-    void setCol(size_t col);
+    Position(int line, int col);
+    int getLine() const;
+    int getCol() const;
+    void setLine(int line);
+    void setCol(int col);
 };
 #endif

@@ -1,5 +1,7 @@
 #include "left.h"
 
 void Left::update(const CommandInfo &c) {
-    moveCursor(-c.getCount(), 0);
+    if(c.getCommandType() == LEFT) {
+        moveCursor(-c.getCount(), 0);
+    }
 }

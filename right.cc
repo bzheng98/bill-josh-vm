@@ -1,5 +1,7 @@
 #include "right.h"
 
 void Right::update(const CommandInfo &c) {
-    moveCursor(c.getCount(), 0);
+    if(c.getCommandType() == RIGHT) {
+        moveCursor(c.getCount(), 0);
+    }
 }

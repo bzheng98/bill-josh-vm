@@ -3,7 +3,10 @@
 #include "vm.h"
 #include "fileManager.h"
 #include "registerManager.h"
+#include "commandType.h"
 #include "observer.h"
+
+enum CommandType;
 
 class Command: public Observer {
   protected:

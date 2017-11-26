@@ -9,5 +9,6 @@ class Subject {
     std::vector<std::unique_ptr<Observer>> observers;
   protected:
     void notifyObservers(const CommandInfo &c);
+    void attach(std::unique_ptr<Observer> obs);
 };
 #endif

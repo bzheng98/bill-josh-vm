@@ -1,6 +1,7 @@
 #include "fileManager.h"
 #include <fstream>
 #include <iostream>
+#include <algorithm>
 
 FileManager::FileManager(const std::string &fileName): lines{}, curLineIter{}, cursorPosition{0,0} {
     std::ifstream f{fileName};
@@ -13,6 +14,21 @@ FileManager::FileManager(const std::string &fileName): lines{}, curLineIter{}, c
 }
 
 void FileManager::setCursorPosition(Position p) {
+    //if(lines.empty()) {
+    //    cursorPosition = Position(0, 0);
+    //    return;
+    //}
+    std::vector<std::string> lines = getLines(0, (this->lines).size());
+//    std::cout << "reserved\n";
+    p.setLine(std::min((int)lines.size() - 1, p.getLine()));
+    p.setLine(std::max(0, p.getLine()));
+    if(lines[p.getLine()].empty()) {
+        p.setCol(0);
+        cursorPosition = p;
+        return;
+    }
+    p.setCol(std::min((int)lines[p.getLine()].size() - 1, p.getCol()));
+    p.setCol(std::max(0, p.getCol()));
     cursorPosition = p;
 }
 

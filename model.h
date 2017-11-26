@@ -6,6 +6,7 @@
 #include "controller.h"
 #include "view.h"
 #include "commandInfo.h"
+#include "observer.h"
 #include <memory>
 
 enum CommandType;
