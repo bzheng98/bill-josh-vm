@@ -11,9 +11,20 @@ CurseKeyboard::CurseKeyboard() {
 }
 
 CommandInfo CurseKeyboard::commandType() {
-    //no count for now
-    char ch = readChar();
-    int count = 1;
+    //get the count
+    int count = 0, ch;
+    while(true) {
+        ch = readChar();
+        if(ch <= '9' && ch >= '0') {
+            count = count * 10 + (ch - '0');
+        }
+        else {
+            //ungetch(ch);
+            break;
+        }
+    }
+    if(count == 0)count = 1;
+    if(ch == 27)throw;
     return CommandInfo(mapping[std::string(1, ch)], count);
 }
 
