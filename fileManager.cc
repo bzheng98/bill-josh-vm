@@ -3,7 +3,7 @@
 #include <iostream>
 #include <algorithm>
 
-FileManager::FileManager(const std::string &fileName): lines{}, curLineIter{}, cursorPosition{0,0} {
+FileManager::FileManager(const std::string &fileName): fileName{fileName}, lines{}, curLineIter{}, cursorPosition{0,0} {
     std::ifstream f{fileName};
     std::string s;
     while(getline(f,s)) {
@@ -14,6 +14,7 @@ FileManager::FileManager(const std::string &fileName): lines{}, curLineIter{}, c
 }
 
 void FileManager::setCursorPosition(Position p) {
+    int lineDiff = cursorPosition.getLine();
     //if(lines.empty()) {
     //    cursorPosition = Position(0, 0);
     //    return;
@@ -30,6 +31,9 @@ void FileManager::setCursorPosition(Position p) {
     p.setCol(std::min((int)lines[p.getLine()].size() - 1, p.getCol()));
     p.setCol(std::max(0, p.getCol()));
     cursorPosition = p;
+
+    lineDiff = cursorPosition.getLine() - lineDiff;
+    std::advance(curLineIter, lineDiff);
 }
 
 const Position &FileManager::getCursorPosition() const {
@@ -51,6 +55,7 @@ const std::vector<std::string> FileManager::getLines(size_t start, size_t n) {
 
 void FileManager::insertChar(char c) {
     curLineIter->insert(curLineIter->begin()+cursorPosition.getCol(), c);
+    cursorPosition.setCol(cursorPosition.getCol()+1);
 }
 
 void FileManager::insertText(const std::string &s, const Position &p) {
@@ -59,4 +64,11 @@ void FileManager::insertText(const std::string &s, const Position &p) {
 
 void FileManager::deleteText(const Position &start, const Position &end) {
     throw;
+}
+
+void FileManager::saveFile() {
+    std::ofstream f{fileName};
+    for (const auto &line: lines) {
+        f << line << std::endl;
+    }
 }

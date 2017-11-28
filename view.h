@@ -11,5 +11,6 @@ public:
     virtual void update(const std::vector<std::string> &buf) = 0;
     virtual void updateCursor(Position p) = 0;
     virtual void updateView() = 0;
+    virtual void updateBottomText(const std::string &s) = 0;
 };
 #endif

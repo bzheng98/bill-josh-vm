@@ -6,6 +6,7 @@
 #include "position.h"
 
 class FileManager {
+    const std::string fileName;
     std::list<std::string> lines;
     std::list<std::string>::iterator curLineIter;
     Position cursorPosition;
@@ -17,5 +18,6 @@ class FileManager {
     void insertChar(char c);
     void insertText(const std::string &s, const Position &p);
     void deleteText(const Position &start, const Position &end);
+    void saveFile();
 };
 #endif

@@ -2,15 +2,14 @@
 #include "curseControl.h"
 #include "curseView.h"
 #include <iostream>
-#include "up.h"
-#include "down.h"
-#include "left.h"
-#include "right.h"
-Vm::Vm(const std::string &fileName): Model(std::make_unique<CurseKeyboard>(), std::make_unique<CurseView>()), running{true}, insertMode{false}, fileManager{fileName}, registerManager{RegisterManager()}, offset{0}, numLines{20} {
+#include "all_commands.h"
+Vm::Vm(const std::string &fileName): Model(std::make_unique<CurseKeyboard>(), std::make_unique<CurseView>()), running{true}, insertMode{false}, fileManager{fileName}, registerManager{}, footprints{}, offset{0}, numLines{20} {
    attach(std::make_unique<Up>(this, &fileManager, &registerManager));
    attach(std::make_unique<Down>(this, &fileManager, &registerManager));
    attach(std::make_unique<Left>(this, &fileManager, &registerManager));
    attach(std::make_unique<Right>(this, &fileManager, &registerManager));
+   attach(std::make_unique<Insert>(this, &fileManager, &registerManager));
+   attach(std::make_unique<Write>(this, &fileManager, &registerManager));
 }
 
 void Vm::runVm() {
@@ -26,11 +25,11 @@ void Vm::runVm() {
     while(true) {
         updateViews(fileManager.getLines(offset, numLines));
         updateViewCursors(fileManager.getCursorPosition());
-
         displayViews();
-        CommandInfo info = getCommand();
-        CommandType type = info.getCommandType();
-        /*if(type == RIGHT)
+
+        CommandInfo info = getCommand(this);
+        /*CommandType type = info.getCommandType();
+        if(type == RIGHT)
         {
             //std::cout << "here\n";
             r.update(info);
@@ -41,33 +40,34 @@ void Vm::runVm() {
 
 
 void Vm::runInsertMode() {
-   // std::cout << "insert mode" << std::endl;
+    // std::cout << "insert mode" << std::endl;
+    insertMode = true;
+    updateViewBottomTexts("-- INSERT --");
     while(insertMode) {
         char c = getChar();
         if (c == 27) {//escape char
-           insertMode = false;
+            insertMode = false;
             return;
         }
-       // std::cout << "char received: " << c << std::endl;
         fileManager.insertChar(c);
-       // std::cout << "char inserted" << std::endl;
         updateViews(fileManager.getLines(offset, numLines));
+        updateViewCursors(fileManager.getCursorPosition());
         displayViews();
     }
 }
 
-void addFootprint() {
+void Vm::addFootprint(std::unique_ptr<Footprint> &&f) {
+    footprints.push_back(std::move(f));
+}
+
+void Vm::popFootprint() {
     throw;
 }
 
-void popFootprint() {
+Footprint Vm::getLastFootprint() {
     throw;
 }
 
-Footprint getLastFootprint() {
-    throw;
-}
-
-CommandInfo getPrevCommand() {
+CommandInfo Vm::getPrevCommand() {
     throw;
 }

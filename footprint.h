@@ -4,8 +4,8 @@
 #include <utility>
 
 class Footprint {
-    Range range;
   protected:
+    Range range;
     Footprint(const Range &range): range{std::move(range)} {}
   public:
     const Range &getRange();

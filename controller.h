@@ -4,11 +4,13 @@
 #include "commandInfo.h"
 #include <string>
 
+class Model;
+
 class Controller {
-    virtual CommandInfo commandType() = 0;
+    virtual CommandInfo commandType(Model *caller) = 0;
     virtual int readChar() = 0;
   public:
-    CommandInfo getCommand();
+    CommandInfo getCommand(Model *caller);
     int getChar();
     virtual ~Controller() = default;
 };
