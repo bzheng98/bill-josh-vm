@@ -1,0 +1,6 @@
+#include "up.h"
+#include "down.h"
+#include "left.h"
+#include "right.h"
+#include "insert.h"
+#include "write.h"
