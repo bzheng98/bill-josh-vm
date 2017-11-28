@@ -9,7 +9,7 @@
 #include <ncurses.h>
 
 class CurseKeyboard: public Controller {
-    std::map<std::string, CommandType> mapping;
+    const std::map<std::string, CommandType> mapping;
     CommandInfo commandType() override;
     int readChar() override;
   public:

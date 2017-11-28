@@ -8,5 +8,5 @@ void Subject::notifyObservers(const CommandInfo &c) {
 }
 
 void Subject::attach(std::unique_ptr<Observer> obs) {
-    observers.emplace_back(std::move(obs));
+    observers.push_back(std::move(obs));
 }

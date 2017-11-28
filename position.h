@@ -4,7 +4,7 @@
 
 class Position {
     int line, col;
-public:
+  public:
     Position(int line, int col);
     int getLine() const;
     int getCol() const;
