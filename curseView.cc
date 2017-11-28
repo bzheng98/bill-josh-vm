@@ -69,3 +69,6 @@ void CurseView::updateView() {
     //display the view
     refresh();
 }
+
+void CurseView::updateBottomText(const std::string &s) {
+}

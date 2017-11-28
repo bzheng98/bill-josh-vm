@@ -3,7 +3,7 @@
 #include <iostream>
 #include <algorithm>
 
-FileManager::FileManager(const std::string &fileName): lines{}, curLineIter{}, cursorPosition{0,0} {
+FileManager::FileManager(const std::string &fileName): fileName{fileName}, lines{}, curLineIter{}, cursorPosition{0,0} {
     std::ifstream f{fileName};
     std::string s;
     while(getline(f,s)) {
@@ -64,4 +64,11 @@ void FileManager::insertText(const std::string &s, const Position &p) {
 
 void FileManager::deleteText(const Position &start, const Position &end) {
     throw;
+}
+
+void FileManager::saveFile() {
+    std::ofstream f{fileName};
+    for (const auto &line: lines) {
+        f << line << std::endl;
+    }
 }

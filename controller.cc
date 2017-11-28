@@ -1,7 +1,7 @@
 #include "controller.h"
 
-CommandInfo Controller::getCommand() {
-    return commandType();
+CommandInfo Controller::getCommand(Model *caller) {
+    return commandType(caller);
 }
 
 int Controller::getChar() {

@@ -30,10 +30,16 @@ void Model::addController(std::unique_ptr<Controller> c) {
     control = std::move(c);
 }
 
-CommandInfo Model::getCommand() {
-    return control -> getCommand();
+CommandInfo Model::getCommand(Model *m) {
+    return control -> getCommand(m);
 }
 
 char Model::getChar() {
     return control->getChar();
+}
+
+void Model::updateViewBottomTexts(const std::string &s) {
+    for (auto &view: views) {
+        view->updateBottomText(s);
+    }
 }

@@ -4,13 +4,14 @@
 #include "controller.h"
 #include "commandInfo.h"
 #include "commandType.h"
+#include "model.h"
 #include <map>
 #include <string>
 #include <ncurses.h>
 
 class CurseKeyboard: public Controller {
     const std::map<std::string, CommandType> mapping;
-    CommandInfo commandType() override;
+    CommandInfo commandType(Model *caller) override;
     int readChar() override;
   public:
     CurseKeyboard();

@@ -15,5 +15,6 @@ class CurseView: public View {
         void update(const std::vector<std::string> &buf) override;
         void updateCursor(Position p) override;
         void updateView() override;
+        void updateBottomText(const std::string &s) override;
 };
 #endif

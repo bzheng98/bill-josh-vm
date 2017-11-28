@@ -22,8 +22,9 @@ class Model {
     virtual ~Model() = default;
     void updateViews(const std::vector<std::string> &buf);
     void updateViewCursors(Position p);
+    void updateViewBottomTexts(const std::string &s);
     char getChar();
-    CommandInfo getCommand();
+    CommandInfo getCommand(Model *m);
     void displayViews();
 };
 #endif
