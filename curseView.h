@@ -5,10 +5,12 @@
 #include <ncurses.h>
 
 class CurseView: public View {
-    int topLine = 0;
+    Position topLeft;
     std::vector<std::string> buffer;
     int ceilDiv(int a, int b);
     Position toScreenPosition(Position p);
+    bool onScreen(Position p);
+    void adjustTopLeft(Position p);
     public:
         CurseView();
         ~CurseView() override;
