@@ -1,4 +1,4 @@
-vm.o: vm.cc vm.h model.h controller.h commandInfo.h commandType.h view.h \
+vm.o: vm.cc vm.h commandType.h model.h controller.h commandInfo.h view.h \
  position.h observer.h subject.h footprint.h range.h fileManager.h \
  registerManager.h curseControl.h curseView.h all_commands.h up.h \
  basicMotion.h motionCommand.h cursorMotionCommand.h command.h down.h \

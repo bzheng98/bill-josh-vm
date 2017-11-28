@@ -1,5 +1,5 @@
 #include "curseView.h"
-
+#include <iostream>
 CurseView::CurseView() : topLeft{0, 0} {
     initscr();
     noecho();
@@ -134,4 +134,7 @@ void CurseView::updateView() {
 }
 
 void CurseView::updateBottomText(const std::string &s) {
+    int lines, cols;
+    getmaxyx(stdscr, lines, cols);
+    mvaddstr(lines - 1, 0, s.c_str());
 }

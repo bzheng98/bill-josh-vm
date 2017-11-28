@@ -1,5 +1,6 @@
 #ifndef VM_H
 #define VM_H
+#include "commandType.h"
 #include "model.h"
 #include "subject.h"
 #include "commandInfo.h"
@@ -8,6 +9,7 @@
 #include "registerManager.h"
 #include <string>
 #include <vector>
+
 
 class Vm: public Model, public Subject {
     bool running, insertMode;
