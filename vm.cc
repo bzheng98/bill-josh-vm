@@ -19,7 +19,9 @@ Vm::Vm(const std::string &fileName): Model(std::make_unique<CurseKeyboard>(), st
 void Vm::runVm() {
     while(running) {
         updateViews(fileManager.getLines(offset, numLines), fileManager.getCursorPosition());
+        log("updateviews");
         updateViewCursors(fileManager.getCursorPosition());
+        log("update cursors");
         displayViews();
 
         CommandInfo info = getCommand(this);

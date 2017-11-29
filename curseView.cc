@@ -18,14 +18,14 @@ int CurseView::ceilDiv(int a, int b) {
 }
 
 Position CurseView::toScreenPosition(Position p) {
-    size_t lines, cols, prevLines = 0;
+    int lines, cols, prevLines = 0;
     getmaxyx(stdscr, lines, cols);
     //partial mode, only displaying 1 line
-    if(topLeft.getCol() != 0) {
+    if(inPartialMode()) {
         int dy = p.getLine() - topLeft.getLine();
         int dx = p.getCol() - topLeft.getCol();
         int dif = dy * cols + dx;
-        return Position(p.getLine() + dif / cols, p.getCol() + dif % cols); 
+        return Position(dif / cols, dif % cols); 
     }
     //1 full line or >= 2 lines
     else {
@@ -43,21 +43,33 @@ Position CurseView::toScreenPosition(Position p) {
         return Position(prevLines - actualTopLine, p.getCol() % cols);
     }
 }
+
 bool CurseView::onScreen(Position p) {
+    if(inPartialMode() && p.getLine() != topLeft.getLine())return false;
     int lines, cols;
     getmaxyx(stdscr, lines, cols);
     Position screenPos = toScreenPosition(p);
     return (screenPos.getLine() >= 0 && screenPos.getLine() <= lines - 2) && (screenPos.getCol() >= 0 && screenPos.getCol() <= cols - 1);
 }
 
+bool CurseView::inPartialMode() {
+    if(topLeft.getCol() != 0) {
+        return true;
+    }
+    int lines, cols;
+    getmaxyx(stdscr, lines, cols);
+    return buffer[topLeft.getLine()].size() > (lines - 1) * cols;
+}
+
+
 void CurseView::adjustTopLeft(Position cur) {
     //partial mode, only displaying 1 line
-    if(topLeft.getCol() != 0) {
+    if(inPartialMode()) {
         int lines, cols;
         getmaxyx(stdscr, lines, cols);
         //show entire line, if possible
         int totChars = (lines - 1) * cols;
-        if(buffer[topLeft.getLine()].size() <= totChars) {
+        if(buffer[topLeft.getLine()].size() <= totChars || cur.getLine() != topLeft.getLine()) {
             topLeft.setCol(0);
         }
         //show part of the line, if the cursor is still on that line
@@ -65,12 +77,12 @@ void CurseView::adjustTopLeft(Position cur) {
             if(cur.getCol() <= topLeft.getCol()) {
                 while(!onScreen(cur) && topLeft.getCol() > 0) {
                     topLeft.setCol(topLeft.getCol() - cols);
-                }
+                }    
             }
             else {
-              while(!onScreen(cur) && topLeft.getCol() + 1 < buffer[topLeft.getLine()].size()) {
+                while(!onScreen(cur) && topLeft.getCol() + 1 < buffer[topLeft.getLine()].size()) {
                     topLeft.setCol(topLeft.getCol() + cols);
-              }
+                }
             }
             return;
         }
@@ -93,9 +105,11 @@ void CurseView::adjustTopLeft(Position cur) {
 void CurseView::update(const std::vector<std::string> &buf, Position p) {
     std::ofstream f;
     f.open("out.txt");
+    f << "update\n";
     buffer.clear();
     for(auto s : buf)buffer.push_back(s);
     adjustTopLeft(p);
+    f << "adjusted\n";
     //print the buf
     size_t prevX, prevY, lines, cols, idx;
     bool notEnoughLines = false;
@@ -106,12 +120,12 @@ void CurseView::update(const std::vector<std::string> &buf, Position p) {
         move(i, 0);
         clrtoeol();
     }
-    move(prevX, prevY);
-    if(topLeft.getCol() != 0) {
-        mvaddstr(0, 0, buf[topLeft.getLine()].substr(topLeft.getCol()).c_str());
+    move(prevX, prevY); 
+    f << topLeft.getLine() << " " << topLeft.getCol() << "\n";
+    if(inPartialMode()) {
+        mvaddstr(0, 0, buf[topLeft.getLine()].substr(topLeft.getCol(), (lines - 1) * cols).c_str());
         return;
     }
-    f << topLeft.getLine() << " " << topLeft.getCol() << "\n";
     size_t topLine = topLeft.getLine();
     for(idx = topLine; idx < buf.size(); idx++) {
         f << "cur: " << cur.getLine() << " " << cur.getCol() << "\n";
@@ -133,7 +147,7 @@ void CurseView::update(const std::vector<std::string> &buf, Position p) {
         for(size_t i = actual.getLine(); i < lines - 1; i++) {
             mvaddch(i, 0, pr);
         }
-    }
+    } 
 }
 
 void CurseView::updateCursor(Position p) {
