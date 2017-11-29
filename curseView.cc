@@ -1,4 +1,5 @@
 #include "curseView.h"
+#include <algorithm>
 #include <iostream>
 CurseView::CurseView() : topLeft{0, 0} {
     initscr();
@@ -28,7 +29,7 @@ Position CurseView::toScreenPosition(Position p) {
     else {
         size_t topLine = topLeft.getLine();
         for(size_t i = topLine; i < p.getLine(); i++) {
-            prevLines += ceilDiv(buffer[i].size(), cols);
+            prevLines += std::max(1, ceilDiv(buffer[i].size(), cols));
         }
         prevLines += p.getCol() / cols;
         return Position(prevLines, p.getCol() % cols);
