@@ -18,7 +18,7 @@ Vm::Vm(const std::string &fileName): Model(std::make_unique<CurseKeyboard>(), st
 
 void Vm::runVm() {
     while(running) {
-        updateViews(fileManager.getLines(offset, numLines));
+        updateViews(fileManager.getLines(offset, numLines), fileManager.getCursorPosition());
         updateViewCursors(fileManager.getCursorPosition());
         displayViews();
 
@@ -32,7 +32,7 @@ void Vm::runInsertMode() {
     updateViewBottomTexts("-- INSERT --");
     log("insert mode");
     while(insertMode) {
-        updateViews(fileManager.getLines(offset, numLines));
+        updateViews(fileManager.getLines(offset, numLines), fileManager.getCursorPosition());
         updateViewCursors(fileManager.getCursorPosition());
         displayViews();
         log("getting input");

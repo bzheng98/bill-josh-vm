@@ -1,6 +1,7 @@
 #include "curseView.h"
 #include <algorithm>
 #include <iostream>
+#include <fstream>
 CurseView::CurseView() : topLeft{0, 0} {
     initscr();
     noecho();
@@ -28,27 +29,34 @@ Position CurseView::toScreenPosition(Position p) {
     }
     //1 full line or >= 2 lines
     else {
-        size_t topLine = topLeft.getLine();
-        for(size_t i = topLine; i < p.getLine(); i++) {
-            prevLines += std::max(1, ceilDiv(buffer[i].size(), cols));
+        int topLine = topLeft.getLine(), actualTopLine = 0;
+        for(int i = 0; i < std::max(p.getLine(), topLeft.getLine()); i++) {
+            int tot = std::max(1, ceilDiv(buffer[i].size(), cols));
+            if(i < p.getLine()) {
+                prevLines += tot; 
+            }
+            if(i < topLeft.getLine()) {
+                actualTopLine += tot;
+            }
         }
         prevLines += p.getCol() / cols;
-        return Position(prevLines, p.getCol() % cols);
+        return Position(prevLines - actualTopLine, p.getCol() % cols);
     }
 }
 bool CurseView::onScreen(Position p) {
-    size_t lines, cols;
+    int lines, cols;
     getmaxyx(stdscr, lines, cols);
     Position screenPos = toScreenPosition(p);
-    return (screenPos.getLine() >= 0 && screenPos.getLine() < lines) && (screenPos.getCol() >= 0 && screenPos.getCol() <= cols);
+    return (screenPos.getLine() >= 0 && screenPos.getLine() <= lines - 2) && (screenPos.getCol() >= 0 && screenPos.getCol() <= cols - 1);
 }
+
 void CurseView::adjustTopLeft(Position cur) {
     //partial mode, only displaying 1 line
     if(topLeft.getCol() != 0) {
-        size_t lines, cols;
+        int lines, cols;
         getmaxyx(stdscr, lines, cols);
         //show entire line, if possible
-        int totChars = lines * cols;
+        int totChars = (lines - 1) * cols;
         if(buffer[topLeft.getLine()].size() <= totChars) {
             topLeft.setCol(0);
         }
@@ -66,24 +74,25 @@ void CurseView::adjustTopLeft(Position cur) {
             }
             return;
         }
-        //cursor out of bounds, must adjust
-        if(!onScreen(cur)) {
-            if(cur.getLine() <= topLeft.getLine()) {
-                while(!onScreen(cur) && topLeft.getLine() > 0) {
-                    topLeft.setLine(topLeft.getLine() - 1);
-                }
+    }
+    //cursor out of bounds, must adjust
+    if(!onScreen(cur)) {
+        if(cur.getLine() < topLeft.getLine()) {
+            while(!onScreen(cur) && topLeft.getLine() > 0) {
+                topLeft.setLine(topLeft.getLine() - 1);
             }
-            else {
-                while(!onScreen(cur) && topLeft.getLine() + 1  < buffer.size()) {
-                    topLeft.setLine(topLeft.getLine() + 1);
-                }
+        }
+        else {
+            while(!onScreen(cur) && topLeft.getLine() + 1  < buffer.size()) {
+                topLeft.setLine(topLeft.getLine() + 1);
             }
         }
     }
 }
 
-void CurseView::update(const std::vector<std::string> &buf) {
-    Position p(0, 0);
+void CurseView::update(const std::vector<std::string> &buf, Position p) {
+    std::ofstream f;
+    f.open("out.txt");
     buffer.clear();
     for(auto s : buf)buffer.push_back(s);
     adjustTopLeft(p);
@@ -102,9 +111,12 @@ void CurseView::update(const std::vector<std::string> &buf) {
         mvaddstr(0, 0, buf[topLeft.getLine()].substr(topLeft.getCol()).c_str());
         return;
     }
+    f << topLeft.getLine() << " " << topLeft.getCol() << "\n";
     size_t topLine = topLeft.getLine();
     for(idx = topLine; idx < buf.size(); idx++) {
+        f << "cur: " << cur.getLine() << " " << cur.getCol() << "\n";
         Position actual = toScreenPosition(cur);
+        f << "actual: " << actual.getLine() << " " << actual.getCol() << "\n";
         size_t charsLeft = (lines - 1 - actual.getLine()) * cols;
         if(buf[idx].size() <= charsLeft) {
             mvaddstr(actual.getLine(), 0, buf[idx].c_str());
