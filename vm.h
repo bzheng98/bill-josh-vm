@@ -9,6 +9,7 @@
 #include "registerManager.h"
 #include <string>
 #include <vector>
+#include <fstream>
 
 
 class Vm: public Model, public Subject {
@@ -16,6 +17,7 @@ class Vm: public Model, public Subject {
     FileManager fileManager;
     RegisterManager registerManager;
     std::vector<std::unique_ptr<Footprint> > footprints;
+    std::ofstream logger{"log.txt"};
     size_t offset;
     size_t numLines;
   public:
@@ -26,5 +28,7 @@ class Vm: public Model, public Subject {
     void popFootprint();
     Footprint getLastFootprint();
     CommandInfo getPrevCommand();
+    void quit();
+    template<typename T> void log(T s);
 };
 #endif

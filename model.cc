@@ -34,7 +34,7 @@ CommandInfo Model::getCommand(Model *m) {
     return control -> getCommand(m);
 }
 
-char Model::getChar() {
+int Model::getChar() {
     return control->getChar();
 }
 

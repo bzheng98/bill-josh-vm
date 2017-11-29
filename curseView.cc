@@ -5,6 +5,7 @@ CurseView::CurseView() : topLeft{0, 0} {
     initscr();
     noecho();
     raw();
+    keypad(stdscr,TRUE);
 }
 
 CurseView::~CurseView() {

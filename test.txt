@@ -1,4 +1,11 @@
+<<<<<<< HEAD
 aaaasdfjklasdjfkljkljaksdlfjkljkljaatester 1
 
 this is line one
 aldjklfj
+=======
+asjdkfljlkajkslthis is the first line
+secodddnd line
+this is third
+and fourth
+>>>>>>> e75edb2374ee1e62528ea499805d849a4f223a9b
