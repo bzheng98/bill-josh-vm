@@ -1,137 +1,21 @@
 insert mode
 getting input
-97
+27
+insert mode
 getting input
-115
+27
+insert mode
 getting input
-106
+27
+insert mode
 getting input
-100
+27
+insert mode
 getting input
-107
+27
+insert mode
 getting input
-102
-getting input
-108
-getting input
-106
-getting input
-108
-getting input
-107
-getting input
-97
-getting input
-106
-getting input
-107
-getting input
-115
-getting input
-108
-getting input
-100
-getting input
-106
-getting input
-102
-getting input
-108
-getting input
-107
-getting input
-263
-getting input
-263
-getting input
-263
-getting input
-263
-getting input
-263
-getting input
-261
-getting input
-261
-getting input
-260
-getting input
-260
-getting input
-260
-getting input
-260
-getting input
-258
-getting input
-260
-getting input
-260
-getting input
-258
-getting input
-261
-getting input
-261
-getting input
-261
-getting input
-259
-getting input
-261
-getting input
-261
-getting input
-259
-getting input
-261
-getting input
-261
-getting input
-261
-getting input
-261
-getting input
-261
-getting input
-261
-getting input
-261
-getting input
-261
-getting input
-261
-getting input
-261
-getting input
-261
-getting input
-258
-getting input
-259
-getting input
-261
-getting input
-261
-getting input
-261
-getting input
-261
-getting input
-261
-getting input
-261
-getting input
-261
-getting input
-261
-getting input
-261
-getting input
-258
-getting input
-258
-getting input
-259
+27
+insert mode
 getting input
 27

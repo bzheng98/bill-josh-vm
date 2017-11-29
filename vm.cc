@@ -40,7 +40,8 @@ void Vm::runInsertMode() {
         log(c);
         if (is_escape(c)) {//escape char
             insertMode = false;
-            return;
+            updateViewBottomTexts("");
+            break;
         }
         else if (is_left(c)) {
             Position p = fileManager.getCursorPosition();
@@ -70,7 +71,6 @@ void Vm::runInsertMode() {
         }
         else fileManager.insertChar(c);
     }
-    updateViewBottomTexts("");
 }
 
 void Vm::addFootprint(std::unique_ptr<Footprint> &&f) {

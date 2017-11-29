@@ -136,7 +136,11 @@ void CurseView::updateView() {
 }
 
 void CurseView::updateBottomText(const std::string &s) {
-    int lines, cols;
+    int lines, cols, prevY, prevX;
     getmaxyx(stdscr, lines, cols);
+    getyx(stdscr, prevY, prevX);
+    move(lines - 1, 0);
+    clrtoeol();
     mvaddstr(lines - 1, 0, s.c_str());
+    move(prevY, prevX);
 }
