@@ -4,3 +4,5 @@
 #include "right.h"
 #include "insert.h"
 #include "write.h"
+#include "quit.h"
+#include "writequit.h"

@@ -58,6 +58,12 @@ void FileManager::insertChar(char c) {
     cursorPosition.setCol(cursorPosition.getCol()+1);
 }
 
+void FileManager::deleteChar() {
+    int c = cursorPosition.getCol();
+    if (!c) return;
+    curLineIter->erase(c-1,1);
+}
+
 void FileManager::insertText(const std::string &s, const Position &p) {
     throw;
 }

@@ -6,6 +6,7 @@
 class Write: public Writer {
   public:
     Write(Vm *vm, FileManager *fileManager, RegisterManager *registerManager):
+        FileCommand{vm, fileManager, registerManager},
         Writer{vm, fileManager, registerManager} {}
     void update(const CommandInfo &c) override;
 };

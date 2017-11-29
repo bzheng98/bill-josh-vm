@@ -16,6 +16,7 @@ class FileManager {
     const Position &getCursorPosition() const;
     const std::vector<std::string> getLines(size_t start, size_t n);
     void insertChar(char c);
+    void deleteChar();
     void insertText(const std::string &s, const Position &p);
     void deleteText(const Position &start, const Position &end);
     void saveFile();
