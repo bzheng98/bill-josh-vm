@@ -25,7 +25,13 @@ CommandInfo CurseKeyboard::commandType(Model *caller) {
     std::string s;
     if (ch == ':') {
         while(!is_enter(ch)) {
-            if (is_backspace(ch)) s.erase(s.length()-1);
+            if (is_backspace(ch)) {
+                s.erase(s.length()-1);
+                if (!s.length()) {
+                    caller->updateViewBottomTexts(s);
+                    return commandType(caller);
+                }
+            }
             else s += ch;
             caller->updateViewBottomTexts(s);
             ch = readChar();

@@ -44,30 +44,19 @@ void Vm::runInsertMode() {
             break;
         }
         else if (is_left(c)) {
-            Position p = fileManager.getCursorPosition();
-            p.setCol(p.getCol()-1);
-            fileManager.setCursorPosition(p);
+            fileManager.moveCursorPosition(-1,0,true);
         }
         else if (is_right(c)) {
-            Position p = fileManager.getCursorPosition();
-            p.setCol(p.getCol()+1);
-            fileManager.setCursorPosition(p);
+            fileManager.moveCursorPosition(1,0,true);
         }
         else if (is_up(c)) {
-            Position p = fileManager.getCursorPosition();
-            p.setLine(p.getLine()-1);
-            fileManager.setCursorPosition(p);
+            fileManager.moveCursorPosition(0,-1,true);
         }
         else if (is_down(c)) {
-            Position p = fileManager.getCursorPosition();
-            p.setLine(p.getLine()+1);
-            fileManager.setCursorPosition(p);
+            fileManager.moveCursorPosition(0,1,true);
         }
         else if (is_backspace(c)) {
             fileManager.deleteChar();
-            Position p = fileManager.getCursorPosition();
-            p.setCol(p.getCol()-1);
-            fileManager.setCursorPosition(p);
         }
         else fileManager.insertChar(c);
     }

@@ -1,9 +1,34 @@
-<<<<<<< HEAD
-aaaasdfjklasdjfkljkljaksdlfjkljkljaatester 1
+sdjfklajsdflkj
+dsjfkljsdfkljsja
+sdjfkljsdkfljlksdhello ;:jadlkfsjdlk;j
 
-this is line one
-aldjklfj
-=======
+
+sdjfkljkljklsdfjkljdsfkldfklsajfklsdajfklhellosdjfkljdsflkjkljkljdsklfjkljdjskfljkl
+
+skdjflksaldkfjkldsajflkasjfsklfjlkjkljklsjadfklsajfklsdajfklhellosdjfkljdsflkjkljkljdsklfjkljdjskfljkl
+
+dsklskldklsjkldfsjklsjadfklsajfklsdajfklhellosdjfkljdsflkjkljkljdsklfjkljdjskfljkl
+sjadfklasjdfkjdfkalfjladsf
+askdfjlkasdfjkl
+akjsdflskdjfkksadjflkjsdklfj
+ssss
+ksdkfjlkjsdlfkj
+sdjfkldjsflk
+sdjflkjla jklsadjf lkajklsdfsdjflkl
+sjflkdjklskfjlkjdsl
+dsjfkljskdlfjkljkljsdklkldfjklsdjksdfjklbb
+
+sdklfjlkasdfjkljkladfjklja<<<<<<< HEAD
+
+jjjaaaasdfjklasdjfkljkljaksdlfjkljkljaatester 1
+
+jjjjjjjjjj
+
+jjthis is line one
+
+jaldjklfj
+
+j=======
 asjdkfljlkajkslthis is the first line
 secodddnd line
 this is third

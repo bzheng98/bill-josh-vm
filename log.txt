@@ -1,21 +1,331 @@
 insert mode
 getting input
-27
-insert mode
+115
 getting input
-27
-insert mode
+100
 getting input
-27
-insert mode
+106
 getting input
-27
-insert mode
+102
 getting input
-27
-insert mode
+107
 getting input
-27
-insert mode
+108
+getting input
+97
+getting input
+106
+getting input
+115
+getting input
+100
+getting input
+102
+getting input
+108
+getting input
+107
+getting input
+106
+getting input
+10
+getting input
+100
+getting input
+115
+getting input
+106
+getting input
+102
+getting input
+107
+getting input
+108
+getting input
+106
+getting input
+115
+getting input
+100
+getting input
+102
+getting input
+107
+getting input
+108
+getting input
+106
+getting input
+261
+getting input
+261
+getting input
+261
+getting input
+261
+getting input
+10
+getting input
+115
+getting input
+100
+getting input
+106
+getting input
+102
+getting input
+107
+getting input
+108
+getting input
+106
+getting input
+115
+getting input
+100
+getting input
+107
+getting input
+102
+getting input
+108
+getting input
+106
+getting input
+108
+getting input
+107
+getting input
+115
+getting input
+100
+getting input
+104
+getting input
+101
+getting input
+108
+getting input
+108
+getting input
+111
+getting input
+32
+getting input
+59
+getting input
+58
+getting input
+106
+getting input
+97
+getting input
+100
+getting input
+108
+getting input
+107
+getting input
+102
+getting input
+115
+getting input
+106
+getting input
+100
+getting input
+108
+getting input
+107
+getting input
+59
+getting input
+106
+getting input
+10
+getting input
+258
+getting input
+258
+getting input
+259
+getting input
+258
+getting input
+259
+getting input
+259
+getting input
+259
+getting input
+258
+getting input
+258
+getting input
+258
+getting input
+259
+getting input
+260
+getting input
+259
+getting input
+259
+getting input
+258
+getting input
+258
+getting input
+258
+getting input
+258
+getting input
+259
+getting input
+259
+getting input
+259
+getting input
+258
+getting input
+258
+getting input
+261
+getting input
+261
+getting input
+261
+getting input
+261
+getting input
+261
+getting input
+261
+getting input
+261
+getting input
+261
+getting input
+261
+getting input
+261
+getting input
+261
+getting input
+261
+getting input
+261
+getting input
+261
+getting input
+261
+getting input
+261
+getting input
+261
+getting input
+261
+getting input
+261
+getting input
+261
+getting input
+261
+getting input
+261
+getting input
+261
+getting input
+261
+getting input
+261
+getting input
+261
+getting input
+259
+getting input
+259
+getting input
+259
+getting input
+260
+getting input
+258
+getting input
+258
+getting input
+258
+getting input
+258
+getting input
+259
+getting input
+259
+getting input
+259
+getting input
+259
+getting input
+261
+getting input
+258
+getting input
+258
+getting input
+258
+getting input
+261
+getting input
+261
+getting input
+259
+getting input
+259
+getting input
+259
+getting input
+258
+getting input
+258
+getting input
+258
+getting input
+259
+getting input
+259
+getting input
+259
+getting input
+261
+getting input
+258
+getting input
+258
+getting input
+258
+getting input
+258
+getting input
+259
+getting input
+261
+getting input
+261
+getting input
+261
+getting input
+259
+getting input
+259
+getting input
+259
+getting input
+260
+getting input
+258
+getting input
+258
+getting input
+258
 getting input
 27

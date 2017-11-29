@@ -6,16 +6,16 @@
 #include "position.h"
 
 class FileManager {
-    int lastCol;
     const std::string fileName;
     std::list<std::string> lines;
     std::list<std::string>::iterator curLineIter;
     Position cursorPosition;
+    int lastCol;
   public:
     FileManager(const std::string &fileName);
-    void setCursorPosition(Position p, bool changeLastCol);
+    void setCursorPosition(Position p, bool changeLastCol, bool insertMode = false);
     void setCursorPosition(Position p);
-    void moveCursorPosition(int dx, int dy);
+    void moveCursorPosition(int dx, int dy, bool insertMode = false);
     const Position &getCursorPosition() const;
     const std::vector<std::string> getLines(size_t start, size_t n);
     void insertChar(char c);
