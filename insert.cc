@@ -2,6 +2,5 @@
 
 void Insert::update(const CommandInfo &c) {
     if (c.getCommandType() != INSERT) return;
-    doInsertMode();
-
+    doInsertMode(c.getCount());
 }

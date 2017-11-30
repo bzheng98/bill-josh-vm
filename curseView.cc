@@ -1,7 +1,6 @@
 #include "curseView.h"
 #include <algorithm>
 #include <iostream>
-#include <fstream>
 CurseView::CurseView() : topLeft{0, 0} {
     initscr();
     noecho();
@@ -18,58 +17,39 @@ int CurseView::ceilDiv(int a, int b) {
 }
 
 Position CurseView::toScreenPosition(Position p) {
-    int lines, cols, prevLines = 0;
+    size_t lines, cols, prevLines = 0;
     getmaxyx(stdscr, lines, cols);
     //partial mode, only displaying 1 line
-    if(inPartialMode()) {
+    if(topLeft.getCol() != 0) {
         int dy = p.getLine() - topLeft.getLine();
         int dx = p.getCol() - topLeft.getCol();
         int dif = dy * cols + dx;
-        return Position(dif / cols, dif % cols); 
+        return Position(p.getLine() + dif / cols, p.getCol() + dif % cols); 
     }
     //1 full line or >= 2 lines
     else {
-        int topLine = topLeft.getLine(), actualTopLine = 0;
-        for(int i = 0; i < std::max(p.getLine(), topLeft.getLine()); i++) {
-            int tot = std::max(1, ceilDiv(buffer[i].size(), cols));
-            if(i < p.getLine()) {
-                prevLines += tot; 
-            }
-            if(i < topLeft.getLine()) {
-                actualTopLine += tot;
-            }
+        size_t topLine = topLeft.getLine();
+        for(size_t i = topLine; i < p.getLine(); i++) {
+            prevLines += std::max(1, ceilDiv(buffer[i].size(), cols));
         }
         prevLines += p.getCol() / cols;
-        return Position(prevLines - actualTopLine, p.getCol() % cols);
+        return Position(prevLines, p.getCol() % cols);
     }
 }
-
 bool CurseView::onScreen(Position p) {
-    if(inPartialMode() && p.getLine() != topLeft.getLine())return false;
-    int lines, cols;
+    size_t lines, cols;
     getmaxyx(stdscr, lines, cols);
     Position screenPos = toScreenPosition(p);
-    return (screenPos.getLine() >= 0 && screenPos.getLine() <= lines - 2) && (screenPos.getCol() >= 0 && screenPos.getCol() <= cols - 1);
+    return (screenPos.getLine() >= 0 && screenPos.getLine() < lines) && (screenPos.getCol() >= 0 && screenPos.getCol() <= cols);
 }
-
-bool CurseView::inPartialMode() {
-    if(topLeft.getCol() != 0) {
-        return true;
-    }
-    int lines, cols;
-    getmaxyx(stdscr, lines, cols);
-    return buffer[topLeft.getLine()].size() > (lines - 1) * cols;
-}
-
-
 void CurseView::adjustTopLeft(Position cur) {
     //partial mode, only displaying 1 line
-    if(inPartialMode()) {
-        int lines, cols;
+    if(topLeft.getCol() != 0) {
+        size_t lines, cols;
         getmaxyx(stdscr, lines, cols);
         //show entire line, if possible
-        int totChars = (lines - 1) * cols;
-        if(buffer[topLeft.getLine()].size() <= totChars || cur.getLine() != topLeft.getLine()) {
+        int totChars = lines * cols;
+        if(buffer[topLeft.getLine()].size() <= totChars) {
             topLeft.setCol(0);
         }
         //show part of the line, if the cursor is still on that line
@@ -77,39 +57,36 @@ void CurseView::adjustTopLeft(Position cur) {
             if(cur.getCol() <= topLeft.getCol()) {
                 while(!onScreen(cur) && topLeft.getCol() > 0) {
                     topLeft.setCol(topLeft.getCol() - cols);
-                }    
+                }
             }
             else {
-                while(!onScreen(cur) && topLeft.getCol() + 1 < buffer[topLeft.getLine()].size()) {
+              while(!onScreen(cur) && topLeft.getCol() + 1 < buffer[topLeft.getLine()].size()) {
                     topLeft.setCol(topLeft.getCol() + cols);
-                }
+              }
             }
             return;
         }
-    }
-    //cursor out of bounds, must adjust
-    if(!onScreen(cur)) {
-        if(cur.getLine() < topLeft.getLine()) {
-            while(!onScreen(cur) && topLeft.getLine() > 0) {
-                topLeft.setLine(topLeft.getLine() - 1);
+        //cursor out of bounds, must adjust
+        if(!onScreen(cur)) {
+            if(cur.getLine() <= topLeft.getLine()) {
+                while(!onScreen(cur) && topLeft.getLine() > 0) {
+                    topLeft.setLine(topLeft.getLine() - 1);
+                }
             }
-        }
-        else {
-            while(!onScreen(cur) && topLeft.getLine() + 1  < buffer.size()) {
-                topLeft.setLine(topLeft.getLine() + 1);
+            else {
+                while(!onScreen(cur) && topLeft.getLine() + 1  < buffer.size()) {
+                    topLeft.setLine(topLeft.getLine() + 1);
+                }
             }
         }
     }
 }
 
-void CurseView::update(const std::vector<std::string> &buf, Position p) {
-    std::ofstream f;
-    f.open("out.txt");
-    f << "update\n";
+void CurseView::update(const std::vector<std::string> &buf) {
+    Position p(0, 0);
     buffer.clear();
     for(auto s : buf)buffer.push_back(s);
     adjustTopLeft(p);
-    f << "adjusted\n";
     //print the buf
     size_t prevX, prevY, lines, cols, idx;
     bool notEnoughLines = false;
@@ -120,17 +97,14 @@ void CurseView::update(const std::vector<std::string> &buf, Position p) {
         move(i, 0);
         clrtoeol();
     }
-    move(prevX, prevY); 
-    f << topLeft.getLine() << " " << topLeft.getCol() << "\n";
-    if(inPartialMode()) {
-        mvaddstr(0, 0, buf[topLeft.getLine()].substr(topLeft.getCol(), (lines - 1) * cols).c_str());
+    move(prevX, prevY);
+    if(topLeft.getCol() != 0) {
+        mvaddstr(0, 0, buf[topLeft.getLine()].substr(topLeft.getCol()).c_str());
         return;
     }
     size_t topLine = topLeft.getLine();
     for(idx = topLine; idx < buf.size(); idx++) {
-        f << "cur: " << cur.getLine() << " " << cur.getCol() << "\n";
         Position actual = toScreenPosition(cur);
-        f << "actual: " << actual.getLine() << " " << actual.getCol() << "\n";
         size_t charsLeft = (lines - 1 - actual.getLine()) * cols;
         if(buf[idx].size() <= charsLeft) {
             mvaddstr(actual.getLine(), 0, buf[idx].c_str());
@@ -147,7 +121,7 @@ void CurseView::update(const std::vector<std::string> &buf, Position p) {
         for(size_t i = actual.getLine(); i < lines - 1; i++) {
             mvaddch(i, 0, pr);
         }
-    } 
+    }
 }
 
 bool CurseView::atBottom() {

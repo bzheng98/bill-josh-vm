@@ -11,6 +11,10 @@ Vm::Vm(const std::string &fileName): Model(std::make_unique<CurseKeyboard>(), st
    attach(std::make_unique<Left>(this, &fileManager, &registerManager));
    attach(std::make_unique<Right>(this, &fileManager, &registerManager));
    attach(std::make_unique<Insert>(this, &fileManager, &registerManager));
+   attach(std::make_unique<Append>(this, &fileManager, &registerManager));
+   attach(std::make_unique<Prepend>(this, &fileManager, &registerManager));
+   attach(std::make_unique<NewlineInsert>(this, &fileManager, &registerManager));
+   attach(std::make_unique<AppendToLine>(this, &fileManager, &registerManager));
    attach(std::make_unique<Write>(this, &fileManager, &registerManager));
    attach(std::make_unique<Quit>(this, &fileManager, &registerManager));
    attach(std::make_unique<WriteQuit>(this, &fileManager, &registerManager));
@@ -18,10 +22,8 @@ Vm::Vm(const std::string &fileName): Model(std::make_unique<CurseKeyboard>(), st
 
 void Vm::runVm() {
     while(running) {
-        updateViews(fileManager.getLines(offset, numLines), fileManager.getCursorPosition());
-        log("updateviews");
+        updateViews(fileManager.getLines(offset, numLines));
         updateViewCursors(fileManager.getCursorPosition());
-        log("update cursors");
         displayViews();
 
         CommandInfo info = getCommand(this);
@@ -29,12 +31,14 @@ void Vm::runVm() {
     }
 }
 
-void Vm::runInsertMode() {
+std::string Vm::runInsertMode() {
     insertMode = true;
+    std::string inserted = "";
+    bool motionUsed = false;
     updateViewBottomTexts("-- INSERT --");
     log("insert mode");
     while(insertMode) {
-        updateViews(fileManager.getLines(offset, numLines), fileManager.getCursorPosition());
+        updateViews(fileManager.getLines(offset, numLines));
         updateViewCursors(fileManager.getCursorPosition());
         displayViews();
         log("getting input");
@@ -43,25 +47,35 @@ void Vm::runInsertMode() {
         if (is_escape(c)) {//escape char
             insertMode = false;
             updateViewBottomTexts("");
+            fileManager.leaveInsertMode();
             break;
         }
         else if (is_left(c)) {
+            motionUsed = true;
             fileManager.moveCursorPosition(-1,0,true);
         }
         else if (is_right(c)) {
+            motionUsed = true;
             fileManager.moveCursorPosition(1,0,true);
         }
         else if (is_up(c)) {
+            motionUsed = true;
             fileManager.moveCursorPosition(0,-1,true);
         }
         else if (is_down(c)) {
+            motionUsed = true;
             fileManager.moveCursorPosition(0,1,true);
         }
         else if (is_backspace(c)) {
+            inserted.pop_back();
             fileManager.deleteChar();
         }
-        else fileManager.insertChar(c);
+        else {
+            inserted.push_back(c);
+            fileManager.insertChar(c);
+        }
     }
+    return motionUsed? "": inserted;
 }
 
 void Vm::addFootprint(std::unique_ptr<Footprint> &&f) {
@@ -82,8 +96,4 @@ CommandInfo Vm::getPrevCommand() {
 
 void Vm::quit() {
     running = false;
-}
-
-template<typename T> void Vm::log(T s) {
-    logger << s << std::endl;
 }

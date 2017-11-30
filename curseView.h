@@ -10,7 +10,6 @@ class CurseView: public View {
     int ceilDiv(int a, int b);
     Position toScreenPosition(Position p);
     bool onScreen(Position p);
-    bool inPartialMode();
     void adjustTopLeft(Position p);
     public:
         CurseView();
