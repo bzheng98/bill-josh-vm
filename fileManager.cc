@@ -74,7 +74,7 @@ void FileManager::insertChar(char c) {
         return;
     }
     curLineIter->insert(curLineIter->begin()+cursorPosition.getCol(), c);
-    cursorPosition.setCol(cursorPosition.getCol()+1);
+    moveCursorPosition(1,0,true);
 }
 
 void FileManager::deleteChar() {
@@ -133,8 +133,19 @@ std::string FileManager::replaceText(const std::string &s, const Position &p, in
     return replaced + replaceText(s, p, count-1);;
 }
 
-void FileManager::deleteText(const Position &start, const Position &end) {
-    throw;
+void FileManager::deleteText(const Range &range) {
+    const Position &begin = range.getStart();
+    const Position &end = range.getEnd();
+    int l = begin.getLine();
+    auto firstRowIter = lines.begin();
+    std::advance(firstRowIter, l);
+    auto lastRowIter = firstRowIter;
+    std::advance(lastRowIter, end.getLine()-l);
+    std::string s = lastRowIter->substr(end.getCol());
+    firstRowIter->erase(begin.getCol());
+    firstRowIter->append(s);
+    if (begin.getLine() < end.getLine())
+        lines.erase(std::next(firstRowIter), std::next(lastRowIter));
 }
 
 void FileManager::saveFile() {
@@ -158,7 +169,7 @@ void FileManager::goToEndOfLine(bool insertMode) {
 }
 
 void FileManager::leaveInsertMode() {
-    cursorPosition.setCol(std::max(0,cursorPosition.getCol()-1));
+    moveCursorPosition(-1,0,true);
 }
 
 void FileManager::moveCursorBack() {

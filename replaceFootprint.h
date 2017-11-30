@@ -4,9 +4,9 @@
 #include "deleteFootprint.h"
 
 class ReplaceFootprint: public InsertFootprint, public DeleteFootprint {
+    void undoFootprint(FileManager &fm) override;
   public:
     ReplaceFootprint(const Position &begin, const Position &end, const std::string &replaced):
-        Footprint{},
         InsertFootprint{begin,end},
         DeleteFootprint{begin, replaced} {}
 };

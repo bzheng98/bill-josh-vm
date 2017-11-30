@@ -16,5 +16,6 @@ enum CommandType {
     WRITEQUIT,
     QUIT, 
 	SCROLLUP,
-	SCROLLDOWN};
+	SCROLLDOWN,
+    UNDO};
 #endif

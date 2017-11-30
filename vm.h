@@ -24,9 +24,10 @@ class Vm: public Model, public Subject {
     void runVm();
     std::string runInsertMode(std::string &inserted, bool replace = false);
     void addFootprint(std::unique_ptr<Footprint> &&f);
-    void popFootprint();
-    Footprint getLastFootprint();
+    void popLastFootprint();
+    Footprint &getLastFootprint();
     CommandInfo getPrevCommand();
     void quit();
+    bool hasFootprint();
 };
 #endif

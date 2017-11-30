@@ -4,6 +4,7 @@
 #include <list>
 #include <vector>
 #include "position.h"
+#include "range.h"
 
 class FileManager {
     const std::string fileName;
@@ -23,7 +24,7 @@ class FileManager {
     void deleteChar();
     void insertText(const std::string &s, const Position &p, int count = 1);
     std::string replaceText(const std::string &s, const Position &p, int count = 1);
-    void deleteText(const Position &start, const Position &end);
+    void deleteText(const Range &range);
     void saveFile();
     void createAndGoToNewLine(bool above);
     void goToEndOfLine(bool insertMode = false);

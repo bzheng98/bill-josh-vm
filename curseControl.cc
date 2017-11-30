@@ -16,7 +16,8 @@ CurseKeyboard::CurseKeyboard(): mapping{
     {"l", CommandType::RIGHT},
     {":w", CommandType::WRITE},
     {":wq", CommandType::WRITEQUIT},
-    {":q", CommandType::QUIT}} {
+    {":q", CommandType::QUIT},
+    {"u", CommandType::UNDO}} {
 }
 
 CommandInfo CurseKeyboard::commandType(Model *caller) {

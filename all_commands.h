@@ -11,3 +11,4 @@
 #include "write.h"
 #include "quit.h"
 #include "writequit.h"
+#include "undo.h"
