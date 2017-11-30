@@ -2,3 +2,4 @@ test.txt
 log.txt
 *.o
 *.d
+myvm
