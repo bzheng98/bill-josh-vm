@@ -23,8 +23,11 @@ class Model {
     void updateViews(const std::vector<std::string> &buf, Position p);
     void updateViewCursors(Position p);
     void updateViewBottomTexts(const std::string &s);
+    void scrollViewsDown();
+    void scrollViewsUp();
     int getChar();
     CommandInfo getCommand(Model *m);
     void displayViews();
+
 };
 #endif

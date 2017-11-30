@@ -150,6 +150,10 @@ void CurseView::update(const std::vector<std::string> &buf, Position p) {
     } 
 }
 
+bool CurseView::atBottom() {
+    
+}
+
 void CurseView::updateCursor(Position p) {
     //update the cursor
     Position newPos = toScreenPosition(p);
@@ -170,3 +174,21 @@ void CurseView::updateBottomText(const std::string &s) {
     mvaddstr(lines - 1, 0, s.c_str());
     move(prevY, prevX);
 }
+
+//scroll down half
+void CurseView::scrollDown(int cnt) {
+    int lines, cols;
+    getmaxyx(stdscr, lines, cols);
+    for(int i = 0; i < (lines - 1) / 2; i++) {
+	int sz = buffer[topLeft.getLine()].size();
+	if(sz - topLeft.getCol()) {
+	    
+	}	
+    }    
+}
+
+//scroll up half
+void curseView::scrollUp(int cnt) {
+    
+}
+
