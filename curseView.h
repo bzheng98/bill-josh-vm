@@ -11,12 +11,15 @@ class CurseView: public View {
     Position toScreenPosition(Position p);
     bool onScreen(Position p);
     void adjustTopLeft(Position p);
+	bool inPartialMode();
     public:
         CurseView();
         ~CurseView() override;
-	void update(const std::vector<std::string> &buf, Position p) override;
+		void update(const std::vector<std::string> &buf, Position p) override;
         void updateCursor(Position p) override;
         void updateView() override;
         void updateBottomText(const std::string &s) override;
+		void scrollDown() override;
+		void scrollUp() override;
 };
 #endif

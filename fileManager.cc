@@ -23,8 +23,8 @@ void FileManager::setCursorPosition(Position p, bool changeLastCol, bool insertM
     lineDiff = cursorPosition.getLine() - lineDiff;
     std::advance(curLineIter, lineDiff);
 
-    p.setCol(std::min((int)curLineIter->size() - (insertMode? 0:1), p.getCol()));
-    p.setCol(std::max(0, p.getCol()));
+    p.setCol(std::min((int)lines[p.getLine()].size() - (insertMode ? 0 : 1), p.getCol()));
+	p.setCol(std::max(0, p.getCol()));
     cursorPosition = p;
     
     if(changeLastCol && !(oldCursor.getCol() == cursorPosition.getCol() && oldCursor.getLine() == cursorPosition.getLine())) { 

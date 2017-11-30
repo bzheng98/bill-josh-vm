@@ -23,7 +23,7 @@ class Model {
   public:
     Model(std::unique_ptr<Controller> &&control, std::unique_ptr<View> &&view);
     virtual ~Model() = default;
-    void updateViews(const std::vector<std::string> &buf);
+    void updateViews(const std::vector<std::string> &buf, Position p);
     void updateViewCursors(Position p);
     void updateViewBottomTexts(const std::string &s);
     void scrollViewsDown();

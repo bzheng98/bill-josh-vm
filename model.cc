@@ -4,9 +4,9 @@ Model::Model(std::unique_ptr<Controller> &&control, std::unique_ptr<View> &&view
     views.emplace_back(std::move(view));
 }
 
-void Model::updateViews(const std::vector<std::string> &buf) {
+void Model::updateViews(const std::vector<std::string> &buf, Position p) {
     for(auto& view : views) {
-        view -> update(buf);
+        view -> update(buf, p);
     }
 }
 
