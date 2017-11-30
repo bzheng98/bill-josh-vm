@@ -19,7 +19,11 @@ void FileManager::setCursorPosition(Position p, bool changeLastCol, bool insertM
     std::vector<std::string> lines = getLines(0, (this->lines).size());
     p.setLine(std::min((int)lines.size() - 1, p.getLine()));
     p.setLine(std::max(0, p.getLine()));
-    p.setCol(std::min((int)lines[p.getLine()].size() - (insertMode? 0:1), p.getCol()));
+
+    lineDiff = cursorPosition.getLine() - lineDiff;
+    std::advance(curLineIter, lineDiff);
+
+    p.setCol(std::min((int)curLineIter->size() - (insertMode? 0:1), p.getCol()));
     p.setCol(std::max(0, p.getCol()));
     cursorPosition = p;
     
@@ -27,8 +31,6 @@ void FileManager::setCursorPosition(Position p, bool changeLastCol, bool insertM
         lastCol = cursorPosition.getCol();
     }
 
-    lineDiff = cursorPosition.getLine() - lineDiff;
-    std::advance(curLineIter, lineDiff);
 }
 
 void FileManager::setCursorPosition(Position p) {
@@ -116,4 +118,21 @@ void FileManager::saveFile() {
     for (const auto &line: lines) {
         f << line << std::endl;
     }
+}
+
+void FileManager::createAndGoToNewLine(bool above) {
+    if (!above) {
+        ++curLineIter;
+        cursorPosition.setLine(cursorPosition.getLine()+1);
+    }
+    curLineIter = lines.insert(curLineIter, "");
+    cursorPosition.setCol(0);
+}
+
+void FileManager::goToEndOfLine(bool insertMode) {
+    cursorPosition.setCol(curLineIter->size() - (insertMode? 0:1));
+}
+
+void FileManager::leaveInsertMode() {
+    cursorPosition.setCol(std::min(cursorPosition.getCol(), std::max(0,(int)curLineIter->size()-1)));
 }

@@ -13,6 +13,8 @@ Vm::Vm(const std::string &fileName): Model(std::make_unique<CurseKeyboard>(), st
    attach(std::make_unique<Insert>(this, &fileManager, &registerManager));
    attach(std::make_unique<Append>(this, &fileManager, &registerManager));
    attach(std::make_unique<Prepend>(this, &fileManager, &registerManager));
+   attach(std::make_unique<NewlineInsert>(this, &fileManager, &registerManager));
+   attach(std::make_unique<AppendToLine>(this, &fileManager, &registerManager));
    attach(std::make_unique<Write>(this, &fileManager, &registerManager));
    attach(std::make_unique<Quit>(this, &fileManager, &registerManager));
    attach(std::make_unique<WriteQuit>(this, &fileManager, &registerManager));
@@ -45,6 +47,7 @@ std::string Vm::runInsertMode() {
         if (is_escape(c)) {//escape char
             insertMode = false;
             updateViewBottomTexts("");
+            fileManager.leaveInsertMode();
             break;
         }
         else if (is_left(c)) {
