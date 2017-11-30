@@ -176,10 +176,69 @@ void CurseView::updateBottomText(const std::string &s) {
     move(prevY, prevX);
 }
 
-void CurseView::scrollDown() {
-
+bool CurseView::atBottom() {
+	int lines, cols;
+	getmaxyx(stdscr, lines, cols);
+	int linesLeft = lines - 1;
+	for(int i = topLeft.getLine(); i < buffer.size(); i++) {
+		linesLeft -= std::max(1, ceilDiv(buffer[i].size(), cols));
+	}
+	return linesLeft >= 0;
 }
 
-void CurseView::scrollUp() {
+bool CurseView::atTop() {
+	return topLeft.getLine() == 0 && topLeft.getCol() == 0;
+}
 
+void CurseView::scrollEnd() {
+	if(topLeft.getCol() != 0) {
+		int sz = buffer[topLeft.getLine()].size();
+		if(topLeft.getCol() < sz / 2) {
+			topLeft.setCol(0);		
+		}
+		else {
+			topLeft.setCol(0);
+			topLeft.setLine(topLeft.getLine() + 1);
+		}
+	}
+}
+
+//half a page
+void CurseView::scrollDown() {
+	int lines, cols;
+	getmaxyx(stdscr, lines, cols);
+	int cnt = (lines - 1) / 2;
+	for(int i = 0; i < cnt; i++) {
+		int sz = buffer[topLeft.getLine()].size();
+		topLeft.setCol(topLeft.getCol() + cols);
+		if(topLeft.getCol() >= sz) {
+			topLeft.setLine(topLeft.getLine() + 1);
+			topLeft.setCol(0);
+		}
+		if(atBottom()) {
+			break;
+		}
+	}
+	scrollEnd();
+}
+
+//half a page
+void CurseView::scrollUp() {
+	int lines, cols;
+	getmaxyx(stdscr, lines, cols);
+	int cnt = (lines - 1) / 2;
+	for(int i = 0; i < cnt; i++) {
+		int sz = buffer[topLeft.getLine()].size();
+		if(topLeft.getCol() == 0) {
+			topLeft.setLine(topLeft.getLine() - 1);
+			topLeft.setCol(((sz - 1) / cols) * cols);
+		}
+		else {
+			topLeft.setCol(topLeft.getCol() - cols);
+		}
+		if(atTop()) {
+			break;
+		}
+	}
+	scrollEnd();
 }

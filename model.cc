@@ -24,7 +24,7 @@ void Model::displayViews() {
 
 void Model::scrollViewsDown() {
     for(auto& view : views) {
-	view -> scrollDown();
+		view -> scrollDown();
     }
 }
 

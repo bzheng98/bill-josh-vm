@@ -11,6 +11,9 @@ class CurseView: public View {
     Position toScreenPosition(Position p);
     bool onScreen(Position p);
     void adjustTopLeft(Position p);
+	void scrollEnd();
+	bool atBottom();
+	bool atTop();	
 	bool inPartialMode();
     public:
         CurseView();
