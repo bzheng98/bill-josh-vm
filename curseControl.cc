@@ -9,6 +9,7 @@ CurseKeyboard::CurseKeyboard(): mapping{
     {"o", CommandType::NEWLINE_BELOW},
     {"O", CommandType::NEWLINE_ABOVE},
     {"A", CommandType::APPEND_TO_LINE},
+    {"R", CommandType::ENTER_REPLACE_MODE},
     {"h", CommandType::LEFT},
     {"j", CommandType::DOWN},
     {"k", CommandType::UP},

@@ -22,10 +22,13 @@ class FileManager {
     void insertChar(char c);
     void deleteChar();
     void insertText(const std::string &s, const Position &p, int count = 1);
+    std::string replaceText(const std::string &s, const Position &p, int count = 1);
     void deleteText(const Position &start, const Position &end);
     void saveFile();
     void createAndGoToNewLine(bool above);
     void goToEndOfLine(bool insertMode = false);
     void leaveInsertMode();
+    void moveCursorBack();
+    int replaceChar(char c);
 };
 #endif

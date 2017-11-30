@@ -13,7 +13,7 @@
 
 
 class Vm: public Model, public Subject {
-    bool running, insertMode;
+    bool running;
     FileManager fileManager;
     RegisterManager registerManager;
     std::vector<std::unique_ptr<Footprint> > footprints;
@@ -22,7 +22,7 @@ class Vm: public Model, public Subject {
   public:
     Vm(const std::string &fileName);
     void runVm();
-    std::string runInsertMode();
+    std::string runInsertMode(std::string &inserted, bool replace = false);
     void addFootprint(std::unique_ptr<Footprint> &&f);
     void popFootprint();
     Footprint getLastFootprint();

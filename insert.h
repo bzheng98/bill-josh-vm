@@ -5,7 +5,9 @@
 
 class Insert: public InsertMode {
   public:
-    Insert(Vm *vm, FileManager *fm, RegisterManager *rm): InsertMode{vm, fm, rm} {}
+    Insert(Vm *vm, FileManager *fm, RegisterManager *rm):
+        Command{vm,fm,rm},
+        InsertMode{vm, fm, rm} {}
     void update(const CommandInfo &c) override;
 };
 

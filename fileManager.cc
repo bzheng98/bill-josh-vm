@@ -20,7 +20,7 @@ void FileManager::setCursorPosition(Position p, bool changeLastCol, bool insertM
     p.setLine(std::min((int)lines.size() - 1, p.getLine()));
     p.setLine(std::max(0, p.getLine()));
 
-    lineDiff = cursorPosition.getLine() - lineDiff;
+    lineDiff = p.getLine() - lineDiff;
     std::advance(curLineIter, lineDiff);
 
     p.setCol(std::min((int)lines[p.getLine()].size() - (insertMode ? 0 : 1), p.getCol()));
@@ -79,9 +79,22 @@ void FileManager::insertChar(char c) {
 
 void FileManager::deleteChar() {
     int c = cursorPosition.getCol();
-    if (!c) return;
+    if (!c) {
+        int r = cursorPosition.getLine();
+        if (r) {
+            auto it = std::prev(curLineIter);
+            cursorPosition.setLine(r-1);
+            cursorPosition.setCol(it->size());
+            it->append(*curLineIter);
+            lines.erase(curLineIter);
+            curLineIter = it;
+        }
+        return;
+    }
+    //char ret = (*curLineIter)[c-1];
     curLineIter->erase(c-1,1);
     cursorPosition.setCol(c-1);
+    //return ret;
 }
 
 void FileManager::insertNewLine() {
@@ -109,6 +122,17 @@ void FileManager::insertText(const std::string &s, const Position &p, int count)
     insertText(s, cursorPosition, count-1);
 }
 
+std::string FileManager::replaceText(const std::string &s, const Position &p, int count) {
+    if (!count) return "";
+    setCursorPosition(p, true, true);
+    std::string replaced;
+    for (size_t i = 0; i < s.length(); ++i) {
+        int k = replaceChar(s[i]);
+        if (k != -1) replaced.push_back((char)k);
+    }
+    return replaced + replaceText(s, p, count-1);;
+}
+
 void FileManager::deleteText(const Position &start, const Position &end) {
     throw;
 }
@@ -134,5 +158,26 @@ void FileManager::goToEndOfLine(bool insertMode) {
 }
 
 void FileManager::leaveInsertMode() {
-    cursorPosition.setCol(std::min(cursorPosition.getCol(), std::max(0,(int)curLineIter->size()-1)));
+    cursorPosition.setCol(std::max(0,cursorPosition.getCol()-1));
+}
+
+void FileManager::moveCursorBack() {
+    if (cursorPosition.getCol())
+        moveCursorPosition(-1,0);
+    else if (cursorPosition.getLine()) {
+        --curLineIter;
+        cursorPosition.setLine(cursorPosition.getLine()-1);
+        cursorPosition.setCol(curLineIter->size()-1);
+    }
+}
+
+int FileManager::replaceChar(char c) {
+    int col = cursorPosition.getCol();
+    int k = -1;
+    if (c != '\n' && col < curLineIter->size()) {
+        k = (*curLineIter)[col];
+        curLineIter->erase(col, 1);
+    }
+    insertChar(c);
+    return k;
 }

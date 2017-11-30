@@ -4,7 +4,7 @@
 
 class Observer {
   public:
-    virtual void update(const CommandInfo &c) = 0;
+    virtual void update(const CommandInfo &c) {};
     virtual ~Observer() {}
 };
 #endif

@@ -1,9 +1,11 @@
 #ifndef INSERTFOOTPRINT_H
 #define INSERTFOOTPRINT_H
 #include "footprint.h"
+#include "range.h"
 
-class InsertFootprint: public Footprint {
+class InsertFootprint: public virtual Footprint {
+    Range range;
   public:
-    InsertFootprint(const Position &begin, const Position &end): Footprint{Range(begin,end)} {}
+    InsertFootprint(const Position &begin, const Position &end): range{begin,end} {}
 };
 #endif

@@ -7,6 +7,7 @@ enum CommandType {
     NEWLINE_ABOVE,
     NEWLINE_BELOW,
     APPEND_TO_LINE,
+    ENTER_REPLACE_MODE,
     LEFT,
     RIGHT,
     UP,

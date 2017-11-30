@@ -5,7 +5,10 @@
 
 class InsertMode: public InsertCommand {
   protected:
-    InsertMode(Vm *vm, FileManager *fm, RegisterManager *rm): InsertCommand{vm, fm, rm} {}
     void doInsertMode(int count);
+  public:
+    InsertMode(Vm *vm, FileManager *fm, RegisterManager *rm):
+        Command{vm,fm,rm},
+        InsertCommand{vm, fm, rm} {}
 };
 #endif

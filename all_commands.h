@@ -7,6 +7,7 @@
 #include "prepend.h"
 #include "newlineInsert.h"
 #include "appendToLine.h"
+#include "enterReplaceMode.h"
 #include "write.h"
 #include "quit.h"
 #include "writequit.h"
