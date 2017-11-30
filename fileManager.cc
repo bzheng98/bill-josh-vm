@@ -68,12 +68,7 @@ const std::vector<std::string> FileManager::getLines(size_t start, size_t n) {
 
 void FileManager::insertChar(char c) {
     if (c == '\n') {
-        auto it = curLineIter;
-        ++curLineIter;
-        curLineIter = lines.insert(curLineIter, it->substr(cursorPosition.getCol()));
-        *it = it->substr(0,cursorPosition.getCol());
-        cursorPosition.setLine(cursorPosition.getLine()+1);
-        cursorPosition.setCol(0);
+        insertNewLine();
         return;
     }
     curLineIter->insert(curLineIter->begin()+cursorPosition.getCol(), c);
@@ -87,8 +82,29 @@ void FileManager::deleteChar() {
     cursorPosition.setCol(c-1);
 }
 
-void FileManager::insertText(const std::string &s, const Position &p) {
-    throw;
+void FileManager::insertNewLine() {
+    auto it = curLineIter;
+    ++curLineIter;
+    curLineIter = lines.insert(curLineIter, it->substr(cursorPosition.getCol()));
+    *it = it->substr(0,cursorPosition.getCol());
+    cursorPosition.setLine(cursorPosition.getLine()+1);
+    cursorPosition.setCol(0);
+}
+
+void FileManager::insertText(const std::string &s, const Position &p, int count) {
+    if (!count) return;
+    setCursorPosition(p, true, true);
+    size_t newLine = 0;
+    size_t prev = 0;
+    while((newLine = s.find('\n', prev)) != std::string::npos) {
+        curLineIter->insert(cursorPosition.getCol(), s.substr(prev, newLine-prev));
+        cursorPosition.setCol(cursorPosition.getCol()+newLine-prev);
+        insertNewLine();
+        prev = newLine+1;
+    }
+    curLineIter->insert(cursorPosition.getCol(), s.substr(prev));
+    cursorPosition.setCol(cursorPosition.getCol()+s.length()-prev);
+    insertText(s, cursorPosition, count-1);
 }
 
 void FileManager::deleteText(const Position &start, const Position &end) {

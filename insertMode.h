@@ -6,6 +6,6 @@
 class InsertMode: public InsertCommand {
   protected:
     InsertMode(Vm *vm, FileManager *fm, RegisterManager *rm): InsertCommand{vm, fm, rm} {}
-    void doInsertMode();
+    void doInsertMode(int count);
 };
 #endif

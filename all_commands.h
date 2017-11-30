@@ -3,6 +3,8 @@
 #include "left.h"
 #include "right.h"
 #include "insert.h"
+#include "append.h"
+#include "prepend.h"
 #include "write.h"
 #include "quit.h"
 #include "writequit.h"

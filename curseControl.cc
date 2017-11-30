@@ -4,6 +4,8 @@
 
 CurseKeyboard::CurseKeyboard(): mapping{
     {"i", CommandType::INSERT},
+    {"a", CommandType::APPEND},
+    {"I", CommandType::PREPEND},
     {"h", CommandType::LEFT},
     {"j", CommandType::DOWN},
     {"k", CommandType::UP},
@@ -16,12 +18,15 @@ CurseKeyboard::CurseKeyboard(): mapping{
 CommandInfo CurseKeyboard::commandType(Model *caller) {
     //get the count
     int count = 0, ch = readChar();
+    caller->log("getCommand: ");
+    caller->log(ch);
     while (ch <= '9' && ch >= '0') {
         count = count * 10 + (ch - '0');
         ch = readChar();
+        caller->log("getCommand: ");
+        caller->log(ch);
     }
-    if(count == 0)count = 1;
-    if(is_escape(ch))throw;
+    if(count == 0) count = 1;
     std::string s;
     if (ch == ':') {
         while(!is_enter(ch)) {
@@ -35,6 +40,8 @@ CommandInfo CurseKeyboard::commandType(Model *caller) {
             else s += ch;
             caller->updateViewBottomTexts(s);
             ch = readChar();
+            caller->log("getCommand: ");
+            caller->log(ch);
         }
     }
     else s = std::string(1, ch);

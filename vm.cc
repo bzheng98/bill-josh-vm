@@ -11,6 +11,8 @@ Vm::Vm(const std::string &fileName): Model(std::make_unique<CurseKeyboard>(), st
    attach(std::make_unique<Left>(this, &fileManager, &registerManager));
    attach(std::make_unique<Right>(this, &fileManager, &registerManager));
    attach(std::make_unique<Insert>(this, &fileManager, &registerManager));
+   attach(std::make_unique<Append>(this, &fileManager, &registerManager));
+   attach(std::make_unique<Prepend>(this, &fileManager, &registerManager));
    attach(std::make_unique<Write>(this, &fileManager, &registerManager));
    attach(std::make_unique<Quit>(this, &fileManager, &registerManager));
    attach(std::make_unique<WriteQuit>(this, &fileManager, &registerManager));
@@ -27,8 +29,10 @@ void Vm::runVm() {
     }
 }
 
-void Vm::runInsertMode() {
+std::string Vm::runInsertMode() {
     insertMode = true;
+    std::string inserted = "";
+    bool motionUsed = false;
     updateViewBottomTexts("-- INSERT --");
     log("insert mode");
     while(insertMode) {
@@ -44,22 +48,31 @@ void Vm::runInsertMode() {
             break;
         }
         else if (is_left(c)) {
+            motionUsed = true;
             fileManager.moveCursorPosition(-1,0,true);
         }
         else if (is_right(c)) {
+            motionUsed = true;
             fileManager.moveCursorPosition(1,0,true);
         }
         else if (is_up(c)) {
+            motionUsed = true;
             fileManager.moveCursorPosition(0,-1,true);
         }
         else if (is_down(c)) {
+            motionUsed = true;
             fileManager.moveCursorPosition(0,1,true);
         }
         else if (is_backspace(c)) {
+            inserted.pop_back();
             fileManager.deleteChar();
         }
-        else fileManager.insertChar(c);
+        else {
+            inserted.push_back(c);
+            fileManager.insertChar(c);
+        }
     }
+    return motionUsed? "": inserted;
 }
 
 void Vm::addFootprint(std::unique_ptr<Footprint> &&f) {
@@ -80,8 +93,4 @@ CommandInfo Vm::getPrevCommand() {
 
 void Vm::quit() {
     running = false;
-}
-
-template<typename T> void Vm::log(T s) {
-    logger << s << std::endl;
 }

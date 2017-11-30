@@ -11,6 +11,7 @@ class FileManager {
     std::list<std::string>::iterator curLineIter;
     Position cursorPosition;
     int lastCol;
+    void insertNewLine();
   public:
     FileManager(const std::string &fileName);
     void setCursorPosition(Position p, bool changeLastCol, bool insertMode = false);
@@ -20,7 +21,7 @@ class FileManager {
     const std::vector<std::string> getLines(size_t start, size_t n);
     void insertChar(char c);
     void deleteChar();
-    void insertText(const std::string &s, const Position &p);
+    void insertText(const std::string &s, const Position &p, int count = 1);
     void deleteText(const Position &start, const Position &end);
     void saveFile();
 };

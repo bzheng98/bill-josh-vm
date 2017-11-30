@@ -2,6 +2,8 @@
 #define COMMANDTYPE_H
 enum CommandType {
     INSERT,
+    APPEND,
+    PREPEND,
     LEFT,
     RIGHT,
     UP,
