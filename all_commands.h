@@ -14,3 +14,4 @@
 #include "undo.h"
 #include "delete.h"
 #include "yank.h"
+#include "paste.h"

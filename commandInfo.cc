@@ -17,7 +17,8 @@ const std::map<std::string, CommandType> CommandInfo::mapping{
     {":q", CommandType::QUIT},
     {"u", CommandType::UNDO},
     {"d", CommandType::DELETE},
-    {"y", CommandType::DELETE}
+    {"y", CommandType::YANK},
+    {"p", CommandType::PASTE}
 };
 
 const std::set<char> CommandInfo::motionCommands{

@@ -6,5 +6,5 @@ void Prepend::update(const CommandInfo &c) {
     Position p = fileManager->getCursorPosition();
     p.setCol(0);
     fileManager->setCursorPosition(p, true);
-    doInsertMode(c.getCount());
+    doInsertMode(c.getCount(), fileManager->getCursorPosition());
 }

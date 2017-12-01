@@ -6,7 +6,7 @@
 
 class InsertCommand: public virtual Command {
   protected:
-    void createInsertFootprint(const Position &start, const Position &end);
+    void createInsertFootprint(const Position &start, const Position &end, const Position &cursor);
   public:
     InsertCommand(Vm *vm, FileManager *fileManager, RegisterManager *registerManager):
         Command{vm, fileManager, registerManager} {}
