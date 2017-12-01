@@ -42,8 +42,8 @@ bool is_newline(char c) {
     return c == '\n';
 }
 
-#include <iostream>
-Position CursorManager::getForwardWord() {
+Position CursorManager::getForwardWord(int count) {
+    if (!count) return fm->cursorPosition;
     Position original = fm->cursorPosition;
     bool alphaNum = is_alphanumeric(fm->getCharAtCursor());
     Position prevPos{-1,-1};
@@ -71,12 +71,13 @@ Position CursorManager::getForwardWord() {
         prevPos = fm->cursorPosition;
         fm->setCursorPosition(getNext(true), false, true);
     }
-    prevPos = fm->cursorPosition;
+    prevPos = getForwardWord(count-1);
     fm->setCursorPosition(original, false, true);
     return prevPos;
 }
 
-Position CursorManager::getBackWord() {
+Position CursorManager::getBackWord(int count) {
+    if (!count) return fm->cursorPosition;
     Position original = fm->cursorPosition;
     Position prevPos = original;
     fm->setCursorPosition(getPrev(true), false, true);
@@ -94,6 +95,8 @@ Position CursorManager::getBackWord() {
         fm->setCursorPosition(getPrev(true), false, true);
     }
     if (is_newline(c)) {
+        fm->setCursorPosition(prevPos, false, true);
+        prevPos = getBackWord(count-1);
         fm->setCursorPosition(original, false, true);
         return prevPos;
     }
@@ -109,40 +112,44 @@ Position CursorManager::getBackWord() {
         prevPos = fm->cursorPosition;
         fm->setCursorPosition(getPrev(true), false, true);
     }
+    fm->setCursorPosition(prevPos, false, true);
+    prevPos = getBackWord(count-1);
     fm->setCursorPosition(original, false, true);
     return prevPos;
-
-    throw;
 }
 
-Position CursorManager::getLeft() {
+Position CursorManager::getLeft(int count) {
+    if (!count) return fm->cursorPosition;
     Position original = fm->cursorPosition;
     fm->moveCursorPosition(-1,0);
-    Position newPos = fm->cursorPosition;
+    Position newPos = getLeft(count-1);
     fm->setCursorPosition(original, false, true);
     return newPos;
 }
 
-Position CursorManager::getRight() {
+Position CursorManager::getRight(int count) {
+    if (!count) return fm->cursorPosition;
     Position original = fm->cursorPosition;
     fm->moveCursorPosition(1,0);
-    Position newPos = fm->cursorPosition;
+    Position newPos = getRight(count-1);
     fm->setCursorPosition(original, false, true);
     return newPos;
 }
 
-Position CursorManager::getUp() {
+Position CursorManager::getUp(int count) {
+    if (!count) return fm->cursorPosition;
     Position original = fm->cursorPosition;
     fm->moveCursorPosition(0,-1);
-    Position newPos = fm->cursorPosition;
+    Position newPos = getUp(count-1);
     fm->setCursorPosition(original, false, true);
     return newPos;
 }
 
-Position CursorManager::getDown() {
+Position CursorManager::getDown(int count) {
+    if (!count) return fm->cursorPosition;
     Position original = fm->cursorPosition;
     fm->moveCursorPosition(0,1);
-    Position newPos = fm->cursorPosition;
+    Position newPos = getDown(count-1);;
     fm->setCursorPosition(original, false, true);
     return newPos;
 }

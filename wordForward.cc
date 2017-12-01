@@ -6,9 +6,9 @@ bool WordForward::checkCommand(const CommandInfo &c) {
 }
 
 Position WordForward::getMotionResult(const CommandInfo &c) {
-    return fileManager->cursor.getForwardWord();
+    return fileManager->cursor.getForwardWord(c.getCount());
 }
 
-bool WordForward::isChangeCol() {
-    return true;
+bool WordForward::isLinewise() {
+    return false;
 }

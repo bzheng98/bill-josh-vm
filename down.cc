@@ -6,9 +6,9 @@ bool Down::checkCommand(const CommandInfo &c) {
 }
 
 Position Down::getMotionResult(const CommandInfo &c) {
-    return fileManager->cursor.getDown();
+    return fileManager->cursor.getDown(c.getCount());
 }
 
-bool Down::isChangeCol() {
-    return false;
+bool Down::isLinewise() {
+    return true;
 }

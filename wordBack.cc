@@ -6,9 +6,9 @@ bool WordBack::checkCommand(const CommandInfo &c) {
 }
 
 Position WordBack::getMotionResult(const CommandInfo &c) {
-    return fileManager->cursor.getBackWord();
+    return fileManager->cursor.getBackWord(c.getCount());
 }
 
-bool WordBack::isChangeCol() {
-    return true;
+bool WordBack::isLinewise() {
+    return false;
 }

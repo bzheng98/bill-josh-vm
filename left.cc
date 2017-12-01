@@ -6,9 +6,9 @@ bool Left::checkCommand(const CommandInfo &c) {
 }
 
 Position Left::getMotionResult(const CommandInfo &c) {
-    return fileManager->cursor.getLeft();
+    return fileManager->cursor.getLeft(c.getCount());
 }
 
-bool Left::isChangeCol() {
-    return true;
+bool Left::isLinewise() {
+    return false;
 }

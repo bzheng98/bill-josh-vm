@@ -7,7 +7,7 @@
 
 class CommandInfo {
     static const std::map<std::string, CommandType> mapping;
-    static const std::set<char> motionCommands;
+    static const std::set<CommandType> motionCommands;
     CommandType commandType;
     int count;
   public:
@@ -16,6 +16,6 @@ class CommandInfo {
     int getCount() const { return count; }
     static bool isCommand(const std::string &s);
     static CommandType getCommandType(const std::string &s);
-    static bool isMotionCommand(char c);
+    static bool isMotionCommand(const CommandInfo &c);
 };
 #endif

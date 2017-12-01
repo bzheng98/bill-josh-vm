@@ -29,6 +29,7 @@ class Model {
     void scrollViewsDown();
     void scrollViewsUp();
     int getChar();
+    void ungetChar(int c);
     CommandInfo getCommand(Model *m);
     void displayViews();
     template<typename T> void log(T s) {

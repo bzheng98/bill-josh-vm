@@ -25,7 +25,7 @@ const std::map<std::string, CommandType> CommandInfo::mapping{
     {"b", CommandType::WORD_BACK}
 };
 
-const std::set<char> CommandInfo::motionCommands{
+const std::set<CommandType> CommandInfo::motionCommands{
 };
 
 bool CommandInfo::isCommand(const std::string &s) {
@@ -36,6 +36,6 @@ CommandType CommandInfo::getCommandType(const std::string &s) {
     return mapping.at(s);
 }
 
-bool CommandInfo::isMotionCommand(char c) {
-    return motionCommands.find(c) != motionCommands.end();
+bool CommandInfo::isMotionCommand(const CommandInfo &c) {
+    return motionCommands.find(c.getCommandType()) != motionCommands.end();
 }

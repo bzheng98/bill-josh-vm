@@ -44,3 +44,7 @@ CommandInfo CurseKeyboard::commandType(Model *caller) {
 int CurseKeyboard::readChar() {
     return getch();
 }
+
+void CurseKeyboard::putChar(int c) {
+    ungetch(c);
+}

@@ -7,7 +7,7 @@
 class MotionCommand: public CursorMotionCommand {
     bool virtual checkCommand(const CommandInfo &c);
     Position virtual getMotionResult(const CommandInfo &c);
-    bool virtual isChangeCol();
+    bool virtual isLinewise();
   public:
     MotionCommand(Vm *vm, FileManager *fileManager, RegisterManager *registerManager):
         Command{vm, fileManager, registerManager},

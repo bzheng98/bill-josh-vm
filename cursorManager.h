@@ -11,12 +11,12 @@ class CursorManager {
     void bind(FileManager *fm) { this->fm = fm; }
     Position getNext(bool countNewline);
     Position getPrev(bool countNewline);
-    Position getForwardWord();
-    Position getBackWord();
-    Position getLeft();
-    Position getRight();
-    Position getUp();
-    Position getDown();
+    Position getForwardWord(int count);
+    Position getBackWord(int count);
+    Position getLeft(int count);
+    Position getRight(int count);
+    Position getUp(int count);
+    Position getDown(int count);
     Position findForward(char c);
     Position findBackward(char c);
     Position getLine(int line);
