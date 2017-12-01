@@ -3,3 +3,5 @@ log.txt
 *.o
 *.d
 myvm
+cursor.txt
+out.txt

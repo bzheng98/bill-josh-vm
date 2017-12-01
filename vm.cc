@@ -95,7 +95,7 @@ std::string Vm::runInsertMode(std::string &inserted, bool replace) {
             else {
                 fileManager.deleteChar();
             }
-            if (!motionUsed)
+            if (!motionUsed && inserted.size())
                 inserted.pop_back();
         }
         else {

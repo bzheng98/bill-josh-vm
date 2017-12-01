@@ -7,6 +7,8 @@ void InsertMode::doInsertMode(int count) {
     vm->runInsertMode(s);
     if (count > 1)
         fileManager->insertText(s, fileManager->getCursorPosition(), count-1);
-    createInsertFootprint(startingPos, fileManager->getCursorPosition());
+    const Position &endingPos = fileManager->getCursorPosition();
+    if (startingPos < endingPos)
+        createInsertFootprint(startingPos, fileManager->getCursorPosition());
     fileManager->leaveInsertMode();
 }
