@@ -1,4 +1,5 @@
 #include "append.h"
+#include "fileManager.h"
 
 void Append::update(const CommandInfo &c) {
     if (c.getCommandType() != APPEND) return;

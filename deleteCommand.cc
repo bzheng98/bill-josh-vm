@@ -2,6 +2,7 @@
 #include <string>
 #include <memory>
 #include "deleteFootprint.h"
+#include "vm.h"
 
 void DeleteCommand::deleteRange(const Range &range) {
     std::string deleted = fileManager->deleteText(range, true);

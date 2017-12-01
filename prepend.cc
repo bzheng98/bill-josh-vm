@@ -1,4 +1,5 @@
 #include "prepend.h"
+#include "fileManager.h"
 
 void Prepend::update(const CommandInfo &c) {
     if (c.getCommandType() != PREPEND) return;

@@ -2,6 +2,7 @@
 #define YANK_H
 
 #include "writeRegisterCommand.h"
+#include "range.h"
 
 class Yank: public WriteRegisterCommand {
   public:

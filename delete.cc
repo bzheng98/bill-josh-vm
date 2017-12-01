@@ -3,6 +3,7 @@
 #include "motionCommand.h"
 #include "range.h"
 #include "commandInfo.h"
+#include "vm.h"
 
 void Delete::update(const CommandInfo &c) {
     if (c.getCommandType() != DELETE) return;

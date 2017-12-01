@@ -1,12 +1,10 @@
 #ifndef COMMAND_H
 #define COMMAND_H
-#include "vm.h"
-#include "fileManager.h"
-#include "registerManager.h"
-#include "commandType.h"
 #include "observer.h"
 
-enum CommandType;
+class Vm;
+class FileManager;
+class RegisterManager;
 
 class Command: public Observer {
   protected:

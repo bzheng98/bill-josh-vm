@@ -1,6 +1,8 @@
 #include "enterReplaceMode.h"
 #include "replaceFootprint.h"
 #include <string>
+#include "vm.h"
+#include "fileManager.h"
 
 void EnterReplaceMode::update(const CommandInfo &c) {
     if (c.getCommandType() != ENTER_REPLACE_MODE) return;

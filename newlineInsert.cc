@@ -1,4 +1,5 @@
 #include "newlineInsert.h"
+#include "fileManager.h"
 
 void NewlineInsert::update(const CommandInfo &c) {
     bool above;

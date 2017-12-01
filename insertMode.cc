@@ -1,5 +1,7 @@
 #include "insertMode.h"
 #include <string>
+#include "vm.h"
+#include "fileManager.h"
 
 void InsertMode::doInsertMode(int count) {
     Position startingPos = fileManager->getCursorPosition();
