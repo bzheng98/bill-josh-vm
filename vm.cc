@@ -21,6 +21,7 @@ Vm::Vm(const std::string &fileName): Model(std::make_unique<CurseKeyboard>(), st
    attach(std::make_unique<WriteQuit>(this, &fileManager, &registerManager));
    attach(std::make_unique<Undo>(this, &fileManager, &registerManager));
    attach(std::make_unique<Delete>(this, &fileManager, &registerManager));
+   attach(std::make_unique<Yank>(this, &fileManager, &registerManager));
 }
 
 void Vm::runVm() {

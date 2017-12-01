@@ -218,3 +218,21 @@ int FileManager::replaceChar(char c) {
     insertChar(c);
     return k;
 }
+
+std::string FileManager::getText(const Range &range) {
+    const Position &start = range.getStart();
+    const Position &end = range.getEnd();
+    auto it = lines.begin();
+    std::advance(it, start.getLine());
+    if (start.getLine() == end.getLine()) {
+        return it->substr(start.getCol(), end.getCol()-start.getCol());
+    }
+    std::string s = it->substr(start.getCol());
+    for (int i = 1; i < end.getLine()-start.getLine(); ++i) {
+        ++it;
+        s += *it;
+    }
+    ++it;
+    s += it->substr(0, end.getCol());
+    return s;
+}

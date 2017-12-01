@@ -13,3 +13,4 @@
 #include "writequit.h"
 #include "undo.h"
 #include "delete.h"
+#include "yank.h"
