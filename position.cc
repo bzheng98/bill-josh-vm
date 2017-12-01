@@ -27,5 +27,5 @@ bool Position::operator!=(const Position &other) const {
 }
 
 bool Position::operator==(const Position &other) const {
-    return line == other.line && col != other.col;
+    return line == other.line && col == other.col;
 }

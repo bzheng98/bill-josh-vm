@@ -17,3 +17,6 @@
 #include "scrollDown.h"
 #include "yank.h"
 #include "paste.h"
+#include "wordForward.h"
+#include "wordBack.h"
+

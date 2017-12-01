@@ -20,7 +20,9 @@ const std::map<std::string, CommandType> CommandInfo::mapping{
     {"^u", CommandType::SCROLLUP},
     {"^d", CommandType::SCROLLDOWN},
     {"y", CommandType::YANK},
-    {"p", CommandType::PASTE}
+    {"p", CommandType::PASTE},
+    {"w", CommandType::WORD_FORWARD},
+    {"b", CommandType::WORD_BACK}
 };
 
 const std::set<char> CommandInfo::motionCommands{

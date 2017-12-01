@@ -25,6 +25,8 @@ Vm::Vm(const std::string &fileName): Model(std::make_unique<CurseKeyboard>(), st
    attach(std::make_unique<ScrollDown>(this, &fileManager, &registerManager));
    attach(std::make_unique<Yank>(this, &fileManager, &registerManager));
    attach(std::make_unique<Paste>(this, &fileManager, &registerManager));
+   attach(std::make_unique<WordForward>(this, &fileManager, &registerManager));
+   attach(std::make_unique<WordBack>(this, &fileManager, &registerManager));
 }
 
 void Vm::runVm() {
