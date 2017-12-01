@@ -3,8 +3,10 @@
 #include "basicMotion.h"
 
 class Up: public BasicMotion {
+    bool checkCommand(const CommandInfo &c) override;
+    Position getMotionResult(const CommandInfo &c) override;
+    bool isChangeCol() override;
   public:
-    void update(const CommandInfo &c) override;
     Up(Vm *vm, FileManager *fileManager, RegisterManager *registerManager):
         Command{vm, fileManager, registerManager},
         BasicMotion{vm, fileManager, registerManager} {}

@@ -62,17 +62,33 @@ Position CursorManager::getBackWord() {
 }
 
 Position CursorManager::getLeft() {
-    throw;
+    Position original = fm->cursorPosition;
+    fm->moveCursorPosition(-1,0);
+    Position newPos = fm->cursorPosition;
+    fm->setCursorPosition(original, false, true);
+    return newPos;
 }
 
 Position CursorManager::getRight() {
-    throw;
+    Position original = fm->cursorPosition;
+    fm->moveCursorPosition(1,0);
+    Position newPos = fm->cursorPosition;
+    fm->setCursorPosition(original, false, true);
+    return newPos;
 }
 
 Position CursorManager::getUp() {
-    throw;
+    Position original = fm->cursorPosition;
+    fm->moveCursorPosition(0,-1);
+    Position newPos = fm->cursorPosition;
+    fm->setCursorPosition(original, false, true);
+    return newPos;
 }
 
 Position CursorManager::getDown() {
-    throw;
+    Position original = fm->cursorPosition;
+    fm->moveCursorPosition(0,1);
+    Position newPos = fm->cursorPosition;
+    fm->setCursorPosition(original, false, true);
+    return newPos;
 }

@@ -3,8 +3,8 @@
 #include <iostream>
 #include <algorithm>
 
-FileManager::FileManager(const std::string &fileName): fileName{fileName}, lines{}, curLineIter{}, cursorPosition{0,0}, lastCol{0}, cursorManager{} {
-    cursorManager.bind(this);
+FileManager::FileManager(const std::string &fileName): fileName{fileName}, lines{}, curLineIter{}, cursorPosition{0,0}, lastCol{0}, cursor{} {
+    cursor.bind(this);
     std::ifstream f{fileName};
     std::string s;
     while(getline(f,s)) {

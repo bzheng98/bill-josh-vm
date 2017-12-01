@@ -12,12 +12,12 @@ class FileManager {
     std::list<std::string> lines;
     std::list<std::string>::iterator curLineIter;
     Position cursorPosition;
-    CursorManager cursorManager;
-    friend CursorManager;
     int lastCol;
     void insertNewLine();
   public:
     FileManager(const std::string &fileName);
+    CursorManager cursor;
+    friend CursorManager;
     void setCursorPosition(Position p, bool changeLastCol, bool insertMode = false);
     void setCursorPosition(Position p);
     void moveCursorPosition(int dx, int dy, bool insertMode = false);

@@ -1,7 +1,14 @@
 #include "left.h"
+#include "fileManager.h"
 
-void Left::update(const CommandInfo &c) {
-    if(c.getCommandType() == LEFT) {
-        moveCursor(-c.getCount(), 0);
-    }
+bool Left::checkCommand(const CommandInfo &c) {
+    return c.getCommandType() == LEFT;
+}
+
+Position Left::getMotionResult(const CommandInfo &c) {
+    return fileManager->cursor.getLeft();
+}
+
+bool Left::isChangeCol() {
+    return true;
 }
