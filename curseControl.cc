@@ -31,6 +31,11 @@ CommandInfo CurseKeyboard::commandType(Model *caller) {
             caller->log(ch);
         }
     }
+	else if(ch == 4) {
+		caller->log("scrolldown");
+		s = "^d";
+	}
+	else if(ch == 21)s = "^u";
     else s = std::string(1, ch);
     if (!CommandInfo::isCommand(s)) return commandType(caller);
     return CommandInfo(CommandInfo::getCommandType(s), count);

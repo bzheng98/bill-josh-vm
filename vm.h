@@ -30,5 +30,6 @@ class Vm: public Model, public Subject {
     void quit();
     bool hasFootprint();
     Range getMotion(char c);
+	Position getViewCursor();
 };
 #endif

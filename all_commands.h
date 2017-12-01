@@ -13,3 +13,5 @@
 #include "writequit.h"
 #include "undo.h"
 #include "delete.h"
+#include "scrollUp.h"
+#include "scrollDown.h"

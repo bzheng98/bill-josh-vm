@@ -5,7 +5,7 @@
 #include <ncurses.h>
 
 class CurseView: public View {
-    Position topLeft;
+    Position topLeft, curCursor;
     std::vector<std::string> buffer;
     int ceilDiv(int a, int b);
     Position toScreenPosition(Position p);
@@ -24,5 +24,6 @@ class CurseView: public View {
         void updateBottomText(const std::string &s) override;
 		void scrollDown() override;
 		void scrollUp() override;
+		Position getCursor() override;
 };
 #endif

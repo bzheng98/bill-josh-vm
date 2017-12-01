@@ -5,7 +5,7 @@
 #include "all_commands.h"
 #include "keys.h"
 
-Vm::Vm(const std::string &fileName): Model(std::make_unique<CurseKeyboard>(), std::make_unique<CurseView>()), running{true}, fileManager{fileName}, registerManager{}, footprints{}, offset{0}, numLines{20} {
+Vm::Vm(const std::string &fileName): Model(std::make_unique<CurseKeyboard>(), std::make_unique<CurseView>()), running{true}, fileManager{fileName}, registerManager{}, footprints{}, offset{0}, numLines{100} {
    attach(std::make_unique<Up>(this, &fileManager, &registerManager));
    attach(std::make_unique<Down>(this, &fileManager, &registerManager));
    attach(std::make_unique<Left>(this, &fileManager, &registerManager));
@@ -21,6 +21,8 @@ Vm::Vm(const std::string &fileName): Model(std::make_unique<CurseKeyboard>(), st
    attach(std::make_unique<WriteQuit>(this, &fileManager, &registerManager));
    attach(std::make_unique<Undo>(this, &fileManager, &registerManager));
    attach(std::make_unique<Delete>(this, &fileManager, &registerManager));
+   attach(std::make_unique<ScrollUp>(this, &fileManager, &registerManager));
+   attach(std::make_unique<ScrollDown>(this, &fileManager, &registerManager));
 }
 
 void Vm::runVm() {
@@ -141,4 +143,8 @@ bool Vm::hasFootprint() {
 Range Vm::getMotion(char c) {
     CommandInfo cInfo{CommandInfo::getCommandType(std::string{c}), 1};
     return Range{Position{0,0},Position{0,0}};
+}
+
+Position Vm::getViewCursor() {
+	return views[0] -> getCursor();
 }

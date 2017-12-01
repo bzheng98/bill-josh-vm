@@ -2,7 +2,7 @@
 #include <algorithm>
 #include <iostream>
 #include <fstream>
-CurseView::CurseView() : topLeft{0, 0} {
+CurseView::CurseView() : topLeft{0, 0}, curCursor{0, 0} {
     initscr();
     noecho();
     raw();
@@ -21,7 +21,7 @@ Position CurseView::toScreenPosition(Position p) {
     int lines, cols, prevLines = 0;
     getmaxyx(stdscr, lines, cols);
     //partial mode, only displaying 1 line
-    if(inPartialMode()) {
+    if(inPartialMode() && false) {
         int dy = p.getLine() - topLeft.getLine();
         int dx = p.getCol() - topLeft.getCol();
         int dif = dy * cols + dx;
@@ -90,12 +90,12 @@ void CurseView::adjustTopLeft(Position cur) {
     //cursor out of bounds, must adjust
     if(!onScreen(cur)) {
         if(cur.getLine() < topLeft.getLine()) {
-            while(!onScreen(cur) && topLeft.getLine() > 0) {
+			while(!onScreen(cur) && topLeft.getLine() > 0) {
                 topLeft.setLine(topLeft.getLine() - 1);
             }
         }
         else {
-            while(!onScreen(cur) && topLeft.getLine() + 1  < buffer.size()) {
+            while(!onScreen(cur) && topLeft.getLine() + 1 < buffer.size()) {
                 topLeft.setLine(topLeft.getLine() + 1);
             }
         }
@@ -114,19 +114,19 @@ void CurseView::update(const std::vector<std::string> &buf, Position p) {
     bool notEnoughLines = false;
     getmaxyx(stdscr, lines, cols);
     getyx(stdscr, prevY, prevX);
-    Position cur = topLeft;
     for(size_t i = 0; i < lines - 1; i++) {
         move(i, 0);
         clrtoeol();
     }
     move(prevX, prevY); 
-    f << topLeft.getLine() << " " << topLeft.getCol() << "\n";
     if(buf.empty())return;
-	adjustTopLeft(p);
+	adjustTopLeft(p);	
+    f << topLeft.getLine() << " " << topLeft.getCol() << "\n";
 	if(inPartialMode()) {
         mvaddstr(0, 0, buf[topLeft.getLine()].substr(topLeft.getCol(), (lines - 1) * cols).c_str());
         return;
     }
+	Position cur = topLeft;
     size_t topLine = topLeft.getLine();
     for(idx = topLine; idx < buf.size(); idx++) {
         f << "cur: " << cur.getLine() << " " << cur.getCol() << "\n";
@@ -155,6 +155,7 @@ void CurseView::updateCursor(Position p) {
     std::ofstream f;
     f.open("cursor.txt");
 	//update the cursor
+	curCursor = p;
 	f << p.getLine() << " " << p.getCol() << "\n";
     Position newPos = toScreenPosition(p);
 	f << newPos.getLine() << " " << newPos.getCol() << "\n";
@@ -209,17 +210,19 @@ void CurseView::scrollDown() {
 	getmaxyx(stdscr, lines, cols);
 	int cnt = (lines - 1) / 2;
 	for(int i = 0; i < cnt; i++) {
+		if(atBottom())break;
 		int sz = buffer[topLeft.getLine()].size();
 		topLeft.setCol(topLeft.getCol() + cols);
 		if(topLeft.getCol() >= sz) {
 			topLeft.setLine(topLeft.getLine() + 1);
 			topLeft.setCol(0);
 		}
-		if(atBottom()) {
-			break;
-		}
 	}
+	std::ofstream f;
+	f.open("scroll.txt");
+	f << topLeft.getLine() << " " << topLeft.getCol() << "\n";
 	scrollEnd();
+	updateCursor(topLeft);
 }
 
 //half a page
@@ -228,6 +231,7 @@ void CurseView::scrollUp() {
 	getmaxyx(stdscr, lines, cols);
 	int cnt = (lines - 1) / 2;
 	for(int i = 0; i < cnt; i++) {
+		if(atTop())break;
 		int sz = buffer[topLeft.getLine()].size();
 		if(topLeft.getCol() == 0) {
 			topLeft.setLine(topLeft.getLine() - 1);
@@ -236,9 +240,11 @@ void CurseView::scrollUp() {
 		else {
 			topLeft.setCol(topLeft.getCol() - cols);
 		}
-		if(atTop()) {
-			break;
-		}
 	}
 	scrollEnd();
+	updateCursor(topLeft);
+}
+
+Position CurseView::getCursor() {
+	return curCursor;
 }

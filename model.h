@@ -14,10 +14,10 @@
 enum CommandType;
 
 class Model {
-    std::vector<std::unique_ptr<View>> views;
     std::unique_ptr<Controller> control;
     std::ofstream logger{"log.txt"};
   protected:
+	std::vector<std::unique_ptr<View>> views;
     void addView(std::unique_ptr<View> v);
     void addController(std::unique_ptr<Controller> v);
   public:
