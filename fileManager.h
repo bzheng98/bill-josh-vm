@@ -5,12 +5,15 @@
 #include <vector>
 #include "position.h"
 #include "range.h"
+#include "cursorManager.h"
 
 class FileManager {
     const std::string fileName;
     std::list<std::string> lines;
     std::list<std::string>::iterator curLineIter;
     Position cursorPosition;
+    CursorManager cursorManager;
+    friend CursorManager;
     int lastCol;
     void insertNewLine();
   public:
@@ -33,5 +36,6 @@ class FileManager {
     void moveCursorBack();
     int replaceChar(char c);
     std::string getText(const Range &range);
+    char getCharAtCursor();
 };
 #endif
