@@ -20,6 +20,7 @@ Vm::Vm(const std::string &fileName): Model(std::make_unique<CurseKeyboard>(), st
    attach(std::make_unique<Quit>(this, &fileManager, &registerManager));
    attach(std::make_unique<WriteQuit>(this, &fileManager, &registerManager));
    attach(std::make_unique<Undo>(this, &fileManager, &registerManager));
+   attach(std::make_unique<Delete>(this, &fileManager, &registerManager));
 }
 
 void Vm::runVm() {
@@ -135,4 +136,9 @@ void Vm::quit() {
 
 bool Vm::hasFootprint() {
     return !footprints.empty();
+}
+
+Range Vm::getMotion(char c) {
+    CommandInfo cInfo{CommandInfo::getCommandType(std::string{c}), 1};
+    return Range{Position{0,0},Position{0,0}};
 }

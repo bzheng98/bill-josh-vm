@@ -2,24 +2,6 @@
 #include <iostream>
 #include "keys.h"
 
-CurseKeyboard::CurseKeyboard(): mapping{
-    {"i", CommandType::INSERT},
-    {"a", CommandType::APPEND},
-    {"I", CommandType::PREPEND},
-    {"o", CommandType::NEWLINE_BELOW},
-    {"O", CommandType::NEWLINE_ABOVE},
-    {"A", CommandType::APPEND_TO_LINE},
-    {"R", CommandType::ENTER_REPLACE_MODE},
-    {"h", CommandType::LEFT},
-    {"j", CommandType::DOWN},
-    {"k", CommandType::UP},
-    {"l", CommandType::RIGHT},
-    {":w", CommandType::WRITE},
-    {":wq", CommandType::WRITEQUIT},
-    {":q", CommandType::QUIT},
-    {"u", CommandType::UNDO}} {
-}
-
 CommandInfo CurseKeyboard::commandType(Model *caller) {
     //get the count
     int count = 0, ch = readChar();
@@ -50,8 +32,8 @@ CommandInfo CurseKeyboard::commandType(Model *caller) {
         }
     }
     else s = std::string(1, ch);
-    if (mapping.find(s) == mapping.end()) return commandType(caller);
-    return CommandInfo(mapping.at(s), count);
+    if (!CommandInfo::isCommand(s)) return commandType(caller);
+    return CommandInfo(CommandInfo::getCommandType(s), count);
 }
 
 int CurseKeyboard::readChar() {

@@ -30,7 +30,6 @@ void FileManager::setCursorPosition(Position p, bool changeLastCol, bool insertM
     if(changeLastCol && !(oldCursor.getCol() == cursorPosition.getCol() && oldCursor.getLine() == cursorPosition.getLine())) { 
         lastCol = cursorPosition.getCol();
     }
-
 }
 
 void FileManager::setCursorPosition(Position p) {
@@ -146,6 +145,33 @@ void FileManager::deleteText(const Range &range) {
     firstRowIter->append(s);
     if (begin.getLine() < end.getLine())
         lines.erase(std::next(firstRowIter), std::next(lastRowIter));
+}
+std::string FileManager::deleteText(const Range &range, bool) {
+    const Position &begin = range.getStart();
+    const Position &end = range.getEnd();
+    int l = begin.getLine();
+    auto firstRowIter = lines.begin();
+    std::advance(firstRowIter, l);
+    auto lastRowIter = firstRowIter;
+    std::advance(lastRowIter, end.getLine()-l);
+    std::string lastRowRemaining = lastRowIter->substr(end.getCol());
+    std::string deleted = firstRowIter->substr(begin.getCol());
+    firstRowIter->erase(begin.getCol());
+    firstRowIter->append(lastRowRemaining);
+    if (begin.getLine() < end.getLine()) {
+        firstRowIter = std::next(firstRowIter);
+        for (auto it = firstRowIter; it != lastRowIter; ++it) {
+            deleted += '\n';
+            deleted += *it;
+        }
+        deleted += '\n';
+        deleted += lastRowIter->substr(0, end.getCol());
+        lines.erase(firstRowIter, std::next(lastRowIter));
+    }
+    else {
+        deleted = deleted.substr(0, end.getCol()-begin.getCol());
+    }
+    return deleted;
 }
 
 void FileManager::saveFile() {

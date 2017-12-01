@@ -12,3 +12,4 @@
 #include "quit.h"
 #include "writequit.h"
 #include "undo.h"
+#include "delete.h"

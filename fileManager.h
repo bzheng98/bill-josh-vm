@@ -25,6 +25,7 @@ class FileManager {
     void insertText(const std::string &s, const Position &p, int count = 1);
     std::string replaceText(const std::string &s, const Position &p, int count = 1);
     void deleteText(const Range &range);
+    std::string deleteText(const Range &range, bool getDeletedStringDummy);
     void saveFile();
     void createAndGoToNewLine(bool above);
     void goToEndOfLine(bool insertMode = false);

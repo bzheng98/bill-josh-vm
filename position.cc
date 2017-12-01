@@ -17,3 +17,7 @@ void Position::setLine(int line) {
 void Position::setCol(int col) {
     this -> col = col;
 }
+
+bool Position::operator<(const Position &other) const {
+    return line < other.line || line == other.line && col < other.col;
+}

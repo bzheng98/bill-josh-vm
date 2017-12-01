@@ -6,4 +6,5 @@ void DeleteFootprint::undoFootprint(FileManager &fm) {
 
 void DeleteFootprint::undoDelete(FileManager &fm) {
     fm.insertText(deleted, pos);
+    fm.setCursorPosition(pos);
 }

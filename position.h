@@ -10,5 +10,6 @@ class Position {
     int getCol() const;
     void setLine(int line);
     void setCol(int col);
+    bool operator<(const Position &other) const;
 };
 #endif

@@ -7,9 +7,9 @@
 #include "footprint.h"
 #include "fileManager.h"
 #include "registerManager.h"
+#include "position.h"
 #include <string>
 #include <vector>
-#include <fstream>
 
 
 class Vm: public Model, public Subject {
@@ -29,5 +29,6 @@ class Vm: public Model, public Subject {
     CommandInfo getPrevCommand();
     void quit();
     bool hasFootprint();
+    Range getMotion(char c);
 };
 #endif
