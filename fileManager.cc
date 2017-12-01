@@ -140,11 +140,11 @@ void FileManager::deleteText(const Range &range) {
     std::advance(firstRowIter, l);
     auto lastRowIter = firstRowIter;
     std::advance(lastRowIter, end.getLine()-l);
-    std::string s = lastRowIter->substr(end.getCol());
+    std::string s = (lastRowIter == lines.end())? "": lastRowIter->substr(end.getCol());
     firstRowIter->erase(begin.getCol());
     firstRowIter->append(s);
-    if (begin.getLine() < end.getLine())
-        lines.erase(std::next(firstRowIter), std::next(lastRowIter));
+    if (begin.getLine()< end.getLine())
+        lines.erase(std::next(firstRowIter), (lastRowIter == lines.end())? lastRowIter: std::next(lastRowIter));
 }
 std::string FileManager::deleteText(const Range &range, bool) {
     const Position &begin = range.getStart();
@@ -154,7 +154,7 @@ std::string FileManager::deleteText(const Range &range, bool) {
     std::advance(firstRowIter, l);
     auto lastRowIter = firstRowIter;
     std::advance(lastRowIter, end.getLine()-l);
-    std::string lastRowRemaining = lastRowIter->substr(end.getCol());
+    std::string lastRowRemaining = (lastRowIter == lines.end())? "": lastRowIter->substr(end.getCol());
     std::string deleted = firstRowIter->substr(begin.getCol());
     firstRowIter->erase(begin.getCol());
     firstRowIter->append(lastRowRemaining);
@@ -165,8 +165,8 @@ std::string FileManager::deleteText(const Range &range, bool) {
             deleted += *it;
         }
         deleted += '\n';
-        deleted += lastRowIter->substr(0, end.getCol());
-        lines.erase(firstRowIter, std::next(lastRowIter));
+        deleted += (lastRowIter == lines.end())? "": lastRowIter->substr(0, end.getCol());
+        lines.erase(firstRowIter, (lastRowIter == lines.end())? lastRowIter: std::next(lastRowIter));
     }
     else {
         deleted = deleted.substr(0, end.getCol()-begin.getCol());
