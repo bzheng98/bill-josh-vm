@@ -6,6 +6,7 @@ class Left: public BasicMotion {
   public:
     void update(const CommandInfo &c) override;
     Left(Vm *vm, FileManager *fileManager, RegisterManager *registerManager):
+        Command{vm, fileManager, registerManager},
         BasicMotion{vm, fileManager, registerManager} {}
 
 };

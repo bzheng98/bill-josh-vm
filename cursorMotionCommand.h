@@ -4,8 +4,8 @@
 #include "command.h"
 #include "position.h"
 
-class CursorMotionCommand: public Command {
-  protected:
+class CursorMotionCommand: public virtual Command {
+  public:
     CursorMotionCommand(Vm *vm, FileManager *fileManager, RegisterManager *registerManager):
         Command{vm, fileManager, registerManager} {}
 };

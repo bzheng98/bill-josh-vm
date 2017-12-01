@@ -4,8 +4,9 @@
 #include "cursorMotionCommand.h"
 
 class MotionCommand: public CursorMotionCommand {
-  protected:
+  public:
     MotionCommand(Vm *vm, FileManager *fileManager, RegisterManager *registerManager):
+        Command{vm, fileManager, registerManager},
         CursorMotionCommand{vm, fileManager, registerManager} {}
 };
 #endif

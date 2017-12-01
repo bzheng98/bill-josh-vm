@@ -3,9 +3,10 @@
 #include "motionCommand.h"
 
 class BasicMotion: public MotionCommand {
-    protected:
-        BasicMotion(Vm *vm, FileManager *fileManager, RegisterManager *registerManager):
-            MotionCommand{vm, fileManager, registerManager} {}
-        void moveCursor(int dx, int dy);
+  public:
+    BasicMotion(Vm *vm, FileManager *fileManager, RegisterManager *registerManager):
+        Command{vm, fileManager, registerManager},
+        MotionCommand{vm, fileManager, registerManager} {}
+    void moveCursor(int dx, int dy);
 };
 #endif

@@ -4,8 +4,9 @@
 #include "cursorMotionCommand.h"
 
 class ScrollCommand: public CursorMotionCommand {
-    protected:
-        ScrollCommand(Vm *vm, FileManager *fileManager, RegisterManager *registerManager):
-            CursorMotionCommand{vm, fileManager, registerManager} {}
+  public:
+    ScrollCommand(Vm *vm, FileManager *fileManager, RegisterManager *registerManager):
+        Command{vm, fileManager, registerManager},
+        CursorMotionCommand{vm, fileManager, registerManager} {}
 };
 #endif
