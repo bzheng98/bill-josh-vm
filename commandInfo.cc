@@ -18,7 +18,10 @@ const std::map<std::string, CommandType> CommandInfo::mapping{
     {"u", CommandType::UNDO},
     {"d", CommandType::DELETE},
 	{"^u", CommandType::SCROLLUP},
-	{"^d", CommandType::SCROLLDOWN}
+	{"^d", CommandType::SCROLLDOWN},
+    {"y", CommandType::YANK},
+    {"p", CommandType::PASTE}
+>>>>>>> 7eed3b85370322096a3e20c9b95acf4563a2608a
 };
 
 const std::set<char> CommandInfo::motionCommands{

@@ -6,5 +6,5 @@ void InsertFootprint::undoFootprint(FileManager &fm) {
 
 void InsertFootprint::undoInsert(FileManager &fm) {
     fm.deleteText(range);
-    fm.setCursorPosition(range.getStart());
+    fm.setCursorPosition(cursor);
 }

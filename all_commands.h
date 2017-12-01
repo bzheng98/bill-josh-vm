@@ -15,3 +15,5 @@
 #include "delete.h"
 #include "scrollUp.h"
 #include "scrollDown.h"
+#include "yank.h"
+#include "paste.h"

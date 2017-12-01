@@ -32,5 +32,6 @@ class FileManager {
     void leaveInsertMode();
     void moveCursorBack();
     int replaceChar(char c);
+    std::string getText(const Range &range);
 };
 #endif

@@ -1,25 +1,29 @@
-#include "delete.h"
+#include "yank.h"
 #include "keys.h"
 #include "motionCommand.h"
 #include "range.h"
 #include "commandInfo.h"
 #include "vm.h"
 
-void Delete::update(const CommandInfo &c) {
-    if (c.getCommandType() != DELETE) return;
+void Yank::update(const CommandInfo &c) {
+    if (c.getCommandType() != YANK) return;
     int motionChar = vm->getChar();
-    if (motionChar == 'd') {
-        deleteLines(c.getCount());
+    if (motionChar == 'y') {
+        yankLines(c.getCount());
         return;
     }
     if (is_escape(motionChar) || !CommandInfo::isMotionCommand((char)motionChar)) return;
     Range motion = vm->getMotion((char)motionChar);
 }
 
-void Delete::deleteLines(int count) {
+void Yank::yankLines(int count) {
     Position begin = fileManager->getCursorPosition();
     begin.setCol(0);
     Position end = begin;
     end.setLine(begin.getLine()+count);
-    deleteRange(Range{begin,end});
+    yankRange(Range{begin,end});
+}
+
+void Yank::yankRange(const Range &range) {
+    writeToRegister(fileManager->getText(range));
 }

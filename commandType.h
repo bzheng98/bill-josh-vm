@@ -18,5 +18,7 @@ enum CommandType {
 	SCROLLUP,
 	SCROLLDOWN,
     UNDO,
-    DELETE};
+    DELETE,
+    YANK,
+    PASTE};
 #endif
