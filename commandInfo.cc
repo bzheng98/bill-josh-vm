@@ -26,6 +26,12 @@ const std::map<std::string, CommandType> CommandInfo::mapping{
 };
 
 const std::set<CommandType> CommandInfo::motionCommands{
+    CommandType::UP,
+    CommandType::DOWN,
+    CommandType::LEFT,
+    CommandType::RIGHT,
+    CommandType::WORD_FORWARD,
+    CommandType::WORD_BACK
 };
 
 bool CommandInfo::isCommand(const std::string &s) {
