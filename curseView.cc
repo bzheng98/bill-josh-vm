@@ -282,8 +282,7 @@ void CurseView::scrollBackward() {
 	}
 	scrollEnd();
 	//make the cursor point to bottom of screen
-	//updateCursor(getBottom());
-	updateCursor(topLeft);
+	updateCursor(getBottom());
 }
 
 Position CurseView::getBottom() {
@@ -303,6 +302,7 @@ Position CurseView::getBottom() {
 		ret.setLine(ret.getLine() - 1);
 		ret.setCol(0);
 	}
+	return ret;
 }
 
 Position CurseView::getCursor() {
