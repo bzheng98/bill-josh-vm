@@ -20,5 +20,7 @@ enum CommandType {
     UNDO,
     DELETE,
     YANK,
-    PASTE};
+    PASTE,
+    WORD_FORWARD,
+    WORD_BACK};
 #endif

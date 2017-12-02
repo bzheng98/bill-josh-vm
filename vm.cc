@@ -25,11 +25,13 @@ Vm::Vm(const std::string &fileName): Model(std::make_unique<CurseKeyboard>(), st
    attach(std::make_unique<ScrollDown>(this, &fileManager, &registerManager));
    attach(std::make_unique<Yank>(this, &fileManager, &registerManager));
    attach(std::make_unique<Paste>(this, &fileManager, &registerManager));
+   attach(std::make_unique<WordForward>(this, &fileManager, &registerManager));
+   attach(std::make_unique<WordBack>(this, &fileManager, &registerManager));
 }
 
 void Vm::runVm() {
     while(running) {
-    	log("running");    
+    	log("running");
 		updateViews(fileManager.getLines(offset, numLines), fileManager.getCursorPosition());
         log("updated");
 		updateViewCursors(fileManager.getCursorPosition());
@@ -142,9 +144,8 @@ bool Vm::hasFootprint() {
     return !footprints.empty();
 }
 
-Range Vm::getMotion(char c) {
-    CommandInfo cInfo{CommandInfo::getCommandType(std::string{c}), 1};
-    return Range{Position{0,0},Position{0,0}};
+Range Vm::getMotion(const CommandInfo &c) {
+    throw;
 }
 
 Position Vm::getViewCursor() {

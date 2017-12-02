@@ -12,8 +12,11 @@ void Yank::update(const CommandInfo &c) {
         yankLines(c.getCount());
         return;
     }
-    if (is_escape(motionChar) || !CommandInfo::isMotionCommand((char)motionChar)) return;
-    Range motion = vm->getMotion((char)motionChar);
+    if (is_escape(motionChar)) return;
+    vm->ungetChar(motionChar);
+    CommandInfo motion = vm->getCommand(vm);
+    if (!CommandInfo::isMotionCommand(motion)) return;
+    Range range = vm->getMotion(motion);
 }
 
 void Yank::yankLines(int count) {

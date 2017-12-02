@@ -9,9 +9,11 @@ class Model;
 class Controller {
     virtual CommandInfo commandType(Model *caller) = 0;
     virtual int readChar() = 0;
+    virtual void putChar(int c) = 0;
   public:
     CommandInfo getCommand(Model *caller);
     int getChar();
+    void ungetChar(int c);
     virtual ~Controller() = default;
 };
 #endif

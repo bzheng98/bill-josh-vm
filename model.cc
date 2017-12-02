@@ -50,6 +50,10 @@ int Model::getChar() {
     return control->getChar();
 }
 
+void Model::ungetChar(int c) {
+    return control->ungetChar(c);
+}
+
 void Model::updateViewBottomTexts(const std::string &s) {
     for (auto &view: views) {
         view->updateBottomText(s);

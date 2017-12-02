@@ -3,7 +3,8 @@
 #include <iostream>
 #include <algorithm>
 
-FileManager::FileManager(const std::string &fileName): fileName{fileName}, lines{}, curLineIter{}, cursorPosition{0,0}, lastCol{0} {
+FileManager::FileManager(const std::string &fileName): fileName{fileName}, lines{}, curLineIter{}, cursorPosition{0,0}, lastCol{0}, cursor{} {
+    cursor.bind(this);
     std::ifstream f{fileName};
     std::string s;
     while(getline(f,s)) {
@@ -235,4 +236,9 @@ std::string FileManager::getText(const Range &range) {
     ++it;
     s += it->substr(0, end.getCol());
     return s;
+}
+
+char FileManager::getCharAtCursor() {
+    if (cursorPosition.getCol() == curLineIter->length()) return '\n';
+    return (*curLineIter)[cursorPosition.getCol()];
 }

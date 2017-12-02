@@ -29,7 +29,7 @@ class Vm: public Model, public Subject {
     CommandInfo getPrevCommand();
     void quit();
     bool hasFootprint();
-    Range getMotion(char c);
+    Range getMotion(const CommandInfo &c);
 	Position getViewCursor();
 };
 #endif

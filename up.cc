@@ -1,7 +1,14 @@
 #include "up.h"
-#include <iostream>
-void Up::update(const CommandInfo &c) {
-    if(c.getCommandType() == UP) {
-        moveCursor(0, -c.getCount());
-    }
+#include "fileManager.h"
+
+bool Up::checkCommand(const CommandInfo &c) {
+    return c.getCommandType() == UP;
+}
+
+Position Up::getMotionResult(const CommandInfo &c) {
+    return fileManager->cursor.getUp(c.getCount());
+}
+
+bool Up::isLinewise() {
+    return true;
 }

@@ -11,6 +11,7 @@
 class CurseKeyboard: public Controller {
     CommandInfo commandType(Model *caller) override;
     int readChar() override;
+    void putChar(int c) override;
   public:
     CurseKeyboard() = default;
 };

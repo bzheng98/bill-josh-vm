@@ -7,3 +7,7 @@ CommandInfo Controller::getCommand(Model *caller) {
 int Controller::getChar() {
     return readChar();
 }
+
+void Controller::ungetChar(int c) {
+    putChar(c);
+}

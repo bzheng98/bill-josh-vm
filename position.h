@@ -11,5 +11,7 @@ class Position {
     void setLine(int line);
     void setCol(int col);
     bool operator<(const Position &other) const;
+    bool operator!=(const Position &other) const;
+    bool operator==(const Position &other) const;
 };
 #endif

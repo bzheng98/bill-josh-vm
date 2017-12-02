@@ -21,3 +21,11 @@ void Position::setCol(int col) {
 bool Position::operator<(const Position &other) const {
     return line < other.line || line == other.line && col < other.col;
 }
+
+bool Position::operator!=(const Position &other) const {
+    return line != other.line || col != other.col;
+}
+
+bool Position::operator==(const Position &other) const {
+    return line == other.line && col == other.col;
+}

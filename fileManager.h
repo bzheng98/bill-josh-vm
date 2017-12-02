@@ -5,6 +5,7 @@
 #include <vector>
 #include "position.h"
 #include "range.h"
+#include "cursorManager.h"
 
 class FileManager {
     const std::string fileName;
@@ -15,6 +16,8 @@ class FileManager {
     void insertNewLine();
   public:
     FileManager(const std::string &fileName);
+    CursorManager cursor;
+    friend CursorManager;
     void setCursorPosition(Position p, bool changeLastCol, bool insertMode = false);
     void setCursorPosition(Position p);
     void moveCursorPosition(int dx, int dy, bool insertMode = false);
@@ -33,5 +36,6 @@ class FileManager {
     void moveCursorBack();
     int replaceChar(char c);
     std::string getText(const Range &range);
+    char getCharAtCursor();
 };
 #endif
