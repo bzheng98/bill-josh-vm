@@ -289,7 +289,7 @@ Position CurseView::getBottom() {
 	Position ret = topLeft;
 	int lines, cols;
 	getmaxyx(stdscr, lines, cols);
-	for(int i = 0; i < lines - 1; i++) {
+	for(int i = 0; i < lines - 2; i++) {
 		if(ret.getLine() == buffer.size() - 1)break;
 		int sz = buffer[topLeft.getLine()].size();
 		ret.setCol(ret.getCol() + cols);

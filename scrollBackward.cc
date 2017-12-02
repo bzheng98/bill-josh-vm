@@ -2,7 +2,9 @@
 #include "vm.h"
 void ScrollBackward::update(const CommandInfo &c) {
 	if(c.getCommandType() == SCROLLBACKWARD) {
-		vm->scrollViewsBackward();	
+		for(int i = 0; i < c.getCount(); i++) {
+			vm->scrollViewsBackward();	
+		}
 		fileManager -> setCursorPosition(vm -> getViewCursor());
 	}
 }
