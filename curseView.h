@@ -15,7 +15,8 @@ class CurseView: public View {
 	bool atBottom();
 	bool atTop();	
 	bool inPartialMode();
-    public:
+    Position getBottom();
+	public:
         CurseView();
         ~CurseView() override;
 		void update(const std::vector<std::string> &buf, Position p) override;
@@ -24,6 +25,8 @@ class CurseView: public View {
         void updateBottomText(const std::string &s) override;
 		void scrollDown() override;
 		void scrollUp() override;
+		void scrollForward() override;
+		void scrollBackward() override;
 		Position getCursor() override;
 };
 #endif

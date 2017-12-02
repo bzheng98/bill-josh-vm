@@ -19,6 +19,8 @@ const std::map<std::string, CommandType> CommandInfo::mapping{
     {"d", CommandType::DELETE},
     {"^u", CommandType::SCROLLUP},
     {"^d", CommandType::SCROLLDOWN},
+	{"^f", CommandType::SCROLLFORWARD},
+	{"^b", CommandType::SCROLLBACKWARD},
     {"y", CommandType::YANK},
     {"p", CommandType::PASTE},
     {"w", CommandType::WORD_FORWARD},

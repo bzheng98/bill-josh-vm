@@ -206,6 +206,7 @@ void CurseView::scrollEnd() {
 
 //half a page
 void CurseView::scrollDown() {
+	if(buffer.empty())return;
 	int lines, cols;
 	getmaxyx(stdscr, lines, cols);
 	int cnt = (lines - 1) / 2;
@@ -224,6 +225,7 @@ void CurseView::scrollDown() {
 
 //half a page
 void CurseView::scrollUp() {
+	if(buffer.empty())return;
 	int lines, cols;
 	getmaxyx(stdscr, lines, cols);
 	int cnt = (lines - 1) / 2;
@@ -240,6 +242,67 @@ void CurseView::scrollUp() {
 	}
 	scrollEnd();
 	updateCursor(topLeft);
+}
+
+//a full page (down)
+void CurseView::scrollForward() {
+	if(buffer.empty())return;
+	int lines, cols;
+	getmaxyx(stdscr, lines, cols);
+	int cnt = lines - 1;
+	for(int i = 0; i < cnt; i++) {
+		if(topLeft.getLine() == buffer.size() - 1)break;
+		int sz = buffer[topLeft.getLine()].size();
+		topLeft.setCol(topLeft.getCol() + cols);
+		if(topLeft.getCol() >= sz) {
+			topLeft.setLine(topLeft.getLine() + 1);
+			topLeft.setCol(0);
+		}
+	}
+	scrollEnd();
+	updateCursor(topLeft);
+}
+
+//a full page (up)
+void CurseView::scrollBackward() {
+	if(buffer.empty())return;
+	int lines, cols;	
+	getmaxyx(stdscr, lines, cols);
+	int cnt = lines - 1;
+	for (int i = 0; i < cnt; i++) {
+		if(atTop())break;
+		int sz = buffer[topLeft.getLine()].size();
+		if(topLeft.getCol() == 0) {
+			topLeft.setLine(topLeft.getLine() - 1);
+			topLeft.setCol(((sz - 1) / cols) * cols);
+		}
+		else {
+			topLeft.setCol(topLeft.getCol() - cols);
+		}
+	}
+	scrollEnd();
+	//make the cursor point to bottom of screen
+	//updateCursor(getBottom());
+	updateCursor(topLeft);
+}
+
+Position CurseView::getBottom() {
+	Position ret = topLeft;
+	int lines, cols;
+	getmaxyx(stdscr, lines, cols);
+	for(int i = 0; i < lines - 1; i++) {
+		if(ret.getLine() == buffer.size() - 1)break;
+		int sz = buffer[topLeft.getLine()].size();
+		ret.setCol(ret.getCol() + cols);
+		if(ret.getCol() >= sz) {
+			ret.setLine(ret.getLine() + 1);
+			ret.setCol(0);
+		} 
+	}
+	if(ret.getCol() != 0) {
+		ret.setLine(ret.getLine() - 1);
+		ret.setCol(0);
+	}
 }
 
 Position CurseView::getCursor() {

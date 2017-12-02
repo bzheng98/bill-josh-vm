@@ -17,6 +17,8 @@ enum CommandType {
     QUIT, 
 	SCROLLUP,
 	SCROLLDOWN,
+	SCROLLFORWARD,
+	SCROLLBACKWARD,
     UNDO,
     DELETE,
     YANK,

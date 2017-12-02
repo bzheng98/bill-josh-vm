@@ -14,6 +14,8 @@ public:
     virtual void updateBottomText(const std::string &s) = 0;
     virtual void scrollDown() = 0;
     virtual void scrollUp() = 0;
+	virtual void scrollForward() = 0;
+	virtual void scrollBackward() = 0;
 	virtual Position getCursor() = 0;
 };
 #endif

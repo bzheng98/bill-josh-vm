@@ -28,6 +28,8 @@ class Model {
     void updateViewBottomTexts(const std::string &s);
     void scrollViewsDown();
     void scrollViewsUp();
+	void scrollViewsForward();
+	void scrollViewsBackward();
     int getChar();
     void ungetChar(int c);
     CommandInfo getCommand(Model *m);

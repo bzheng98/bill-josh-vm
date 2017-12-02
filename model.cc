@@ -34,6 +34,18 @@ void Model::scrollViewsUp() {
     }
 }
 
+void Model::scrollViewsForward() {
+	for(auto& view : views) {
+		view -> scrollForward();
+	}
+}
+
+void Model::scrollViewsBackward() {
+	for(auto& view : views) {
+		view -> scrollBackward();
+	}
+}
+
 void Model::addView(std::unique_ptr<View> v) {
     views.emplace_back(std::move(v));
 }
