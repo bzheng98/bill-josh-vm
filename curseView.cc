@@ -218,9 +218,6 @@ void CurseView::scrollDown() {
 			topLeft.setCol(0);
 		}
 	}
-	std::ofstream f;
-	f.open("scroll.txt");
-	f << topLeft.getLine() << " " << topLeft.getCol() << "\n";
 	scrollEnd();
 	updateCursor(topLeft);
 }

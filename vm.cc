@@ -25,7 +25,6 @@ Vm::Vm(const std::string &fileName): Model(std::make_unique<CurseKeyboard>(), st
    attach(std::make_unique<ScrollDown>(this, &fileManager, &registerManager));
    attach(std::make_unique<Yank>(this, &fileManager, &registerManager));
    attach(std::make_unique<Paste>(this, &fileManager, &registerManager));
->>>>>>> 7eed3b85370322096a3e20c9b95acf4563a2608a
 }
 
 void Vm::runVm() {
