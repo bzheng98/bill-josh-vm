@@ -153,3 +153,31 @@ Position CursorManager::getDown(int count) {
     fm->setCursorPosition(original, false, true);
     return newPos;
 }
+
+Position CursorManager::findForward(char c, int count) {
+    if (!count) return fm->cursorPosition;
+    int found = 0;
+    for (int i = fm->cursorPosition.getCol()+1; i < fm->curLineIter->length(); ++i) {
+        if ((*fm->curLineIter)[i] == c) {
+            ++found;
+            if (found == count) {
+                return Position{fm->cursorPosition.getLine(), i};
+            }
+        }
+    }
+    return fm->cursorPosition;
+}
+
+Position CursorManager::findBack(char c, int count) {
+    if (!count) return fm->cursorPosition;
+    int found = 0;
+    for (int i = fm->cursorPosition.getCol()-1; i >= 0; --i) {
+        if ((*fm->curLineIter)[i] == c) {
+            ++found;
+            if (found == count) {
+                return Position{fm->cursorPosition.getLine(), i};
+            }
+        }
+    }
+    return fm->cursorPosition;
+}

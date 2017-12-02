@@ -135,28 +135,18 @@ std::string FileManager::replaceText(const std::string &s, const Position &p, in
     return replaced + replaceText(s, p, count-1);;
 }
 
-void FileManager::deleteText(const Range &range) {
+#include <iostream>
+std::string FileManager::deleteText(const Range &range) {
     const Position &begin = range.getStart();
     const Position &end = range.getEnd();
     int l = begin.getLine();
     auto firstRowIter = lines.begin();
     std::advance(firstRowIter, l);
     auto lastRowIter = firstRowIter;
-    std::advance(lastRowIter, end.getLine()-l);
-    std::string s = (lastRowIter == lines.end())? "": lastRowIter->substr(end.getCol());
-    firstRowIter->erase(begin.getCol());
-    firstRowIter->append(s);
-    if (begin.getLine()< end.getLine())
-        lines.erase(std::next(firstRowIter), (lastRowIter == lines.end())? lastRowIter: std::next(lastRowIter));
-}
-std::string FileManager::deleteText(const Range &range, bool) {
-    const Position &begin = range.getStart();
-    const Position &end = range.getEnd();
-    int l = begin.getLine();
-    auto firstRowIter = lines.begin();
-    std::advance(firstRowIter, l);
-    auto lastRowIter = firstRowIter;
-    std::advance(lastRowIter, end.getLine()-l);
+    if (end.getLine() >= lines.size())
+        lastRowIter = lines.end();
+    else
+        std::advance(lastRowIter, end.getLine()-l);
     std::string lastRowRemaining = (lastRowIter == lines.end())? "": lastRowIter->substr(end.getCol());
     std::string deleted = firstRowIter->substr(begin.getCol());
     firstRowIter->erase(begin.getCol());
@@ -170,6 +160,7 @@ std::string FileManager::deleteText(const Range &range, bool) {
         deleted += '\n';
         deleted += (lastRowIter == lines.end())? "": lastRowIter->substr(0, end.getCol());
         lines.erase(firstRowIter, (lastRowIter == lines.end())? lastRowIter: std::next(lastRowIter));
+        if (lastRowIter == lines.end() && lines.size() > 1) lines.pop_back();
     }
     else {
         deleted = deleted.substr(0, end.getCol()-begin.getCol());

@@ -4,7 +4,7 @@
 #include "insertCommand.h"
 
 class Paste: public InsertCommand {
-    void paste(int count);
+    void paste(int count, bool after);
   public:
     Paste(Vm *vm, FileManager *fm, RegisterManager *rm):
         Command{vm,fm,rm},

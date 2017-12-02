@@ -19,4 +19,5 @@
 #include "paste.h"
 #include "wordForward.h"
 #include "wordBack.h"
-
+#include "findForward.h"
+#include "findBack.h"

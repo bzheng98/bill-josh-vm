@@ -20,7 +20,10 @@ enum CommandType {
     UNDO,
     DELETE,
     YANK,
-    PASTE,
+    PASTE_AFTER,
     WORD_FORWARD,
-    WORD_BACK};
+    WORD_BACK,
+    FIND_FORWARD,
+    FIND_BACK,
+    PASTE_BEFORE};
 #endif

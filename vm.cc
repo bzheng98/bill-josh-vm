@@ -12,7 +12,9 @@ Vm::Vm(const std::string &fileName): Model(std::make_unique<CurseKeyboard>(), st
         new Left{this, &fileManager, &registerManager},
         new Right{this, &fileManager, &registerManager},
         new WordForward{this, &fileManager, &registerManager},
-        new WordBack{this, &fileManager, &registerManager}
+        new WordBack{this, &fileManager, &registerManager},
+        new FindForward{this, &fileManager, &registerManager},
+        new FindBack{this, &fileManager, &registerManager}
         } {
     attach(std::make_unique<Insert>(this, &fileManager, &registerManager));
     attach(std::make_unique<Append>(this, &fileManager, &registerManager));
@@ -151,7 +153,9 @@ bool Vm::hasFootprint() {
 Range Vm::getMotion(const CommandInfo &c) {
     for (auto &commandPtr: motionCommands) {
         if (commandPtr->checkCommand(c)) {
-            Range ret = {fileManager.getCursorPosition(), commandPtr->getMotionResult(c)};
+            Position end = commandPtr->getMotionResult(c);
+            if (end.getLine() == -1) return Range{fileManager.getCursorPosition(), fileManager.getCursorPosition()};
+            Range ret = {fileManager.getCursorPosition(), end};
             log("Range found:");
             log(ret.getStart().getCol());
             log(ret.getEnd().getCol());
