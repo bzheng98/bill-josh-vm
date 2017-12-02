@@ -11,6 +11,7 @@
 #include <string>
 #include <vector>
 
+class MotionCommand;
 
 class Vm: public Model, public Subject {
     bool running;
@@ -19,6 +20,7 @@ class Vm: public Model, public Subject {
     std::vector<std::unique_ptr<Footprint> > footprints;
     size_t offset;
     size_t numLines;
+    std::vector<MotionCommand *> motionCommands;
   public:
     Vm(const std::string &fileName);
     void runVm();

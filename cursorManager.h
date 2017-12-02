@@ -17,8 +17,8 @@ class CursorManager {
     Position getRight(int count);
     Position getUp(int count);
     Position getDown(int count);
-    Position findForward(char c);
-    Position findBackward(char c);
+    Position findForward(char c, int count);
+    Position findBack(char c, int count);
     Position getLine(int line);
     Position getLastLine();
     Position getFirstLine();

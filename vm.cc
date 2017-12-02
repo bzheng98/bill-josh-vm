@@ -4,31 +4,37 @@
 #include <fstream>
 #include "all_commands.h"
 #include "keys.h"
-
-Vm::Vm(const std::string &fileName): Model(std::make_unique<CurseKeyboard>(), std::make_unique<CurseView>()), running{true}, fileManager{fileName}, registerManager{}, footprints{}, offset{0}, numLines{100} {
-   attach(std::make_unique<Up>(this, &fileManager, &registerManager));
-   attach(std::make_unique<Down>(this, &fileManager, &registerManager));
-   attach(std::make_unique<Left>(this, &fileManager, &registerManager));
-   attach(std::make_unique<Right>(this, &fileManager, &registerManager));
-   attach(std::make_unique<Insert>(this, &fileManager, &registerManager));
-   attach(std::make_unique<Append>(this, &fileManager, &registerManager));
-   attach(std::make_unique<Prepend>(this, &fileManager, &registerManager));
-   attach(std::make_unique<NewlineInsert>(this, &fileManager, &registerManager));
-   attach(std::make_unique<AppendToLine>(this, &fileManager, &registerManager));
-   attach(std::make_unique<EnterReplaceMode>(this, &fileManager, &registerManager));
-   attach(std::make_unique<Write>(this, &fileManager, &registerManager));
-   attach(std::make_unique<Quit>(this, &fileManager, &registerManager));
-   attach(std::make_unique<WriteQuit>(this, &fileManager, &registerManager));
-   attach(std::make_unique<Undo>(this, &fileManager, &registerManager));
-   attach(std::make_unique<Delete>(this, &fileManager, &registerManager));
-   attach(std::make_unique<ScrollUp>(this, &fileManager, &registerManager));
-   attach(std::make_unique<ScrollDown>(this, &fileManager, &registerManager));
-   attach(std::make_unique<ScrollForward>(this, &fileManager, &registerManager));
-   attach(std::make_unique<ScrollBackward>(this, &fileManager, &registerManager));
-   attach(std::make_unique<Yank>(this, &fileManager, &registerManager));
-   attach(std::make_unique<Paste>(this, &fileManager, &registerManager));
-   attach(std::make_unique<WordForward>(this, &fileManager, &registerManager));
-   attach(std::make_unique<WordBack>(this, &fileManager, &registerManager));
+#include "motionCommand.h"
+Vm::Vm(const std::string &fileName): Model(std::make_unique<CurseKeyboard>(), std::make_unique<CurseView>()), running{true}, fileManager{fileName}, registerManager{}, footprints{}, offset{0}, numLines{100}, motionCommands{
+        new Up{this, &fileManager, &registerManager},
+        new Down{this, &fileManager, &registerManager},
+        new Left{this, &fileManager, &registerManager},
+        new Right{this, &fileManager, &registerManager},
+        new WordForward{this, &fileManager, &registerManager},
+        new WordBack{this, &fileManager, &registerManager},
+        new FindForward{this, &fileManager, &registerManager},
+        new FindBack{this, &fileManager, &registerManager}
+        } {
+    attach(std::make_unique<Insert>(this, &fileManager, &registerManager));
+    attach(std::make_unique<Append>(this, &fileManager, &registerManager));
+    attach(std::make_unique<Prepend>(this, &fileManager, &registerManager));
+    attach(std::make_unique<NewlineInsert>(this, &fileManager, &registerManager));
+    attach(std::make_unique<AppendToLine>(this, &fileManager, &registerManager));
+    attach(std::make_unique<EnterReplaceMode>(this, &fileManager, &registerManager));
+    attach(std::make_unique<Write>(this, &fileManager, &registerManager));
+    attach(std::make_unique<Quit>(this, &fileManager, &registerManager));
+    attach(std::make_unique<WriteQuit>(this, &fileManager, &registerManager));
+    attach(std::make_unique<Undo>(this, &fileManager, &registerManager));
+    attach(std::make_unique<Delete>(this, &fileManager, &registerManager));
+    attach(std::make_unique<ScrollUp>(this, &fileManager, &registerManager));
+    attach(std::make_unique<ScrollDown>(this, &fileManager, &registerManager));
+    attach(std::make_unique<ScrollForward>(this, &fileManager, &registerManager));
+    attach(std::make_unique<ScrollBackward>(this, &fileManager, &registerManager));
+    attach(std::make_unique<Yank>(this, &fileManager, &registerManager));
+    attach(std::make_unique<Paste>(this, &fileManager, &registerManager));
+	
+    for (const auto &commandPtr: motionCommands)
+        attach(std::unique_ptr<Command>(commandPtr));
 }
 
 void Vm::runVm() {
@@ -147,6 +153,20 @@ bool Vm::hasFootprint() {
 }
 
 Range Vm::getMotion(const CommandInfo &c) {
+    for (auto &commandPtr: motionCommands) {
+        if (commandPtr->checkCommand(c)) {
+            Position end = commandPtr->getMotionResult(c);
+            if (end.getLine() == -1) return Range{fileManager.getCursorPosition(), fileManager.getCursorPosition()};
+            Range ret = {fileManager.getCursorPosition(), end};
+            log("Range found:");
+            log(ret.getStart().getCol());
+            log(ret.getEnd().getCol());
+            if (commandPtr->isLinewise()) {
+                ret.makeLinewise();
+            }
+            return ret;
+        }
+    }
     throw;
 }
 

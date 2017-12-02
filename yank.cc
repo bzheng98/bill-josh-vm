@@ -17,6 +17,7 @@ void Yank::update(const CommandInfo &c) {
     CommandInfo motion = vm->getCommand(vm);
     if (!CommandInfo::isMotionCommand(motion)) return;
     Range range = vm->getMotion(motion);
+    yankRange(range);
 }
 
 void Yank::yankLines(int count) {

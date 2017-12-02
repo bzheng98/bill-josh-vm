@@ -16,5 +16,6 @@ bool MotionCommand::isLinewise() {
 void MotionCommand::update(const CommandInfo &c) {
     if (!checkCommand(c)) return;
     Position p = getMotionResult(c);
+    if (p.getLine() == -1) return; // i.e. "f" command received escape`
     fileManager->setCursorPosition(p, !isLinewise(), false);
 }
