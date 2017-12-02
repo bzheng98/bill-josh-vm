@@ -10,6 +10,8 @@ FileManager::FileManager(const std::string &fileName): fileName{fileName}, lines
     while(getline(f,s)) {
         lines.push_back(s);
     }
+    if (!lines.size())
+        lines.push_back("");
     curLineIter = lines.begin();
     //std::cout << "File " << fileName << " opened. " << lines.size() << " lines." << std::endl;
 }
