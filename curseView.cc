@@ -159,6 +159,7 @@ void CurseView::colorPrint(const std::string &s, const std::vector<int> &color) 
     init_pair(0, COLOR_WHITE, COLOR_BLACK);
     init_pair(1, COLOR_GREEN, COLOR_BLACK);
     init_pair(2, COLOR_YELLOW, COLOR_BLACK);
+    init_pair(3, COLOR_RED, COLOR_BLACK);
     for(int i = 0; i < color.size(); i++) {
         addch(s[i] | COLOR_PAIR(color[i]));
     }

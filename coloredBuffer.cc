@@ -24,7 +24,7 @@ ColoredBuffer::ColoredBuffer(const std::vector<std::string> &buffer) {
             pos.clear();
         }  
     }
-    
+    //identifiers
     for(int i = 0; i < identifiers.size(); i++) {
         std::string s = identifiers[i];
         std::vector<int> pos; 
@@ -39,6 +39,15 @@ ColoredBuffer::ColoredBuffer(const std::vector<std::string> &buffer) {
             }
             pos.clear();
         }  
+    }
+    //numerics
+    for(int strIdx = 0; strIdx < buffer.size(); strIdx++) {
+        std::regex r("(^|[^a-zA-Z0-9])([0-9]+)($|[^a-zA-Z0-9])");
+        for(auto it = std::sregex_iterator(buffer[strIdx].begin(), buffer[strIdx].end(), r); it != std::sregex_iterator(); ++it) {
+            std::smatch m = *it; 
+            int j = m.position(2); 
+            for(int k = j; k < j + m.length(2); k++)colors[strIdx][k] = 3;
+        }
     }
 }
 
