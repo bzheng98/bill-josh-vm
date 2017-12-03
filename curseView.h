@@ -2,6 +2,7 @@
 #define CURSE_VIEW_H
 
 #include "view.h"
+#include "coloredBuffer.h"
 #include <ncurses.h>
 
 class CurseView: public View {
@@ -12,6 +13,7 @@ class CurseView: public View {
     bool onScreen(Position p);
     void adjustTopLeft(Position p);
 	void scrollEnd();
+    void colorPrint(const std::string &s, const std::vector<int> &color);
 	bool atBottom();
 	bool atTop();	
 	bool inPartialMode();

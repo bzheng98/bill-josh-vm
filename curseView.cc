@@ -6,6 +6,7 @@ CurseView::CurseView() : topLeft{0, 0}, curCursor{0, 0} {
     initscr();
     noecho();
     raw();
+    start_color();
     keypad(stdscr,TRUE);
 }
 
@@ -108,6 +109,7 @@ void CurseView::update(const std::vector<std::string> &buf, Position p) {
     f << "update\n";
     buffer.clear();
     for(auto s : buf)buffer.push_back(s);
+    ColoredBuffer colorBuf (buf); 
     f << "adjusted\n";
     //print the buf
     size_t prevX, prevY, lines, cols, idx;
@@ -134,7 +136,8 @@ void CurseView::update(const std::vector<std::string> &buf, Position p) {
         f << "actual: " << actual.getLine() << " " << actual.getCol() << "\n";
         size_t charsLeft = (lines - 1 - actual.getLine()) * cols;
         if(buf[idx].size() <= charsLeft) {
-            mvaddstr(actual.getLine(), 0, buf[idx].c_str());
+            move(actual.getLine(), 0);
+            colorPrint(buf[idx].c_str(), colorBuf.getColor(idx)); 
             cur.setLine(cur.getLine() + 1);
         }
         else {
@@ -145,10 +148,20 @@ void CurseView::update(const std::vector<std::string> &buf, Position p) {
     Position actual = toScreenPosition(cur);
     if(actual.getLine() < lines - 1) {
         char pr = notEnoughLines ? '@' : '~';
+        init_pair(13, COLOR_BLUE, COLOR_BLACK);
         for(size_t i = actual.getLine(); i < lines - 1; i++) {
-            mvaddch(i, 0, pr);
+            mvaddch(i, 0, pr | COLOR_PAIR(13));
         }
-    } 
+    }
+}
+
+void CurseView::colorPrint(const std::string &s, const std::vector<int> &color) {
+    init_pair(0, COLOR_WHITE, COLOR_BLACK);
+    init_pair(1, COLOR_GREEN, COLOR_BLACK);
+    init_pair(2, COLOR_YELLOW, COLOR_BLACK);
+    for(int i = 0; i < color.size(); i++) {
+        addch(s[i] | COLOR_PAIR(color[i]));
+    }
 }
 
 void CurseView::updateCursor(Position p) {
