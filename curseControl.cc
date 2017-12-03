@@ -39,6 +39,7 @@ CommandInfo CurseKeyboard::commandType(Model *caller) {
             }
             s = ":0";
         }
+        caller->updateViewBottomTexts("");
     }
 	else if(ch == 4) s = "^d";
 	else if(ch == 21) s = "^u";

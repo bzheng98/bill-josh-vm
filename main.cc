@@ -5,8 +5,13 @@
 #include "up.h"
 #include "down.h"
 
-int main() {
-    Vm myVim{"test.txt"};
-
-    myVim.runVm();
+int main(int argc, char *argv[]) {
+    if (argc == 1){
+        //Vm myVim;
+        //myVim.run();
+    }
+    else {
+        Vm myVim{argv[1]};
+        myVim.runVm();
+    }
 }
