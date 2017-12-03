@@ -31,6 +31,14 @@ CommandInfo CurseKeyboard::commandType(Model *caller) {
             caller->log("getCommand: ");
             caller->log(ch);
         }
+        if (s.size()>1 && s[1] >= '0' && s[1] <= '9') {
+            count = 0;
+            for (int i = 1; i < s.size(); ++i) {
+                if (s[i] < '0' || s[i] > '9') return commandType(caller);
+                count = count * 10 + s[i] - '0';
+            }
+            s = ":0";
+        }
     }
 	else if(ch == 4) s = "^d";
 	else if(ch == 21) s = "^u";

@@ -198,3 +198,12 @@ Position CursorManager::getLineEnd(int count) {
     fm->setCursorPosition(original, false, true);
     return p;
 }
+
+Position CursorManager::getLine(int line) {
+    Position original = fm->cursorPosition;
+    line = std::max(line, 1);
+    fm->setCursorPosition(Position{line-1,0}, false, true);
+    Position p = fm->cursorPosition;
+    fm->setCursorPosition(original, false, true);
+    return p;
+}
