@@ -1,5 +1,4 @@
 #include "enterReplaceMode.h"
-#include "replaceFootprint.h"
 #include <string>
 #include "vm.h"
 #include "fileManager.h"
@@ -15,6 +14,6 @@ void EnterReplaceMode::doReplaceMode(int count) {
     std::string replaced = vm->runInsertMode(inserted, true);
     if (count > 1)
         replaced += fileManager->replaceText(inserted, fileManager->getCursorPosition(), count-1);
-    vm->addFootprint(std::unique_ptr<Footprint>(new ReplaceFootprint(startingPos, fileManager->getCursorPosition(), replaced)));
+    createReplaceFootprint(startingPos, fileManager->getCursorPosition(), replaced);
     fileManager->leaveInsertMode();
 }

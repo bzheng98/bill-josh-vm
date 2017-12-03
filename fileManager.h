@@ -36,5 +36,6 @@ class FileManager {
     int replaceChar(char c);
     std::string getText(const Range &range);
     char getCharAtCursor();
+    int getCurrentLineLength();
 };
 #endif

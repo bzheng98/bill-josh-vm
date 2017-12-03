@@ -38,6 +38,7 @@ Vm::Vm(const std::string &fileName): Model(std::make_unique<CurseKeyboard>(), st
     attach(std::make_unique<ScrollBackward>(this, &fileManager, &registerManager));
     attach(std::make_unique<Yank>(this, &fileManager, &registerManager));
     attach(std::make_unique<Paste>(this, &fileManager, &registerManager));
+    attach(std::make_unique<ReplaceChar>(this, &fileManager, &registerManager));
 	
     for (const auto &commandPtr: motionCommands)
         attach(std::unique_ptr<Command>(commandPtr));

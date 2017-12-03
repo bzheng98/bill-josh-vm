@@ -33,5 +33,6 @@ enum CommandType {
     LINE_JUMP,
     JUMP_TO_MATCH,
     SEARCH_FORWARD,
-    SEARCH_BACK};
+    SEARCH_BACK,
+    REPLACE_CHAR};
 #endif

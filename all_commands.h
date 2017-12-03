@@ -29,3 +29,4 @@
 #include "jumpToMatch.h"
 #include "searchForward.h"
 #include "searchBack.h"
+#include "replaceChar.h"

@@ -235,3 +235,7 @@ char FileManager::getCharAtCursor() {
     if (cursorPosition.getCol() == curLineIter->length()) return '\n';
     return (*curLineIter)[cursorPosition.getCol()];
 }
+
+int FileManager::getCurrentLineLength() {
+    return curLineIter->length();
+}
