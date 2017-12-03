@@ -41,6 +41,27 @@ CommandInfo CurseKeyboard::commandType(Model *caller) {
         }
         caller->updateViewBottomTexts("");
     }
+    else if (ch == '/' || ch == '?') {
+        std::string t = {ch};
+        while (!is_enter(ch)) {
+            if (is_backspace(ch)) {
+                s.pop_back();
+                if (!s.length()) {
+                    caller->updateViewBottomTexts(s);
+                    return commandType(caller);
+                }
+            }
+            else s += ch;
+            caller->updateViewBottomTexts(s);
+            ch = readChar();
+        }
+        caller->updateViewBottomTexts("");
+        ungetch(10);
+        for (int i = s.length()-1; i >= 1; --i) {
+            ungetch(s[i]);
+        }
+        s = t;
+    }
 	else if(ch == 4) s = "^d";
 	else if(ch == 21) s = "^u";
 	else if(ch == 6) s = "^f";

@@ -1,6 +1,7 @@
 #ifndef CURSORMANAGER_H
 #define CURSORMANAGER_H
 #include "position.h"
+#include <string>
 
 class FileManager;
 
@@ -23,5 +24,7 @@ class CursorManager {
     Position getLineEnd(int count);
     Position getLine(int line);
     Position getMatch();
+    Position searchForward(const std::string &s, int count);
+    Position searchBack(const std::string &s, int count);
 };
 #endif

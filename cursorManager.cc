@@ -398,3 +398,111 @@ Position CursorManager::getMatch() {
     fm->setCursorPosition(original, false, true);
     return original;
 }
+
+Position CursorManager::searchForward(const std::string &s, int count) {
+    Position original = fm->cursorPosition;
+    Position prev = original;
+    int found = 0;
+    int c = original.getCol();
+    while((c = fm->curLineIter->find(s, c+1)) != std::string::npos) {
+        ++found;
+        if (found == count) {
+            prev.setCol(c);
+            return prev;
+        }
+    }
+    prev.setCol(0);
+    fm->setCursorPosition(prev, true, true);
+    fm->moveCursorPosition(0,1,false);
+    while(fm->cursorPosition != prev) {
+        prev = fm->cursorPosition;
+        c = 0;
+        while((c = fm->curLineIter->find(s, c+1)) != std::string::npos) {
+            ++found;
+            if (found == count) {
+                prev.setCol(c);
+                fm->setCursorPosition(original, false, true);
+                return prev;
+            }
+        }
+        fm->moveCursorPosition(0,1, false);
+    }
+    bool foundOne = true;
+    while(foundOne) {
+        foundOne = false;
+        prev.setLine(0);
+        prev.setCol(0);
+        fm->setCursorPosition(prev, true, true);
+        prev.setLine(-1);
+        while(fm->cursorPosition != prev) {
+            prev = fm->cursorPosition;
+            c = 0;
+            while((c = fm->curLineIter->find(s, c+1)) != std::string::npos) {
+                ++found;
+                foundOne = true;
+                if (found == count) {
+                    prev.setCol(c);
+                    fm->setCursorPosition(original, false, true);
+                    return prev;
+                }
+            }
+            fm->moveCursorPosition(0,1,false);
+        }
+    }
+    fm->setCursorPosition(original, false, true);
+    return original;
+}
+
+Position CursorManager::searchBack(const std::string &s, int count) {
+    Position original = fm->cursorPosition;
+    Position prev = original;
+    int found = 0;
+    int c = original.getCol();
+    while((c = fm->curLineIter->rfind(s, c-1)) != std::string::npos) {
+        ++found;
+        if (found == count) {
+            prev.setCol(c);
+            return prev;
+        }
+    }
+    prev.setCol(0);
+    fm->setCursorPosition(prev, true, true);
+    fm->moveCursorPosition(0,-1,false);
+    while(fm->cursorPosition != prev) {
+        prev = fm->cursorPosition;
+        c = std::string::npos;
+        while((c = fm->curLineIter->rfind(s, c-1)) != std::string::npos) {
+            ++found;
+            if (found == count) {
+                prev.setCol(c);
+                fm->setCursorPosition(original, false, true);
+                return prev;
+            }
+        }
+        fm->moveCursorPosition(0,-1, false);
+    }
+    bool foundOne = true;
+    while(foundOne) {
+        foundOne = false;
+        prev.setLine(fm->lines.size()-1);
+        prev.setCol(0);
+        fm->setCursorPosition(prev, true, true);
+        prev.setLine(-1);
+        while(fm->cursorPosition != prev) {
+            prev = fm->cursorPosition;
+            c = std::string::npos;
+            while((c = fm->curLineIter->rfind(s, c-1)) != std::string::npos) {
+                ++found;
+                foundOne = true;
+                if (found == count) {
+                    prev.setCol(c);
+                    fm->setCursorPosition(original, false, true);
+                    return prev;
+                }
+            }
+            fm->moveCursorPosition(0,-1,false);
+        }
+    }
+    fm->setCursorPosition(original, false, true);
+    return original;
+}

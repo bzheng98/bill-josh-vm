@@ -15,10 +15,10 @@ enum CommandType {
     WRITE,
     WRITEQUIT,
     QUIT, 
-	SCROLLUP,
-	SCROLLDOWN,
-	SCROLLFORWARD,
-	SCROLLBACKWARD,
+    SCROLLUP,
+    SCROLLDOWN,
+    SCROLLFORWARD,
+    SCROLLBACKWARD,
     UNDO,
     DELETE,
     YANK,
@@ -31,5 +31,7 @@ enum CommandType {
     LINE_BEGIN,
     LINE_END,
     LINE_JUMP,
-    JUMP_TO_MATCH};
+    JUMP_TO_MATCH,
+    SEARCH_FORWARD,
+    SEARCH_BACK};
 #endif

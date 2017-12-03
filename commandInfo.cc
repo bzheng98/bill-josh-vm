@@ -31,7 +31,9 @@ const std::map<std::string, CommandType> CommandInfo::mapping{
     {"0", CommandType::LINE_BEGIN},
     {"$", CommandType::LINE_END},
     {":0", CommandType::LINE_JUMP},
-    {"%", CommandType::JUMP_TO_MATCH}
+    {"%", CommandType::JUMP_TO_MATCH},
+    {"/", CommandType::SEARCH_FORWARD},
+    {"?", CommandType::SEARCH_BACK}
 };
 
 const std::set<CommandType> CommandInfo::motionCommands{
@@ -46,7 +48,9 @@ const std::set<CommandType> CommandInfo::motionCommands{
     CommandType::LINE_BEGIN,
     CommandType::LINE_END,
     CommandType::LINE_JUMP,
-    CommandType::JUMP_TO_MATCH
+    CommandType::JUMP_TO_MATCH,
+    CommandType::SEARCH_FORWARD,
+    CommandType::SEARCH_BACK
 };
 
 bool CommandInfo::isCommand(const std::string &s) {
