@@ -207,3 +207,57 @@ Position CursorManager::getLine(int line) {
     fm->setCursorPosition(original, false, true);
     return p;
 }
+
+bool is_bracket(char c1) {
+    return c1 == '(' || c1 == ')' || c1 == '{' || c1 == '}' || c1 == '[' || c1 == ']';
+}
+
+Position CursorManager::getMatch() {
+    Position original = fm->cursorPosition;
+    Position prev = original;
+    if (prev.getCol() == 0) {
+        std::string s = fm->curLineIter->substr(0,6);
+        if (s.find("#if") == 0
+            || s.find("#elif") == 0
+            || s.find("#else") == 0) {
+            int count = 1;
+            fm->moveCursorPosition(0,1,true);
+            while (fm->cursorPosition != prev) {
+                s = fm->curLineIter->substr(0,6);
+                if (count == 1 &&
+                    (s.find("#elif") == 0
+                    || s.find("#else") == 0
+                    || s.find("#endif") == 0)) {
+                    prev = fm->cursorPosition;
+                    fm->setCursorPosition(original, false, true);
+                    return prev;
+                }
+                if (s.find("#if") == 0) ++count;
+                else if (s.find("#endif") == 0) --count;
+                fm->moveCursorPosition(0,1,true);
+            }
+            fm->setCursorPosition(original, false, true);
+            return original;
+        }
+        else if (fm->curLineIter->find("#endif") == 0) {
+            int count = 1;
+            fm->moveCursorPosition(0,-1,true);
+            while (fm->cursorPosition != prev) {
+                s = fm->curLineIter->substr(0,6);
+                if (count == 1 && s.find("#if") == 0) {
+                    prev = fm->cursorPosition;
+                    fm->setCursorPosition(original, false, true);
+                    return prev;
+                }
+                if (s.find("#if") == 0) --count;
+                else if (s.find("#endif") == 0) ++count;
+                fm->moveCursorPosition(0,-1,true);
+            }
+            fm->setCursorPosition(original, false, true);
+            return original;
+        }
+    }
+    for (int i = fm->cursorPosition.getCol(); i < fm->curLineIter->length(); ++i) {
+
+    }
+}

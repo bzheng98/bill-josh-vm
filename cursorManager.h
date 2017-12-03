@@ -22,6 +22,6 @@ class CursorManager {
     Position getLineBegin();
     Position getLineEnd(int count);
     Position getLine(int line);
-    Position getLastLine();
+    Position getMatch();
 };
 #endif
