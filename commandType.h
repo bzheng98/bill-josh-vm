@@ -27,5 +27,7 @@ enum CommandType {
     WORD_BACK,
     FIND_FORWARD,
     FIND_BACK,
-    PASTE_BEFORE};
+    PASTE_BEFORE,
+    LINE_BEGIN,
+    LINE_END};
 #endif

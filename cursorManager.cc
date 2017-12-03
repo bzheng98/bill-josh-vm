@@ -1,5 +1,6 @@
 #include "cursorManager.h"
 #include "fileManager.h"
+#include <algorithm>
 
 Position CursorManager::getNext(bool countNewline) {
     int curlen = fm->curLineIter->length();
@@ -180,4 +181,20 @@ Position CursorManager::findBack(char c, int count) {
         }
     }
     return fm->cursorPosition;
+}
+
+Position CursorManager::getLineBegin() {
+    Position p = fm->cursorPosition;
+    p.setCol(0);
+    return p;
+}
+
+Position CursorManager::getLineEnd(int count) {
+    Position original = fm->cursorPosition;
+    Position p = fm->cursorPosition;
+    p.setLine(std::min((int)fm->lines.size()-1, p.getLine()+count-1));
+    fm->setCursorPosition(p, false, true);
+    p.setCol(fm->curLineIter->length());
+    fm->setCursorPosition(original, false, true);
+    return p;
 }

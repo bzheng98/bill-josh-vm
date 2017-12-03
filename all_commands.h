@@ -23,3 +23,5 @@
 #include "wordBack.h"
 #include "findForward.h"
 #include "findBack.h"
+#include "lineBegin.h"
+#include "lineEnd.h"

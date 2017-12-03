@@ -7,13 +7,14 @@ CommandInfo CurseKeyboard::commandType(Model *caller) {
     int count = 0, ch = readChar();
     caller->log("getCommand: ");
     caller->log(ch);
-    while (ch <= '9' && ch >= '0') {
-        count = count * 10 + (ch - '0');
-        ch = readChar();
-        caller->log("getCommand: ");
-        caller->log(ch);
-    }
-    if(count == 0) count = 1;
+    if (ch >= '1' && ch <= '9')
+        while (ch <= '9' && ch >= '0') {
+            count = count * 10 + (ch - '0');
+            ch = readChar();
+            caller->log("getCommand: ");
+            caller->log(ch);
+        }
+    else count = 1;
     std::string s;
     if (ch == ':') {
         while(!is_enter(ch)) {
