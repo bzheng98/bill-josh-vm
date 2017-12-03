@@ -68,9 +68,21 @@ ColoredBuffer::ColoredBuffer(const std::vector<std::string> &buffer) {
             for(int k = j; k < j + m.length(2); k++)colors[strIdx][k] = 4;
         }
     }
+    //#include
+    std::regex include("(^ *)(# *include) *(<[^<>]+>|\"[^\"]+\") *$");
+    for(int strIdx = 0; strIdx < buffer.size(); strIdx++) {
+        for(auto it = std::sregex_iterator(buffer[strIdx].begin(), buffer[strIdx].end(), include); it != std::sregex_iterator(); ++it) {
+            m = *it;
+            //purple
+            int j = m.position(2);
+            for(int k = j; k < j + m.length(2); k++)colors[strIdx][k] = 4;
+            //red
+            j = m.position(3);
+            for(int k = j; k < j + m.length(3); k++)colors[strIdx][k] = 3;
+        }
+    }
 }
 
 std::vector<int> ColoredBuffer::getColor(const size_t i) {
     return colors[i];
-} 
-
+}
