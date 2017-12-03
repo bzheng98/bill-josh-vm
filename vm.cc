@@ -16,7 +16,8 @@ Vm::Vm(const std::string &fileName): Model(std::make_unique<CurseKeyboard>(), st
         new FindBack{this, &fileManager, &registerManager},
         new LineBegin{this, &fileManager, &registerManager},
         new LineEnd{this, &fileManager, &registerManager},
-        new LineJump{this, &fileManager, &registerManager}
+        new LineJump{this, &fileManager, &registerManager},
+        new JumpToMatch{this, &fileManager, &registerManager}
         } {
     attach(std::make_unique<Insert>(this, &fileManager, &registerManager));
     attach(std::make_unique<Append>(this, &fileManager, &registerManager));

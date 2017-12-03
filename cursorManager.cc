@@ -208,8 +208,19 @@ Position CursorManager::getLine(int line) {
     return p;
 }
 
-bool is_bracket(char c1) {
-    return c1 == '(' || c1 == ')' || c1 == '{' || c1 == '}' || c1 == '[' || c1 == ']';
+bool is_open_bracket(char c) {
+    return c == '(' || c == '{' || c == '[';
+}
+bool is_close_bracket(char c) {
+    return c == ')' || c == '}' || c == ']';
+}
+char get_match(char c) {
+    if (c == '(') return ')';
+    if (c == '{') return '}';
+    if (c == '[') return ']';
+    if (c == ')') return '(';
+    if (c == '}') return '{';
+    if (c == ']') return ']';
 }
 
 Position CursorManager::getMatch() {
@@ -223,12 +234,12 @@ Position CursorManager::getMatch() {
             int count = 1;
             fm->moveCursorPosition(0,1,true);
             while (fm->cursorPosition != prev) {
+                prev = fm->cursorPosition;
                 s = fm->curLineIter->substr(0,6);
                 if (count == 1 &&
                     (s.find("#elif") == 0
                     || s.find("#else") == 0
                     || s.find("#endif") == 0)) {
-                    prev = fm->cursorPosition;
                     fm->setCursorPosition(original, false, true);
                     return prev;
                 }
@@ -243,9 +254,9 @@ Position CursorManager::getMatch() {
             int count = 1;
             fm->moveCursorPosition(0,-1,true);
             while (fm->cursorPosition != prev) {
+                prev = fm->cursorPosition;
                 s = fm->curLineIter->substr(0,6);
                 if (count == 1 && s.find("#if") == 0) {
-                    prev = fm->cursorPosition;
                     fm->setCursorPosition(original, false, true);
                     return prev;
                 }
@@ -258,6 +269,132 @@ Position CursorManager::getMatch() {
         }
     }
     for (int i = fm->cursorPosition.getCol(); i < fm->curLineIter->length(); ++i) {
-
+        if (is_open_bracket((*fm->curLineIter)[i])) {
+            char open = (*fm->curLineIter)[i];
+            char close = get_match(open);
+            int count = 1;
+            prev.setCol(i);
+            fm->setCursorPosition(prev, false, true);
+            fm->setCursorPosition(getNext(false), false, true);
+            while(fm->cursorPosition != prev) {
+                prev = fm->cursorPosition;
+                char c = fm->getCharAtCursor();
+                if (c == open) ++count;
+                else if (c == close) --count;
+                if (!count) {
+                    fm->setCursorPosition(original, false, true);
+                    return prev;
+                }
+                fm->setCursorPosition(getNext(false), false, true);
+            }
+            fm->setCursorPosition(original, false, true);
+            return original;
+        }
+        else if (is_close_bracket((*fm->curLineIter)[i])) {
+            char close = (*fm->curLineIter)[i];
+            char open = get_match(close);
+            int count = 1;
+            prev.setCol(i);
+            fm->setCursorPosition(prev, false, true);
+            fm->setCursorPosition(getPrev(false), false, true);
+            while(fm->cursorPosition != prev) {
+                prev = fm->cursorPosition;
+                char c = fm->getCharAtCursor();
+                if (c == close) ++count;
+                else if (c == open) --count;
+                if (!count) {
+                    fm->setCursorPosition(original, false, true);
+                    return prev;
+                }
+                fm->setCursorPosition(getPrev(false), false, true);
+            }
+            fm->setCursorPosition(original, false, true);
+            return original;
+        }
+        else if (fm->curLineIter->substr(i,2) == "/*") {
+            prev.setCol(i);
+            fm->setCursorPosition(prev, false, true);
+            fm->setCursorPosition(getNext(true), false, true);
+            fm->setCursorPosition(getNext(true), false, true);
+            char pChar = ' ';
+            char c = ' ';
+            while(fm->cursorPosition != prev) {
+                prev = fm->cursorPosition;
+                pChar = c;
+                c = fm->getCharAtCursor();
+                if (pChar == '*' && c == '/') {
+                    fm->setCursorPosition(original, false, true);
+                    return prev;
+                }
+                fm->setCursorPosition(getNext(true), false, true);
+            }
+            fm->setCursorPosition(original, false, true);
+            return original;
+        }
+        else if (fm->curLineIter->substr(i,2) == "*/") {
+            prev.setCol(i);
+            fm->setCursorPosition(prev, false, true);
+            fm->setCursorPosition(getPrev(true), false, true);
+            char c = ' ';
+            char pChar = ' ';
+            while(fm->cursorPosition != prev) {
+                prev = fm->cursorPosition;
+                pChar = c;
+                c = fm->getCharAtCursor();
+                if (pChar == '*' && c == '/') {
+                    fm->setCursorPosition(original, false, true);
+                    return prev;
+                }
+                fm->setCursorPosition(getPrev(true), false, true);
+            }
+            fm->setCursorPosition(original, false, true);
+            return original;
+        }
     }
+
+    prev = original;
+    prev.setCol(0);
+    fm->setCursorPosition(prev, true, true);
+    std::string s = fm->curLineIter->substr(0,6);
+    if (s.find("#if") == 0
+        || s.find("#elif") == 0
+        || s.find("#else") == 0) {
+        int count = 1;
+        fm->moveCursorPosition(0,1,true);
+        while (fm->cursorPosition != prev) {
+            prev = fm->cursorPosition;
+            s = fm->curLineIter->substr(0,6);
+            if (count == 1 &&
+                (s.find("#elif") == 0
+                || s.find("#else") == 0
+                || s.find("#endif") == 0)) {
+                fm->setCursorPosition(original, false, true);
+                return prev;
+            }
+            if (s.find("#if") == 0) ++count;
+            else if (s.find("#endif") == 0) --count;
+            fm->moveCursorPosition(0,1,true);
+        }
+        fm->setCursorPosition(original, false, true);
+        return original;
+    }
+    else if (fm->curLineIter->find("#endif") == 0) {
+        int count = 1;
+        fm->moveCursorPosition(0,-1,true);
+        while (fm->cursorPosition != prev) {
+            prev = fm->cursorPosition;
+            s = fm->curLineIter->substr(0,6);
+            if (count == 1 && s.find("#if") == 0) {
+                fm->setCursorPosition(original, false, true);
+                return prev;
+            }
+            if (s.find("#if") == 0) --count;
+            else if (s.find("#endif") == 0) ++count;
+            fm->moveCursorPosition(0,-1,true);
+        }
+        fm->setCursorPosition(original, false, true);
+        return original;
+    }
+    fm->setCursorPosition(original, false, true);
+    return original;
 }
