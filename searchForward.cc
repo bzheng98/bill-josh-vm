@@ -9,8 +9,6 @@ bool SearchForward::checkCommand(const CommandInfo &c) {
 
 Position SearchForward::getMotionResult(const CommandInfo &c) {
     int in = vm->getChar();
-    vm->log("SEARCH_FORWARD:");
-    vm->log(in);
     std::string s;
     while(!is_enter(in)) {
         s += in;

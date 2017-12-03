@@ -168,7 +168,8 @@ std::string FileManager::deleteText(const Range &range) {
     return deleted;
 }
 
-void FileManager::saveFile() {
+void FileManager::saveFile(std::string fileName) {
+    if (!fileName.length()) fileName = this->fileName;
     std::ofstream f{fileName};
     for (const auto &line: lines) {
         f << line << std::endl;
