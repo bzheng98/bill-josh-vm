@@ -29,5 +29,6 @@ enum CommandType {
     FIND_BACK,
     PASTE_BEFORE,
     LINE_BEGIN,
-    LINE_END};
+    LINE_END,
+    LINE_JUMP};
 #endif
