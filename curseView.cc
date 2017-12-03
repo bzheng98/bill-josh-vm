@@ -106,7 +106,6 @@ void CurseView::adjustTopLeft(Position cur) {
 void CurseView::update(const std::vector<std::string> &buf, Position p) {
     std::ofstream f;
     f.open("out.txt");
-    f << "update\n";
     buffer.clear();
     for(auto s : buf)buffer.push_back(s);
     ColoredBuffer colorBuf (buf); 
@@ -131,9 +130,9 @@ void CurseView::update(const std::vector<std::string> &buf, Position p) {
 	Position cur = topLeft;
     size_t topLine = topLeft.getLine();
     for(idx = topLine; idx < buf.size(); idx++) {
-        f << "cur: " << cur.getLine() << " " << cur.getCol() << "\n";
+        //f << "cur: " << cur.getLine() << " " << cur.getCol() << "\n";
         Position actual = toScreenPosition(cur);
-        f << "actual: " << actual.getLine() << " " << actual.getCol() << "\n";
+        //f << "actual: " << actual.getLine() << " " << actual.getCol() << "\n";
         size_t charsLeft = (lines - 1 - actual.getLine()) * cols;
         if(buf[idx].size() <= charsLeft) {
             move(actual.getLine(), 0);
@@ -160,6 +159,7 @@ void CurseView::colorPrint(const std::string &s, const std::vector<int> &color) 
     init_pair(1, COLOR_GREEN, COLOR_BLACK);
     init_pair(2, COLOR_YELLOW, COLOR_BLACK);
     init_pair(3, COLOR_RED, COLOR_BLACK);
+    init_pair(4, COLOR_MAGENTA, COLOR_BLACK);
     for(int i = 0; i < color.size(); i++) {
         addch(s[i] | COLOR_PAIR(color[i]));
     }
