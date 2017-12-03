@@ -26,3 +26,4 @@
 #include "lineBegin.h"
 #include "lineEnd.h"
 #include "lineJump.h"
+#include "jumpToMatch.h"

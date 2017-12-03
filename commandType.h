@@ -30,5 +30,6 @@ enum CommandType {
     PASTE_BEFORE,
     LINE_BEGIN,
     LINE_END,
-    LINE_JUMP};
+    LINE_JUMP,
+    JUMP_TO_MATCH};
 #endif
