@@ -4,7 +4,7 @@ ColoredBuffer::ColoredBuffer(const std::vector<std::string> &buffer) {
     //lime green
     keyWords = { "namespace", "class", "template", "typename", "class", "const", "static", "size_t", "void", "bool", "int", "char", "auto" };
     //french fry yellow
-    identifiers = { "if", "for", "return", "new", "delete", "throw", "else", "operator", "this", "sizeof" };
+    identifiers = { "override", "private", "public", "protected",  "if", "for", "return", "new", "delete", "throw", "else", "operator", "this", "sizeof" };
     for(int i = 0; i < buffer.size(); i++)colors.push_back(std::vector<int>(buffer[i].size(), 0));
     //match keywords and identifiers first
     std::smatch m;
@@ -79,6 +79,15 @@ ColoredBuffer::ColoredBuffer(const std::vector<std::string> &buffer) {
             //red
             j = m.position(3);
             for(int k = j; k < j + m.length(3); k++)colors[strIdx][k] = 3;
+        }
+    }
+    //comments (line)
+    std::regex commentLine("\/[\/]+.*");
+    for(int strIdx = 0; strIdx < buffer.size(); strIdx++) {
+        for(auto it = std::sregex_iterator(buffer[strIdx].begin(), buffer[strIdx].end(), commentLine); it != std::sregex_iterator(); ++it) {
+            m = *it;
+            int j = m.position(0);
+            for(int k = j; k < j + m.length(0); k++)colors[strIdx][k] = 5; 
         }
     }
 }

@@ -1,6 +1,8 @@
 #ifndef CURSE_VIEW_H
-#define CURSE_VIEW_H
 
+
+#define CURSE_VIEW_H
+//asdfasdf
 #include "view.h"
 #include "coloredBuffer.h"
 #include <ncurses.h>
