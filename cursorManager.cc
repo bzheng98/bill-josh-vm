@@ -56,7 +56,7 @@ Position CursorManager::getForwardWord(int count) {
                 break;
         }
         else {
-            if (is_whitespace(c) || is_alphanumeric(c)) break;
+            if (is_whitespace(c) || is_alphanumeric(c) || is_newline(c)) break;
         }
         prevPos = fm->cursorPosition;
         fm->setCursorPosition(getNext(true), false, true);
@@ -108,7 +108,7 @@ Position CursorManager::getBackWord(int count) {
             if (!is_alphanumeric(c)) break;
         }
         else {
-            if (is_whitespace(c) || is_alphanumeric(c)) break;
+            if (is_whitespace(c) || is_alphanumeric(c) || is_newline(c)) break;
         }
         prevPos = fm->cursorPosition;
         fm->setCursorPosition(getPrev(true), false, true);
