@@ -79,7 +79,7 @@ void FileManager::insertChar(char c) {
     moveCursorPosition(1,0,true);
 }
 
-void FileManager::deleteChar() {
+int FileManager::deleteChar() {
     int c = cursorPosition.getCol();
     if (!c) {
         int r = cursorPosition.getLine();
@@ -90,13 +90,14 @@ void FileManager::deleteChar() {
             it->append(*curLineIter);
             lines.erase(curLineIter);
             curLineIter = it;
+            return '\n';
         }
-        return;
+        return -1;
     }
-    //char ret = (*curLineIter)[c-1];
+    char ret = (*curLineIter)[c-1];
     curLineIter->erase(c-1,1);
     cursorPosition.setCol(c-1);
-    //return ret;
+    return ret;
 }
 
 void FileManager::insertNewLine() {

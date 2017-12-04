@@ -6,8 +6,8 @@
 class ReplaceFootprint: public InsertFootprint, public DeleteFootprint {
     void undoFootprint(FileManager &fm) override;
   public:
-    ReplaceFootprint(const Position &begin, const Position &end, const std::string &replaced):
+    ReplaceFootprint(const Position &begin, const Position &end, const std::string &replaced, const Position &cursor):
         InsertFootprint{begin,end},
-        DeleteFootprint{begin, replaced} {}
+        DeleteFootprint{begin, replaced, cursor} {}
 };
 #endif

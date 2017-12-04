@@ -112,12 +112,17 @@ std::string Vm::runInsertMode(std::string &inserted, bool replace) {
                     motionUsed = true;
                     fileManager.moveCursorBack();
                 }
+                if (!motionUsed && inserted.size())
+                    inserted.pop_back();
             }
             else {
-                fileManager.deleteChar();
+                int del = fileManager.deleteChar();
+                if (inserted.size())
+                    inserted.pop_back();
+                else {
+                    replaced.push_back(del);
+                }
             }
-            if (!motionUsed && inserted.size())
-                inserted.pop_back();
         }
         else {
             if (!motionUsed)
@@ -130,8 +135,13 @@ std::string Vm::runInsertMode(std::string &inserted, bool replace) {
         }
     }
     std::string ret;
-    for (int i = 0; i < replaced.size(); ++i)
-        if (replaced[i] != -1) ret.push_back((char)replaced[i]);
+    if (replace) {
+        for (int i = 0; i < replaced.size(); ++i)
+            if (replaced[i] != -1) ret.push_back((char)replaced[i]);
+    }
+    else
+        for (int i = replaced.size()-1; i >= 0; --i)
+            if (replaced[i] != -1) ret.push_back((char)replaced[i]);
     return ret;
 }
 

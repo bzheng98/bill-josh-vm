@@ -5,16 +5,21 @@
 
 void InsertMode::doInsertMode(int count, Position originalCursor, bool newline) {
     Position startingPos = fileManager->getCursorPosition();
-    std::string s;
-    vm->runInsertMode(s);
+    std::string inserted;
+    std::string deleted = vm->runInsertMode(inserted);
+    if (newline) inserted.push_back('\n');
     if (count > 1)
-        fileManager->insertText(s, fileManager->getCursorPosition(), count-1);
-    Position endingPos = fileManager->getCursorPosition();
+        fileManager->insertText(inserted, fileManager->getCursorPosition(), count-1);
+    Position original = fileManager->getCursorPosition();
+    for (int i = 0; i < inserted.length() - (newline? 1:0); ++i) fileManager->setCursorPosition(fileManager->cursor.getPrev(true), false, true);
+    Position start = fileManager->getCursorPosition();
+    fileManager->setCursorPosition(original, false, true);
+    Position end = original;
     if (newline) {
-        endingPos.setLine(endingPos.getLine()+1);
-        endingPos.setCol(0);
+        end.setLine(end.getLine()+1);
+        end.setCol(0);
     }
-    if (startingPos < endingPos)
-        createInsertFootprint(startingPos, endingPos, originalCursor);
+    if (start < end || deleted.size())
+        createReplaceFootprint(start, end, deleted, originalCursor);
     fileManager->leaveInsertMode();
 }

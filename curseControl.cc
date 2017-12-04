@@ -40,14 +40,14 @@ CommandInfo CurseKeyboard::commandType(Model *caller) {
             s = ":0";
         }
         caller->updateViewBottomTexts("");
-        if (s[1] == 'w' && s[2] == ' ') {
+        if (s[1] == 'w' && (s[2] == ' ' || s.size() == 2)) {
             ungetch(10);
             for (int i = s.size()-1; i >= 3; --i) {
                 ungetch(s[i]);
             }
             s = ":w";
         }
-        else if (s[1] == 'w' && s[2] == 'q' && s[3] == ' ') {
+        else if (s[1] == 'w' && s[2] == 'q' && (s[3] == ' ' || s.size() == 3)) {
             ungetch(10);
             for (int i = s.size()-1; i >= 4; --i) {
                 ungetch(s[i]);
