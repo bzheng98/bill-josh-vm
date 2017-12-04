@@ -34,5 +34,7 @@ enum CommandType {
     JUMP_TO_MATCH,
     SEARCH_FORWARD,
     SEARCH_BACK,
-    REPLACE_CHAR};
+    REPLACE_CHAR,
+    REPLACE_MOTION,
+    FORCE_QUIT};
 #endif

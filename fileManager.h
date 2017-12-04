@@ -38,5 +38,8 @@ class FileManager {
     std::string getText(const Range &range);
     char getCharAtCursor();
     int getCurrentLineLength();
+    const std::string &getFileName();
+    int getNumLines();
+    int getNumChars();
 };
 #endif

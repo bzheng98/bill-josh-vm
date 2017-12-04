@@ -5,10 +5,12 @@
 #include <utility>
 
 class Footprint {
+    bool keepUndoing;
     void virtual undoFootprint(FileManager &fm) = 0;
   protected:
-    Footprint() = default;
+    Footprint(bool keepUndoing): keepUndoing{keepUndoing} {};
   public:
-    void undo(FileManager &fm);
+    bool undo(FileManager &fm);
+    virtual ~Footprint() {}
 };
 #endif

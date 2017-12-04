@@ -4,6 +4,10 @@
 void Undo::update(const CommandInfo &c) {
     if (c.getCommandType() != UNDO) return;
     if (!vm->hasFootprint()) return;
-    vm->getLastFootprint().undo(*fileManager);
+    bool b = vm->getLastFootprint().undo(*fileManager);
     vm->popLastFootprint();
+    if (!b) {
+        vm->getLastFootprint().undo(*fileManager);
+        vm->popLastFootprint();
+    }
 }

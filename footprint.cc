@@ -1,5 +1,6 @@
 #include "footprint.h"
 
-void Footprint::undo(FileManager &fm) {
+bool Footprint::undo(FileManager &fm) {
     undoFootprint(fm);
+    return !keepUndoing;
 }

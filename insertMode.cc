@@ -4,7 +4,7 @@
 #include "fileManager.h"
 #include "replaceFootprint.h"
 
-void InsertMode::doInsertMode(int count, Position originalCursor, bool newline) {
+void InsertMode::doInsertMode(int count, Position originalCursor, bool newline, bool replaceMotion) {
     Position startingPos = fileManager->getCursorPosition();
     std::string inserted;
     std::string deleted = vm->runInsertMode(inserted);
@@ -37,7 +37,7 @@ void InsertMode::doInsertMode(int count, Position originalCursor, bool newline) 
     fileManager->setCursorPosition(original, false, true);
     end = original;
     if (start < end || deleted.size())
-        createReplaceFootprint(start, end, deleted, originalCursor);
+        createReplaceFootprint(start, end, deleted, originalCursor, replaceMotion);
     if (newline) {
         fileManager->moveCursorPosition(0, -1);
         fileManager->goToEndOfLine(true);

@@ -273,3 +273,18 @@ char FileManager::getCharAtCursor() {
 int FileManager::getCurrentLineLength() {
     return curLineIter->length();
 }
+
+const std::string &FileManager::getFileName() {
+    return fileName;
+}
+
+int FileManager::getNumLines() {
+    return lines.size();
+}
+
+int FileManager::getNumChars() {
+    int cnt = 0;
+    for (auto &line: lines)
+        cnt += line.length();
+    return cnt;
+}

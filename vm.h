@@ -21,6 +21,7 @@ class Vm: public Model, public Subject {
     size_t offset;
     size_t numLines;
     std::vector<MotionCommand *> motionCommands;
+    int lastFootprint = 0;
   public:
     Vm(const std::string &fileName);
     void runVm();
@@ -33,5 +34,7 @@ class Vm: public Model, public Subject {
     bool hasFootprint();
     Range getMotion(const CommandInfo &c);
 	Position getViewCursor();
+    bool isWritten();
+    void write(std::string fileName);
 };
 #endif

@@ -30,3 +30,5 @@
 #include "searchForward.h"
 #include "searchBack.h"
 #include "replaceChar.h"
+#include "replaceMotion.h"
+#include "forceQuit.h"

@@ -5,7 +5,7 @@
 
 class Quitter: public virtual FileCommand {
   protected:
-    void quit();
+    void quit(bool wrote = true);
   public:
     Quitter(Vm *vm, FileManager *fileManager, RegisterManager *registerManager):
         FileCommand{vm, fileManager, registerManager} {}

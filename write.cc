@@ -12,4 +12,5 @@ void Write::update(const CommandInfo &c) {
         in = vm->getChar();
     }
     save(s);
+    vm->write(s);
 }

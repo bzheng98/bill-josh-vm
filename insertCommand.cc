@@ -7,8 +7,8 @@ void InsertCommand::createInsertFootprint(const Position &start, const Position 
     vm->addFootprint(std::unique_ptr<Footprint>(new InsertFootprint(start,end, cursor)));
 }
 
-void InsertCommand::createReplaceFootprint(const Position &start, const Position &end, const std::string &replaced, const Position &cursor) {
-    vm->addFootprint(std::unique_ptr<Footprint>(new ReplaceFootprint(start, end, replaced, cursor)));
+void InsertCommand::createReplaceFootprint(const Position &start, const Position &end, const std::string &replaced, const Position &cursor, bool replaceMotion) {
+    vm->addFootprint(std::unique_ptr<Footprint>(new ReplaceFootprint(start, end, replaced, cursor, replaceMotion)));
 }
 
 void InsertCommand::createReplaceFootprint(const Position &start, const Position &end, const std::string &replaced) {

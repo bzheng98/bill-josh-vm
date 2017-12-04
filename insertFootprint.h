@@ -10,7 +10,7 @@ class InsertFootprint: public virtual Footprint {
   protected:
     void undoInsert(FileManager &fm);
   public:
-    InsertFootprint(const Position &begin, const Position &end, const Position &cursor): range{begin,end}, cursor{cursor} {}
-    InsertFootprint(const Position &begin, const Position &end): range{begin,end}, cursor{begin} {}
+    InsertFootprint(const Position &begin, const Position &end, const Position &cursor, bool keepUndoing = false): Footprint{keepUndoing}, range{begin,end}, cursor{cursor} {}
+    InsertFootprint(const Position &begin, const Position &end, bool keepUndoing = false): Footprint{keepUndoing}, range{begin,end}, cursor{begin} {}
 };
 #endif

@@ -11,7 +11,7 @@ class DeleteFootprint: public virtual Footprint {
   protected:
     void undoDelete(FileManager &fm);
   public:
-    DeleteFootprint(const Position &pos, const std::string &deleted): pos{pos}, cursorPos{pos}, deleted{deleted} {}
-    DeleteFootprint(const Position &pos, const std::string &deleted, const Position &cursor): pos{pos}, cursorPos{cursor}, deleted{deleted} {}
+    DeleteFootprint(const Position &pos, const std::string &deleted, bool keepUndoing = false): Footprint{keepUndoing}, pos{pos}, cursorPos{pos}, deleted{deleted} {}
+    DeleteFootprint(const Position &pos, const std::string &deleted, const Position &cursor, bool keepUndoing = false): Footprint{keepUndoing}, pos{pos}, cursorPos{cursor}, deleted{deleted} {}
 };
 #endif

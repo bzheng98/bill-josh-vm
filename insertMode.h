@@ -5,7 +5,7 @@
 
 class InsertMode: public InsertCommand {
   protected:
-    void doInsertMode(int count, Position originalCursor, bool newline = false);
+    void doInsertMode(int count, Position originalCursor, bool newline = false, bool forceFootprint = false);
   public:
     InsertMode(Vm *vm, FileManager *fm, RegisterManager *rm):
         Command{vm,fm,rm},

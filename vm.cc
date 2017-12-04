@@ -39,6 +39,8 @@ Vm::Vm(const std::string &fileName): Model(std::make_unique<CurseKeyboard>(), st
     attach(std::make_unique<Yank>(this, &fileManager, &registerManager));
     attach(std::make_unique<Paste>(this, &fileManager, &registerManager));
     attach(std::make_unique<ReplaceChar>(this, &fileManager, &registerManager));
+    attach(std::make_unique<ReplaceMotion>(this, &fileManager, &registerManager));
+    attach(std::make_unique<ForceQuit>(this, &fileManager, &registerManager));
 	
     for (const auto &commandPtr: motionCommands)
         attach(std::unique_ptr<Command>(commandPtr));
@@ -151,9 +153,13 @@ void Vm::addFootprint(std::unique_ptr<Footprint> &&f) {
 
 void Vm::popLastFootprint() {
     footprints.pop_back();
+    if (footprints.size() < lastFootprint)
+        lastFootprint = 2e9;
 }
 
 Footprint &Vm::getLastFootprint() {
+    log("FOOTPRINTS");
+    log(footprints.size());
     return *footprints.back();
 }
 
@@ -189,4 +195,16 @@ Range Vm::getMotion(const CommandInfo &c) {
 
 Position Vm::getViewCursor() {
 	return views[0] -> getCursor();
+}
+
+bool Vm::isWritten() {
+    return footprints.size() == lastFootprint;
+}
+
+void Vm::write(std::string fileName) {
+    if (!fileName.length())
+        fileName = fileManager.getFileName();
+    updateViewBottomTexts("\""+fileName+"\" "+std::to_string(fileManager.getNumLines())+"L, "+std::to_string(fileManager.getNumChars())+"C written");  
+    
+    lastFootprint = footprints.size();
 }
