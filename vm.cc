@@ -163,10 +163,6 @@ Footprint &Vm::getLastFootprint() {
     return *footprints.back();
 }
 
-CommandInfo Vm::getPrevCommand() {
-    throw;
-}
-
 void Vm::quit() {
     running = false;
 }
@@ -190,7 +186,6 @@ Range Vm::getMotion(const CommandInfo &c) {
             return ret;
         }
     }
-    throw;
 }
 
 Position Vm::getViewCursor() {

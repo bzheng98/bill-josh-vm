@@ -416,7 +416,7 @@ Position CursorManager::searchForward(const std::string &s, int count) {
     fm->moveCursorPosition(0,1,false);
     while(fm->cursorPosition != prev) {
         prev = fm->cursorPosition;
-        c = 0;
+        c = -1;
         while((c = fm->curLineIter->find(s, c+1)) != std::string::npos) {
             ++found;
             if (found == count) {
@@ -436,7 +436,7 @@ Position CursorManager::searchForward(const std::string &s, int count) {
         prev.setLine(-1);
         while(fm->cursorPosition != prev) {
             prev = fm->cursorPosition;
-            c = 0;
+            c = -1;
             while((c = fm->curLineIter->find(s, c+1)) != std::string::npos) {
                 ++found;
                 foundOne = true;
@@ -458,7 +458,7 @@ Position CursorManager::searchBack(const std::string &s, int count) {
     Position prev = original;
     int found = 0;
     int c = original.getCol();
-    while((c = fm->curLineIter->rfind(s, c-1)) != std::string::npos) {
+    while(c > 0 && (c = fm->curLineIter->rfind(s, c-1)) != std::string::npos) {
         ++found;
         if (found == count) {
             prev.setCol(c);
@@ -470,8 +470,8 @@ Position CursorManager::searchBack(const std::string &s, int count) {
     fm->moveCursorPosition(0,-1,false);
     while(fm->cursorPosition != prev) {
         prev = fm->cursorPosition;
-        c = std::string::npos;
-        while((c = fm->curLineIter->rfind(s, c-1)) != std::string::npos) {
+        c = 2e9;
+        while(c > 0 && (c = fm->curLineIter->rfind(s, c-1)) != std::string::npos) {
             ++found;
             if (found == count) {
                 prev.setCol(c);
@@ -490,8 +490,8 @@ Position CursorManager::searchBack(const std::string &s, int count) {
         prev.setLine(-1);
         while(fm->cursorPosition != prev) {
             prev = fm->cursorPosition;
-            c = std::string::npos;
-            while((c = fm->curLineIter->rfind(s, c-1)) != std::string::npos) {
+            c = 2e9;
+            while(c > 0 && (c = fm->curLineIter->rfind(s, c-1)) != std::string::npos) {
                 ++found;
                 foundOne = true;
                 if (found == count) {

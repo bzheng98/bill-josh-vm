@@ -15,6 +15,8 @@ Position SearchForward::getMotionResult(const CommandInfo &c) {
         in = vm->getChar();
         vm->log(in);
     }
+    vm->log("SEARCH");
+    vm->log(s);
     return fileManager->cursor.searchForward(s, c.getCount());
 }
 
