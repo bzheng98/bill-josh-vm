@@ -76,6 +76,34 @@ CommandInfo CurseKeyboard::commandType(Model *caller) {
         }
         s = t;
     }
+    else if (ch == 'S') {
+        ungetch('c');
+        s = "c";
+    }
+    else if (ch == 's') {
+        std::string t = std::to_string(count);
+        ungetch('l');
+        for (int i = t.size()-1; i >= 0; --i) {
+            ungetch(t[i]);
+        }
+        s = "c";
+    }
+    else if (ch == 'x') {
+        std::string t = std::to_string(count);
+        ungetch('l');
+        for (int i = t.size()-1; i >= 0; --i) {
+            ungetch(t[i]);
+        }
+        s = "d";
+    }
+    else if (ch == 'X') {
+        std::string t = std::to_string(count);
+        ungetch('h');
+        for (int i = t.size()-1; i >= 0; --i) {
+            ungetch(t[i]);
+        }
+        s = "d";
+    }
 	else if(ch == 4) s = "^d";
 	else if(ch == 21) s = "^u";
 	else if(ch == 6) s = "^f";
@@ -86,7 +114,14 @@ CommandInfo CurseKeyboard::commandType(Model *caller) {
 }
 
 int CurseKeyboard::readChar() {
-    return getch();
+    int c = getch();
+    if (is_tab(c)) {
+        ungetch(' ');
+        ungetch(' ');
+        ungetch(' ');
+        c = ' ';
+    }
+    return c;
 }
 
 void CurseKeyboard::putChar(int c) {

@@ -28,3 +28,7 @@ bool is_right(int c) {
 bool is_backspace(int c) {
     return c == KEY_BACKSPACE || c == KEY_DC || c == 127;
 }
+
+bool is_tab(int c) {
+    return c == '\t';
+}
