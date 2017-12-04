@@ -36,7 +36,9 @@ const std::map<std::string, CommandType> CommandInfo::mapping{
     {"?", CommandType::SEARCH_BACK},
     {"r", CommandType::REPLACE_CHAR},
     {"c", CommandType::REPLACE_MOTION},
-    {":q!", CommandType::FORCE_QUIT}
+    {":q!", CommandType::FORCE_QUIT},
+    {"n", CommandType::NEXT_SEARCH},
+    {"N", CommandType::PREV_SEARCH}
 };
 
 const std::set<CommandType> CommandInfo::motionCommands{

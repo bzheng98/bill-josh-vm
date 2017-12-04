@@ -32,3 +32,4 @@
 #include "replaceChar.h"
 #include "replaceMotion.h"
 #include "forceQuit.h"
+#include "nextSearch.h"

@@ -15,6 +15,10 @@ Position SearchBack::getMotionResult(const CommandInfo &c) {
         in = vm->getChar();
         vm->log(in);
     }
+    if (!s.length()) {
+        s = vm->getLastSearch();
+    }
+    vm->storeLastSearch(s, false);
     return fileManager->cursor.searchBack(s, c.getCount());
 }
 

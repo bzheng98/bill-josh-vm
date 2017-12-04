@@ -10,6 +10,5 @@ class SearchForward: public MotionCommand {
         Command{vm, fileManager, registerManager},
         MotionCommand{vm, fileManager, registerManager} {}
     Position getMotionResult(const CommandInfo &c) override;
-
 };
 #endif

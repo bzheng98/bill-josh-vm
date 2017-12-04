@@ -41,6 +41,7 @@ Vm::Vm(const std::string &fileName): Model(std::make_unique<CurseKeyboard>(), st
     attach(std::make_unique<ReplaceChar>(this, &fileManager, &registerManager));
     attach(std::make_unique<ReplaceMotion>(this, &fileManager, &registerManager));
     attach(std::make_unique<ForceQuit>(this, &fileManager, &registerManager));
+    attach(std::make_unique<NextSearch>(this, &fileManager, &registerManager));
 	
     for (const auto &commandPtr: motionCommands)
         attach(std::unique_ptr<Command>(commandPtr));
@@ -202,4 +203,23 @@ void Vm::write(std::string fileName) {
     updateViewBottomTexts("\""+fileName+"\" "+std::to_string(fileManager.getNumLines())+"L, "+std::to_string(fileManager.getNumChars())+"C written");  
     
     lastFootprint = footprints.size();
+}
+
+void Vm::storeLastSearch(const std::string &s, bool forward) {
+    if (!nextSearch)
+        searchForward = forward;
+    else nextSearch = false;
+    lastSearch = s;
+}
+
+const std::string &Vm::getLastSearch() {
+    return lastSearch;
+}
+
+bool Vm::getLastSearchDir() {
+    return searchForward;
+}
+
+void Vm::nextSearchUsed() {
+    nextSearch = true;
 }

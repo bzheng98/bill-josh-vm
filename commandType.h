@@ -36,5 +36,7 @@ enum CommandType {
     SEARCH_BACK,
     REPLACE_CHAR,
     REPLACE_MOTION,
-    FORCE_QUIT};
+    FORCE_QUIT,
+    NEXT_SEARCH,
+    PREV_SEARCH};
 #endif

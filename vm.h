@@ -22,6 +22,9 @@ class Vm: public Model, public Subject {
     size_t numLines;
     std::vector<MotionCommand *> motionCommands;
     int lastFootprint = 0;
+    std::string lastSearch;
+    bool searchForward;
+    bool nextSearch = false;
   public:
     Vm(const std::string &fileName);
     void runVm();
@@ -36,5 +39,9 @@ class Vm: public Model, public Subject {
 	Position getViewCursor();
     bool isWritten();
     void write(std::string fileName);
+    void storeLastSearch(const std::string &s, bool forward);
+    const std::string &getLastSearch();
+    bool getLastSearchDir();
+    void nextSearchUsed();
 };
 #endif
