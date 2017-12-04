@@ -16,5 +16,12 @@ void NextSearch::update(const CommandInfo &c) {
     }
     if (!dir) vm->ungetChar('/');
     else vm->ungetChar('?');
-    vm->nextSearchUsed();
+    int count = c.getCount();
+    if (count > 1) {
+        std::string t = std::to_string(count);
+        for (int i = t.length()-1; i >= 0; --i) {
+            vm->ungetChar(t[i]);
+        }
+    }
+    vm->nextSearchUsed(count);
 }

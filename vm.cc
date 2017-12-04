@@ -208,7 +208,7 @@ void Vm::write(std::string fileName) {
 void Vm::storeLastSearch(const std::string &s, bool forward) {
     if (!nextSearch)
         searchForward = forward;
-    else nextSearch = false;
+    else --nextSearch;
     lastSearch = s;
 }
 
@@ -220,6 +220,6 @@ bool Vm::getLastSearchDir() {
     return searchForward;
 }
 
-void Vm::nextSearchUsed() {
-    nextSearch = true;
+void Vm::nextSearchUsed(int count) {
+    nextSearch = count;
 }
