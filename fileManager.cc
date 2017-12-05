@@ -255,9 +255,11 @@ std::string FileManager::getText(const Range &range) {
         return it->substr(start.getCol(), end.getCol()-start.getCol());
     }
     std::string s = it->substr(start.getCol());
+    s.push_back('\n');
     for (int i = 1; i < end.getLine()-start.getLine(); ++i) {
         ++it;
         s += *it;
+        s.push_back('\n');
     }
     ++it;
     s += it->substr(0, end.getCol());
