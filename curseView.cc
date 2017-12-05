@@ -1,7 +1,4 @@
 #include "curseView.h"
-#include <algorithm>
-#include <iostream>
-#include <fstream>
 CurseView::CurseView() : topLeft{0, 0}, curCursor{0, 0} {
     initscr();
     noecho();
@@ -110,12 +107,9 @@ void CurseView::adjustTopLeft(Position cur) {
 }
 
 void CurseView::update(const std::vector<std::string> &buf, Position p) {
-    std::ofstream f;
-    f.open("out.txt");
     buffer.clear();
     for(auto s : buf)buffer.push_back(s);
     ColoredBuffer colorBuf (buf); 
-    f << "adjusted\n";
     //print the buf
     size_t prevX, prevY, lines, cols, idx;
     bool notEnoughLines = false;
@@ -128,7 +122,7 @@ void CurseView::update(const std::vector<std::string> &buf, Position p) {
     move(prevX, prevY); 
     if(buf.empty())return;
 	adjustTopLeft(p);	
-    f << topLeft.getLine() << " " << topLeft.getCol() << "\n";
+    //f << topLeft.getLine() << " " << topLeft.getCol() << "\n";
 	if(inPartialMode()) {
         mvaddstr(0, 0, buf[topLeft.getLine()].substr(topLeft.getCol(), (lines - 1) * cols).c_str());
         return;
@@ -136,9 +130,7 @@ void CurseView::update(const std::vector<std::string> &buf, Position p) {
 	Position cur = topLeft;
     size_t topLine = topLeft.getLine();
     for(idx = topLine; idx < buf.size(); idx++) {
-        //f << "cur: " << cur.getLine() << " " << cur.getCol() << "\n";
         Position actual = toScreenPosition(cur);
-        //f << "actual: " << actual.getLine() << " " << actual.getCol() << "\n";
         size_t charsLeft = (lines - 1 - actual.getLine()) * cols;
         if(buf[idx].size() <= charsLeft) {
             move(actual.getLine(), 0);
@@ -153,9 +145,8 @@ void CurseView::update(const std::vector<std::string> &buf, Position p) {
     Position actual = toScreenPosition(cur);
     if(actual.getLine() < lines - 1) {
         char pr = notEnoughLines ? '@' : '~';
-        init_pair(13, COLOR_BLUE, COLOR_BLACK);
         for(size_t i = actual.getLine(); i < lines - 1; i++) {
-            mvaddch(i, 0, pr | COLOR_PAIR(13));
+            mvaddch(i, 0, pr | COLOR_PAIR(5));
         }
     }
 }
@@ -167,13 +158,9 @@ void CurseView::colorPrint(const std::string &s, const std::vector<int> &color) 
 }
 
 void CurseView::updateCursor(Position p) {
-    std::ofstream f;
-    f.open("cursor.txt");
 	//update the cursor
 	curCursor = p;
-	f << p.getLine() << " " << p.getCol() << "\n";
     Position newPos = toScreenPosition(p);
-	f << newPos.getLine() << " " << newPos.getCol() << "\n";
     move(newPos.getLine(), newPos.getCol());
 }
 
@@ -188,8 +175,10 @@ void CurseView::updateBottomText(const std::string &s) {
     getyx(stdscr, prevY, prevX);
     move(lines - 1, 0);
     clrtoeol();
-    mvaddstr(lines - 1, 0, s.c_str());
-    move(prevY, prevX);
+    if(s != "") {
+        mvaddstr(lines - 1, 0, s.c_str());
+        move(prevY, prevX);
+    }
 }
 
 bool CurseView::atBottom() {

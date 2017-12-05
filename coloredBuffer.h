@@ -6,7 +6,7 @@
 #include <regex>
 
 class ColoredBuffer {
-    std::vector<std::string> keyWords, identifiers, preProcessors;
+    static const std::vector<std::string> keyWords, identifiers;
     std::vector<std::vector<int> > colors;
 	public:
 	  //copy the buffer over and generate the color vector
